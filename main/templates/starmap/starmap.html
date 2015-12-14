@@ -1,0 +1,152 @@
+{% extends "main/base.html" %}
+    <!-- <style>
+    NOTE: I moved these into main.css
+      body { margin: 0; }
+      canvas { width: 100%; height: 100% }
+    </style> -->
+    <!-- <audio autoplay loop><source src="music/theme.mp3" type="audio/mpeg"/></audio> -->
+  {% block content %}
+    <script>
+      var control, camera, scene, renderer, intersects;
+      var stars = [];
+
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      start();
+      animate();
+
+      function grabPlanets() {
+        mouse.x = (event.clientX / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - (event.clientY / renderer.domElement.height) * 2;
+        raycaster.setFromCamera(mouse, camera);
+        intersects = raycaster.intersectObjects(stars, true);
+      };
+
+      // Planets turn blue on mouseover (It will make them brighter)
+      var raycaster = new THREE.Raycaster();
+      var mouse = new THREE.Vector2(), INTERSECTED;
+      document.addEventListener('mousemove', onDocumentMouseMove, false);
+      function onDocumentMouseMove() {
+        event.preventDefault();
+        grabPlanets();
+
+        if (intersects.length > 0) {
+          stars.forEach(function(element){element.material.color.setHex(0xffff00)});
+          intersects[0].object.material.color.setHex(0x0000ff);
+          render();
+        }
+        else {
+          stars.forEach(function(element){element.material.color.setHex(0xffff00)});
+          render();
+        }
+      }
+
+      // Make the planets clickable (for now, it alerts the coordinates)
+      document.addEventListener('click', onDocumentMouseClick, false);
+      function onDocumentMouseClick() {
+        event.preventDefault();
+        grabPlanets();
+
+        if (intersects.length > 0) {
+          clickedPlanet = intersects[0].object;
+          x = clickedPlanet.position.x;
+          y = clickedPlanet.position.y;
+          z = clickedPlanet.position.z;
+          alert('Star coordinates:' + '\nx: ' + x.toFixed(2) + '\ny: ' + y.toFixed(2) + '\nz: ' + z.toFixed(2));
+        }
+      }
+
+      // Create an event listener that resizes the renderer with the browser window. /!\ Performance not great /!\
+        window.addEventListener('resize', function() {
+          width = window.innerWidth,
+          height = window.innerHeight;
+          renderer.setSize(width, height);
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+        });
+
+      // WIP - Keyboard control of the camera in the star map
+      document.addEventListener('keydown', onDocumentKeyDown,false);
+      function onDocumentKeyDown(event){
+        var keyCode = event.which;
+        var positionDelta = 70;
+        var rotationDelta = 0.1;
+        //A
+        if ((keyCode == 65) || (keyCode == 37))
+        { camera.position.x -= positionDelta; }
+        //D
+        else if ((keyCode == 68) || (keyCode == 39))
+        { camera.position.x += positionDelta; }
+        //W
+        else if ((keyCode == 87) || (keyCode == 38))
+        { camera.position.z -= positionDelta; }
+        //S
+        else if ((keyCode == 83) || (keyCode == 40))
+        { camera.position.z += positionDelta; }
+        //Q
+        else if ( keyCode == 81 )
+        { camera.position.y += positionDelta; }
+        //E
+        else if ( keyCode == 69 )
+        { camera.position.y -= positionDelta; }
+        //T
+        else if ( keyCode == 84 )
+        { camera.rotation.x += rotationDelta; }
+        //G
+        else if ( keyCode == 71 )
+        { camera.rotation.x -= rotationDelta; }
+        //F
+        else if ( keyCode == 70 )
+        { camera.rotation.y += rotationDelta; }
+        //H
+        else if ( keyCode == 72 )
+        { camera.rotation.y -= rotationDelta; }
+      }
+
+
+      function start(){
+        //Scene creation
+        scene = new THREE.Scene();
+
+        // PerspectiveCamera creation and Set up. Parameters
+        // 1. FOV – We’re using 45 degrees for our field of view.
+        // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
+        // 3. Near – This is the distance at which the camera will start rendering scene objects.
+        // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
+        camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 3000);
+        camera.position.set(0, 0, 600);
+        scene.add(camera);
+
+        // Mouse controls - MOVE mouse & press LEFT: rotate, MIDDLE: zoom, RIGHT: pan
+        control = new THREE.TrackballControls(camera);
+        control.addEventListener("change", render);
+
+        // Create the WebGL renderer and append it to the DOM bia the body element
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(width, height);
+        document.body.appendChild(renderer.domElement);
+        renderer.render(scene,camera);
+
+        // Add 300 spheres to the scene. Random size, random positioning
+        for (var i = 0; i < 300; i++) {
+          var geometry = new THREE.SphereGeometry(Math.random() * 10, 15, 15);
+          var material = new THREE.MeshBasicMaterial({color: 0xffff00, wireframe:true});
+          var planet = new THREE.Mesh(geometry, material);
+          scene.add(planet);
+          stars.push(planet);
+          planet.position.set(Math.random() * 200, Math.random() * 200,Math.random() * 1000 - 500);
+        }
+
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        control.update();
+      }
+
+      function render() {
+        renderer.render(scene,camera);
+      }
+    </script>
+  {% endblock %}

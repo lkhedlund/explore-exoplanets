@@ -1,30 +1,31 @@
 {% extends "main/base.html" %}
 
 {% block content %}
+<div id="planet_container">
     <script>
-      var container, stats; 
+      var container, stats;
       var camera, scene, renderer, controls;
-      var group; 
+      var group;
       var texloader = new THREE.TextureLoader();
       // var starurls = ['m38.jpg','m38.jpg','m38.jpg','m38.jpg','m38.jpg','m38.jpg']
       // var starCube = texloader.load('images/m38.jpg');
-      var texture = texloader.load('images/plutomap2k.jpg');
-      var bump = texloader.load('images/plutobump2k.jpg');
+      var texture = texloader.load('/static/images/plutomap2k.jpg');
+      var bump = texloader.load('/static/images/plutobump2k.jpg');
 
       init();
       animate();
-      
+
 
       function init(){
-        container = document.getElementById( 'container' );
+        container = document.getElementById( 'planet_container' );
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 10000); 
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 10000);
         camera.position.z = 0.75;
         group = new THREE.Group();
         scene.add( group );
         renderer = new THREE.WebGLRenderer();
 
-   
+
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
 
@@ -32,7 +33,7 @@
         controls.minDistance = 1;
         controls.maxDistance = 2000;
         controls.addEventListener( 'change', animate );
-    
+
         //light
         var amlight = new THREE.AmbientLight( 0x888888 )
         group.add( amlight );
@@ -49,13 +50,13 @@
         //   'images/purplenebula_lf.tga',
         //   'images/purplenebula_rt.tga',
         //   'images/purplenebula_up.tga'
-        // ] 
-        
-        // window.cubemap = texloader.load(urls, undefined, function() { 
+        // ]
+
+        // window.cubemap = texloader.load(urls, undefined, function() {
 
         // cubemap.format = THREE.RGBFormat;
-        // window.shader = THREE.ShaderLib['cube']; 
-        // shader.uniforms['tCube'].value = cubemap; 
+        // window.shader = THREE.ShaderLib['cube'];
+        // shader.uniforms['tCube'].value = cubemap;
 
         // window.skyBoxMaterial = new THREE.ShaderMaterial( {
         // fragmentShader: shader.fragmentShader,
@@ -80,7 +81,7 @@
         var geometry = new THREE.SphereGeometry( 0.5, 32, 32 );
         var planet = new THREE.Mesh( geometry, material );
         container.appendChild( renderer.domElement );
-    
+
         group.add(planet);
         group.add(camera);
       }
@@ -88,8 +89,8 @@
       function animate() {
         requestAnimationFrame(animate);
         controls.update;
-        renderer.render( scene, camera ); 
+        renderer.render( scene, camera );
       }
     </script>
-  {% endblock %}
-
+  </div>
+{% endblock %}

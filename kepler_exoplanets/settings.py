@@ -30,6 +30,22 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['/kepler_exoplanets/templates/'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 ROOT_URLCONF = 'kepler_exoplanets.urls'
 
 WSGI_APPLICATION = 'kepler_exoplanets.wsgi.application'
@@ -53,6 +69,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = (
-    BASE_DIR + '/kepler_exoplanets/templates/',
-)
+# TEMPLATE_DIRS = (
+#     BASE_DIR + '/kepler_exoplanets/templates/',
+# )

@@ -69,7 +69,6 @@ pip freeze
 ###Set up the Database
 ```bash
 python manage.py migrate
-python manage.py makemigrations main
 python manage.py migrate main
 
 ```

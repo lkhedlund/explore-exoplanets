@@ -3,12 +3,12 @@ from django.db import models
 class Star(models.Model):
     # Star has many planets
     star_designation = models.CharField(max_length=100)
-    right_ascension = models.FloatField()
-    declination = models.FloatField()
-    stellar_temp = models.IntegerField()
-    stellar_radius = models.FloatField()
-    stellar_mass = models.FloatField()
-    light_years_dist = models.IntegerField()
+    right_ascension = models.FloatField(null=True)
+    declination = models.FloatField(null=True)
+    stellar_temp = models.IntegerField(null=True)
+    stellar_radius = models.FloatField(null=True)
+    stellar_mass = models.FloatField(null=True)
+    light_years_dist = models.IntegerField(null=True)
 
     def __str__(self):
         return self.star_designation
@@ -18,16 +18,16 @@ class Planet(models.Model):
     star = models.ForeignKey('kepler_exoplanets.Star')
     kepler_name = models.CharField(max_length=100)
     koi_name = models.CharField(max_length=100)
-    kepler_id = models.IntegerField()
-    planet_radius = models.FloatField()
-    surface_temp = models.IntegerField()
-    inclination = models.FloatField()
-    semimajor_axis = models.FloatField()
-    orbital_period = models.FloatField()
-    transits_observed = models.IntegerField()
-    ingress_duration = models.FloatField()
-    transit_duration = models.FloatField()
-    transit_depth = models.FloatField()
+    kepler_id = models.IntegerField(null=True)
+    planet_radius = models.FloatField(null=True)
+    surface_temp = models.IntegerField(null=True)
+    inclination = models.FloatField(null=True)
+    semimajor_axis = models.FloatField(null=True)
+    orbital_period = models.FloatField(null=True)
+    transits_observed = models.IntegerField(null=True)
+    ingress_duration = models.FloatField(null=True)
+    transit_duration = models.FloatField(null=True)
+    transit_depth = models.FloatField(null=True)
     habitable = models.BooleanField(default=False)
 
     def __str__(self):

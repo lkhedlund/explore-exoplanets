@@ -64,7 +64,7 @@ pip freeze
 ###Set up the Database
 ```bash
 python manage.py migrate
-python manage.py migrate main
+python manage.py migrate kepler_exoplanets
 ```
 
 To run the server, type the following into your terminal:

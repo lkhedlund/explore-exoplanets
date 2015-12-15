@@ -69,6 +69,9 @@ pip freeze
 ###Set up the Database
 ```bash
 python manage.py migrate
+python manage.py makemigrations main
+python manage.py migrate main
+
 ```
 
 To run the server, type the following into your terminal:

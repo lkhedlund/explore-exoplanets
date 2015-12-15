@@ -8,15 +8,15 @@
       var texloader = new THREE.TextureLoader();
       // var starurls = ['m38.jpg','m38.jpg','m38.jpg','m38.jpg','m38.jpg','m38.jpg']
       // var starCube = texloader.load('images/m38.jpg');
-      var texture = texloader.load('images/plutomap2k.jpg');
-      var bump = texloader.load('images/plutobump2k.jpg');
+      var texture = texloader.load('/static/images/plutomap2k.jpg');
+      var bump = texloader.load('/static/images/plutobump2k.jpg');
 
       init();
       animate();
       
 
       function init(){
-        container = document.getElementById( 'container' );
+        container = document.getElementsById( 'container' );
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 10000); 
         camera.position.z = 0.75;

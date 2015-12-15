@@ -1,7 +1,6 @@
 # Explore the Kepler Exoplanets (In Development)
 Lighthouse Labs final project: Data visualization of the Kepler system using threeJS and Django.
 
-
 ## Getting Ready
 
 ### Python Installation
@@ -13,11 +12,7 @@ python --version
 
 If Python is not installed, [click here](https://www.python.org/downloads/release/python-343/) for instructions on how to install.
 
-Install pip packages installer:
-
-```bash
-python get-pip.py
-```
+Install pip packages installer by visiting the [official site](https://pip.pypa.io/en/stable/installing/).
 
 ### Virtualenv Installation (NOTE: only if you are not using Vagrant)
 
@@ -38,7 +33,7 @@ virtualenv env
 Now, whenever you want to work on a project, you only have to activate the corresponding environment:
 
 ```bash
-source venv/bin/activate
+Unix Systems: source env/bin/activate
 ```
 
 To exit the virtual environment:
@@ -70,7 +65,6 @@ pip freeze
 ```bash
 python manage.py migrate
 python manage.py migrate main
-
 ```
 
 To run the server, type the following into your terminal:

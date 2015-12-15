@@ -5,3 +5,6 @@ def index(request):
 
 def starmap(request):
     return render(request, 'starmap/starmap.html')
+
+def planet(request):
+    return render(request, 'planets/planet.html')

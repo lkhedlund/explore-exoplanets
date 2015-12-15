@@ -8,15 +8,15 @@ from kepler_exoplanets.models import Star, Planet
 
 class Command(BaseCommand):
   def handle(self, *args, **options):
-    print "Wiping the database"
+    print("Wiping the database")
     Star.objects.all().delete()
     Planet.objects.all().delete()
 
-    print "Fetching Kepler data"
+    print("Fetching Kepler data")
     client = kplr.API()
     planets = client.planets()
     
-    print "Populating database"
+    print("Populating database")
     for planet in planets:
       try:
         existing_star = Star.objects.get(star_designation=planet.tm_designation)
@@ -50,4 +50,4 @@ class Command(BaseCommand):
         transit_depth = planet.koi_depth, 
       )
       current_planet.save()
-      print "Added planet {name}".format(name=planet.kepler_name)
+      print("Added planet {name}".format(name=planet.kepler_name))

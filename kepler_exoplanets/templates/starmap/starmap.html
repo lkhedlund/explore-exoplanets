@@ -17,8 +17,13 @@
       animate();
 
       function grabPlanets() {
-        mouse.x = (event.clientX / renderer.domElement.width) * 2 - 1;
-        mouse.y = 1 - (event.clientY / renderer.domElement.height) * 2;
+
+        var offset = {
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
+        }
+        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
         raycaster.setFromCamera(mouse, camera);
         intersects = raycaster.intersectObjects(stars, true);
       };

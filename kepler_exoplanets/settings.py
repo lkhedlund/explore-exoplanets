@@ -2,10 +2,9 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# TODO: Remove before deploy.
 SECRET_KEY = '^yowmoi=1g!7yo3f8pnxq@cbewut*d#43*64m^se$t(_9r(p8)'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []

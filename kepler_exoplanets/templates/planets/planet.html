@@ -32,9 +32,7 @@
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 1;
         controls.maxDistance = 2000;
-        controls.addEventListener( 'change', animate );
 
-        //light
         var amlight = new THREE.AmbientLight( 0x888888 )
         group.add( amlight );
 
@@ -80,7 +78,6 @@
         var material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 0.02 });
         var geometry = new THREE.SphereGeometry( 0.5, 32, 32 );
         var planet = new THREE.Mesh( geometry, material );
-        container.appendChild( renderer.domElement );
 
         group.add(planet);
         group.add(camera);
@@ -88,7 +85,7 @@
 
       function animate() {
         requestAnimationFrame(animate);
-        controls.update;
+        //controls.update;
         renderer.render( scene, camera );
       }
     </script>

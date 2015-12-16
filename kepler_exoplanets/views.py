@@ -12,3 +12,6 @@ def starmap(request):
 
 def planet(request):
     return render(request, 'planets/planet.html')
+
+def gas_planet(request):
+    return render(request, 'planets/gas_planet.html')

@@ -19,7 +19,9 @@
         container = document.getElementById( 'planet_container' );
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 0.1, 10000);
-        camera.position.z = 0.75;
+
+        camera.position.z = 10;
+
         camera.target = new THREE.Vector3( 0, 0, 0 );
         group = new THREE.Group();
         scene.add( group );
@@ -28,7 +30,9 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         controls = new THREE.OrbitControls( camera );
-        controls.minDistance = 1;
+
+        controls.minDistance = 100;
+
         controls.maxDistance = 2000;
 
         //light
@@ -41,8 +45,10 @@
 
         //Planet
         var material = new THREE.ShaderMaterial({ 
-          color: 0xb7ff00, 
-          wireframe: true 
+
+          vertexShader: document.getElementById( 'vertexShader' ).textContent,
+          fragmentShader: document.getElementById( 'fragmentShader' ).textContent 
+
         });
         var geometry = new THREE.IcosahedronGeometry( 20, 4 )
         var gasplanet = new THREE.Mesh( geometry, material );

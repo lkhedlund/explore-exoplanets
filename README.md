@@ -65,6 +65,7 @@ pip freeze
 ```bash
 python manage.py migrate
 python manage.py migrate kepler_exoplanets
+./manage.py generate_data
 ```
 
 To run the server, type the following into your terminal:

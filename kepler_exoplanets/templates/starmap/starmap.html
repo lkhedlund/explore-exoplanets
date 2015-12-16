@@ -17,8 +17,13 @@
       animate();
 
       function grabPlanets() {
-        mouse.x = (event.clientX / renderer.domElement.width) * 2 - 1;
-        mouse.y = 1 - (event.clientY / renderer.domElement.height) * 2;
+
+        var offset = {
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
+        }
+        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
         raycaster.setFromCamera(mouse, camera);
         intersects = raycaster.intersectObjects(stars, true);
       };
@@ -129,14 +134,17 @@
         renderer.render(scene,camera);
 
         // Add 300 spheres to the scene. Random size, random positioning
-        for (var i = 0; i < 300; i++) {
+        // for (var i = 0; i < 300; i++) {
+        {% for star in stars %}
           var geometry = new THREE.SphereGeometry(Math.random() * 10, 15, 15);
           var material = new THREE.MeshBasicMaterial({color: 0xffff00, wireframe:true});
           var planet = new THREE.Mesh(geometry, material);
           scene.add(planet);
           stars.push(planet);
-          planet.position.set(Math.random() * 200, Math.random() * 200,Math.random() * 1000 - 500);
-        }
+          // planet.position.set(Math.random() * 200, Math.random() * 200,Math.random() * 1000 - 500);
+          planet.position.set({{ star.right_ascension }}, {{ star.declination }},{{ star.light_years_dist }});
+        {% endfor %}
+        // }
 
       }
 

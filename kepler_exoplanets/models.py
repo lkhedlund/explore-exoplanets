@@ -15,7 +15,7 @@ class Star(models.Model):
 
 class Planet(models.Model):
     # Planet belongs to a Star
-    star = models.ForeignKey('kepler_exoplanets.Star')
+    star = models.ForeignKey('kepler_exoplanets.Star', related_name="planets")
     kepler_name = models.CharField(max_length=100)
     koi_name = models.CharField(max_length=100)
     kepler_id = models.IntegerField(null=True)

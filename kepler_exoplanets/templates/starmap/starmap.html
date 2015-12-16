@@ -15,6 +15,7 @@
 
       start();
       animate();
+      render();
 
       function grabPlanets() {
 
@@ -85,10 +86,10 @@
         { camera.position.x += positionDelta; }
         //W
         else if ((keyCode == 87) || (keyCode == 38))
-        { camera.position.z -= positionDelta; }
+        { camera.position.z += positionDelta; }
         //S
         else if ((keyCode == 83) || (keyCode == 40))
-        { camera.position.z += positionDelta; }
+        { camera.position.z -= positionDelta; }
         //Q
         else if ( keyCode == 81 )
         { camera.position.y += positionDelta; }
@@ -119,13 +120,14 @@
         // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
         // 3. Near – This is the distance at which the camera will start rendering scene objects.
         // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
-        camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 3000);
-        camera.position.set(0, 0, 600);
+        camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 10000);
+        camera.position.set(0, 0, 500);
         scene.add(camera);
 
         // Mouse controls - MOVE mouse & press LEFT: rotate, MIDDLE: zoom, RIGHT: pan
         control = new THREE.TrackballControls(camera);
         control.addEventListener("change", render);
+        control.target.set(0, 0, 2600);
 
         // Create the WebGL renderer and append it to the DOM bia the body element
         renderer = new THREE.WebGLRenderer();
@@ -136,13 +138,12 @@
         // Add 300 spheres to the scene. Random size, random positioning
         // for (var i = 0; i < 300; i++) {
         {% for star in stars %}
-          var geometry = new THREE.SphereGeometry(Math.random() * 10, 15, 15);
+          var geometry = new THREE.SphereGeometry(1, 15, 15);
           var material = new THREE.MeshBasicMaterial({color: 0xffff00, wireframe:true});
           var planet = new THREE.Mesh(geometry, material);
           scene.add(planet);
           stars.push(planet);
-          // planet.position.set(Math.random() * 200, Math.random() * 200,Math.random() * 1000 - 500);
-          planet.position.set({{ star.right_ascension }}, {{ star.declination }},{{ star.light_years_dist }});
+          planet.position.set(({{ star.right_ascension }} - 290) * 5 * ({{ star.light_years_dist }} / 1000), ({{ star.declination}} - 45) * 5 * ({{ star.light_years_dist }} / 1000),{{ star.light_years_dist }} - 500);
         {% endfor %}
         // }
 

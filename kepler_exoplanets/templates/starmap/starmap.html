@@ -134,14 +134,17 @@
         renderer.render(scene,camera);
 
         // Add 300 spheres to the scene. Random size, random positioning
-        for (var i = 0; i < 300; i++) {
+        // for (var i = 0; i < 300; i++) {
+        {% for star in stars %}
           var geometry = new THREE.SphereGeometry(Math.random() * 10, 15, 15);
           var material = new THREE.MeshBasicMaterial({color: 0xffff00, wireframe:true});
           var planet = new THREE.Mesh(geometry, material);
           scene.add(planet);
           stars.push(planet);
-          planet.position.set(Math.random() * 200, Math.random() * 200,Math.random() * 1000 - 500);
-        }
+          // planet.position.set(Math.random() * 200, Math.random() * 200,Math.random() * 1000 - 500);
+          planet.position.set({{ star.right_ascension }}, {{ star.declination }},{{ star.light_years_dist }});
+        {% endfor %}
+        // }
 
       }
 

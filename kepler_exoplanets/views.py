@@ -15,3 +15,6 @@ def planet(request):
 
 def gas_planet(request):
     return render(request, 'planets/gas_planet.html')
+
+def test_planet(request):
+    return render(request, 'planets/test_planet.html')

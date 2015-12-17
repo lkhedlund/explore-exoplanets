@@ -10,10 +10,10 @@ def starmap(request):
         'stars': stars
     })
 
-def solarsystem(request, star_id):
+def stellar_system(request, star_id):
     star = get_object_or_404(Star, pk=star_id)
     planets = star.planets.all()
-    return render(request, 'solarsystem/solarsystem.html', {
+    return render(request, 'solarsystem/stellar_system.html', {
         'star': star, 'planets': planets
     })
 

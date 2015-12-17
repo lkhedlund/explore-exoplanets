@@ -6,7 +6,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='index'),
     url(r'^starmap/$', views.starmap, name='starmap'),
-    url(r'solarsystem/(?P<star_id>[0-9]+)/$', views.solarsystem, name='solarsystem'),
+    url(r'stellar_system/(?P<star_id>[0-9]+)/$', views.stellar_system, name='stellar_system'),
     url(r'planet/(?P<planet_id>[0-9]+)/$', views.planet, name='planet'),
     # Testing Planets
     url(r'^planet/gas_planet/$', views.gas_planet, name='gas_planet'),

@@ -9,6 +9,25 @@
     <script>
       var control, camera, scene, renderer, intersects;
       var stars = [];
+      function star_color(temp) {
+        if (temp > 28000) { 
+          return 0xaabfff
+        } else if (temp > 10000) {
+          return 0xe4e8ff
+        } else if (temp > 7500) { 
+          return 0xffffff
+        } else if (temp > 6000) {
+          return 0xffff99;
+        } else if (temp > 4900) { 
+          return 0xffff66
+        } else if (temp > 3500) { 
+          return 0xffbe7f
+        } else if (temp > 2000) { 
+          return 0xfa8072;
+        } else {
+          return 0xffffff
+        }
+      }
 
       var width = window.innerWidth;
       var height = window.innerHeight;
@@ -29,24 +48,24 @@
         intersects = raycaster.intersectObjects(stars, true);
       };
 
-      // Planets turn blue on mouseover (It will make them brighter)
-      var raycaster = new THREE.Raycaster();
-      var mouse = new THREE.Vector2(), INTERSECTED;
-      document.addEventListener('mousemove', onDocumentMouseMove, false);
-      function onDocumentMouseMove() {
-        event.preventDefault();
-        grabPlanets();
+      // // Planets turn blue on mouseover (It will make them brighter)
+      // var raycaster = new THREE.Raycaster();
+      // var mouse = new THREE.Vector2(), INTERSECTED;
+      // document.addEventListener('mousemove', onDocumentMouseMove, false);
+      // function onDocumentMouseMove() {
+      //   event.preventDefault();
+      //   grabPlanets();
 
-        if (intersects.length > 0) {
-          stars.forEach(function(element){element.material.color.setHex(0xffff00)});
-          intersects[0].object.material.color.setHex(0x0000ff);
-          render();
-        }
-        else {
-          stars.forEach(function(element){element.material.color.setHex(0xffff00)});
-          render();
-        }
-      }
+      //   if (intersects.length > 0) {
+      //     stars.forEach(function(element){element.material.color.setHex(star_color())});
+      //     intersects[0].object.material.color.setHex(0x0000ff);
+      //     render();
+      //   }
+      //   else {
+      //     stars.forEach(function(element){element.material.color.setHex(star_color())});
+      //     render();
+      //   }
+      // }
 
       // Make the planets clickable (for now, it alerts the coordinates)
       document.addEventListener('click', onDocumentMouseClick, false);
@@ -137,9 +156,10 @@
 
         // Add 300 spheres to the scene. Random size, random positioning
         // for (var i = 0; i < 300; i++) {
+        var temp;
         {% for star in stars %}
           var geometry = new THREE.SphereGeometry(1, 15, 15);
-          var material = new THREE.MeshBasicMaterial({color: 0xffff00, wireframe:true});
+          var material = new THREE.MeshBasicMaterial({color: star_color({{star.stellar_temp}}), wireframe:false});
           var planet = new THREE.Mesh(geometry, material);
           scene.add(planet);
           stars.push(planet);

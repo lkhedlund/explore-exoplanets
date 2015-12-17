@@ -1,13 +1,10 @@
 <script type="x-shader/x-vertex" id="fragmentShader">
-varying vec2 vUv;
-varying float noise;
+  varying vec2 vUv;
+  varying float noise;
 
-
-void main() {
-
+  void main() {
     // colour is RGBA: u, v, 0, 1
-  vec3 color = vec3( vUv * ( 1. - 3. * noise ), 0.0 );
-  gl_FragColor = vec4( color.rgb, 9.0 );
-
-}
+    vec3 color = vec3( vUv * ( 1. - 3. * noise ), 0.0 );
+    gl_FragColor = vec4( color.rgb, 9.0 );
+  }
 </script>

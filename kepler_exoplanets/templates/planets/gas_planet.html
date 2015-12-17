@@ -2,8 +2,8 @@
 {% block content %}
 {% include "partials/_gasfragment.html" %} 
 {% include "partials/_gasvertex.html" %} 
-  <div id="planet_container"> 
-    <script>
+  <div id="planet_container"></div>
+    <script type="text/javascript" id="mainCode">
       var container, stats;
       var camera, scene, renderer, controls;
       var group;
@@ -12,8 +12,6 @@
       var start = Date.now()
 
       init();
-      animate();
-
 
       function init(){
         container = document.getElementById( 'planet_container' );
@@ -39,16 +37,11 @@
 
         //Planet
         planetmaterial = new THREE.ShaderMaterial({
-          uniforms: { 
-            time: { // float initialized to 0
-            type: "f", 
-            value: 0.0 
-            }
-          },
+        
           vertexShader: document.getElementById( 'vertexShader' ).textContent,
           fragmentShader: document.getElementById( 'fragmentShader' ).textContent
         });
-        var geometry = new THREE.IcosahedronGeometry( 20, 5 );
+        var geometry = new THREE.IcosahedronGeometry( 10, 5 );
         var gasplanet = new THREE.Mesh( geometry, planetmaterial );
 
 
@@ -59,14 +52,13 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         container.appendChild( renderer.domElement );
+        animate();
       }
 
       function animate() {
-        planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
         requestAnimationFrame(animate);
-        controls.update;
+        controls.update();
         renderer.render( scene, camera );
       }
     </script>
-  </div>
 {% endblock %}

@@ -1,15 +1,15 @@
 {% extends "main/base.html" %}
-
 {% block content %}
-  <div id="planet_container">
-    {% include "partials/_gasfragment.html" %} 
-    {% include "partials/_gasvertex.html" %}  
+{% include "partials/_gasfragment.html" %} 
+{% include "partials/_gasvertex.html" %} 
+  <div id="planet_container"> 
     <script>
       var container, stats;
       var camera, scene, renderer, controls;
       var group;
       var fov = 30;
       var texloader = new THREE.TextureLoader();
+      var start = Date.now()
 
       init();
       animate();
@@ -23,9 +23,7 @@
         camera.target = new THREE.Vector3( 0, 0, 0 );
         group = new THREE.Group();
         scene.add( group );
-        renderer = new THREE.WebGLRenderer();
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
+  
 
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 100;
@@ -40,20 +38,31 @@
         group.add( dirlight );
 
         //Planet
-        var material = new THREE.ShaderMaterial({ 
+        planetmaterial = new THREE.ShaderMaterial({
+          uniforms: { 
+            time: { // float initialized to 0
+            type: "f", 
+            value: 0.0 
+            }
+          },
           vertexShader: document.getElementById( 'vertexShader' ).textContent,
-          fragmentShader: document.getElementById( 'fragmentShader' ).textContent 
+          fragmentShader: document.getElementById( 'fragmentShader' ).textContent
         });
-        var geometry = new THREE.IcosahedronGeometry( 20, 4 )
-        var gasplanet = new THREE.Mesh( geometry, material );
+        var geometry = new THREE.IcosahedronGeometry( 20, 5 );
+        var gasplanet = new THREE.Mesh( geometry, planetmaterial );
 
 
         group.add(gasplanet);
         group.add(camera);
+
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
         container.appendChild( renderer.domElement );
       }
 
       function animate() {
+        planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
         requestAnimationFrame(animate);
         controls.update;
         renderer.render( scene, camera );

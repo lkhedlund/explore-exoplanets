@@ -1,16 +1,15 @@
-{% extends "main/base.html" %}
+{% extends 'main/base.html' %}
 {% block content %}
-{% include '/sidebar/sidebar_planet.html' %}
-{% include "partials/_gasfragment.html" %} 
-{% include "partials/_gasvertex.html" %} 
-  <div id="space_container"></div>
-    <script type="text/javascript">
+{% include 'partials/_gasfragment.html' %} 
+{% include 'partials/_gasvertex.html' %} 
+  <div id='space_container'></div>
+    <script type='text/javascript'>
       var container, stats;
       var camera, scene, renderer, controls;
       var group;
       var fov = 30;
       var texloader = new THREE.TextureLoader();
-      var explocolor = texloader.load('/static/images/star.png');
+      var explocolor = texloader.load('/static/images/bluegas.png');
       var start = Date.now()
 
       init();
@@ -20,7 +19,8 @@
         container = document.getElementById( 'space_container' );
         scene = new THREE.Scene();
         group = new THREE.Group();
-        renderer = new THREE.WebGLRenderer();
+        renderer = new THREE.WebGLRenderer({alpha: true});
+        renderer.setClearColor( 0xffffff, 0);
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 0.1, 10000);
         camera.position.z = 100;
@@ -55,8 +55,8 @@
               value: 0.0 
             }
           },
-          vertexShader: document.getElementById( 'vertexShader' ).textContent,
-          fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+          vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
+          fragmentShader: document.getElementById( 'gas-fragmentShader' ).textContent
         });
 
         var geometry = new THREE.IcosahedronGeometry( 20, 5 );

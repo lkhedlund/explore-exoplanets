@@ -27,7 +27,7 @@ def planet(request, planet_id):
 
 # Testing Planets
 def gas_planet(request):
-    return render(request, 'planets/gas_planet.html')
+    return render(request, 'planets/_gasplanet.html')
 
 def test_planet(request):
     return render(request, 'planets/_bluerockyplanet.html')

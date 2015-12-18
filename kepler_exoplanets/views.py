@@ -7,7 +7,7 @@ def starmap(request):
     return render(request, 'starmap/starmap.html')
 
 def planet(request):
-    return render(request, 'planets/planet.html')
+    return render(request, 'planets/_bluerockyplanet.html')
 
-def gas_planet(request):
-    return render(request, 'planets/gas_planet.html')
+def star(request):
+    return render(request, 'stars/star.html')

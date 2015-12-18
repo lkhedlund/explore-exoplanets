@@ -1,4 +1,4 @@
-<script type="x-shader/x-vertex" id="gas-vertexShader">
+<script type="x-shader/x-vertex" id="star-vertexShader">
 // GLSL textureless classic 3D noise "cnoise",
 // with an RSL-style periodic variant "pnoise".
 // Author:  Stefan Gustavson (stefan.gustavson@liu.se)
@@ -119,6 +119,7 @@
   }
 
   void main() {
+    
    
     noise = 10.0 *  -.10 * turbulence( .5 * normal + (time/10.0));
     float b =  pnoise( .5 * position, vec3( 50.0 ))/ 20.0 ;

@@ -8,6 +8,10 @@
       var width = window.innerWidth;
       var height = window.innerHeight;
 
+      var texloader = new THREE.TextureLoader();
+      var texture = texloader.load('/static/images/plutomap2k.jpg');
+      var bump = texloader.load('/static/images/plutobump2k.jpg');
+      
       start();
       // animate();
 
@@ -28,7 +32,14 @@
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);
         document.body.appendChild(renderer.domElement);
-        renderer.render(scene,camera);
+        
+
+        var amlight = new THREE.AmbientLight( 0x888888 )
+        scene.add( amlight );
+
+        var dirlight = new THREE.DirectionalLight( 0xcccccc, 1 )
+        dirlight.position.set(10,3,5)
+        scene.add( dirlight );
 
         // Add 300 spheres to the scene. Random size, random positioning
         var geometry = new THREE.SphereGeometry(14, 15, 15);
@@ -37,19 +48,19 @@
         scene.add(star);
 
         geometry = new THREE.SphereGeometry(3.08, 15, 15);
-        material = new THREE.MeshBasicMaterial({color: 0xe4e8ff, wireframe:true});
+        material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
         var planet1 = new THREE.Mesh(geometry, material);
         scene.add(planet1);
         planet1.position.set(18, 0, 0);
 
         geometry = new THREE.SphereGeometry(3.06, 15, 15);
-        material = new THREE.MeshBasicMaterial({color: 0xfa8072, wireframe:true});
+        material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
         var planet2 = new THREE.Mesh(geometry, material);
         scene.add(planet2);
         planet2.position.set(30, 0, 0);
 
         geometry = new THREE.SphereGeometry(3.41, 15, 15);
-        material = new THREE.MeshBasicMaterial({color: 0xaabfff, wireframe:true});
+        material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
         var planet3 = new THREE.Mesh(geometry, material);
         scene.add(planet3);
         planet3.position.set(50, 0, 0);
@@ -59,6 +70,7 @@
         var x2 = planet2.position.x;
         var x3 = planet3.position.x;
         var z = planet1.position.z;
+
         function render() {
           requestAnimationFrame(render);
           t += 0.01;

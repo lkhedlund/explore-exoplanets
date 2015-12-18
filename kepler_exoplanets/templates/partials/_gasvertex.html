@@ -1,4 +1,16 @@
 <script type="x-shader/x-vertex" id="vertexShader">
+// GLSL textureless classic 3D noise "cnoise",
+// with an RSL-style periodic variant "pnoise".
+// Author:  Stefan Gustavson (stefan.gustavson@liu.se)
+// Version: 2011-10-11
+//
+// Many thanks to Ian McEwan of Ashima Arts for the
+// ideas for permutation and gradient selection.
+//
+// Copyright (c) 2011 Stefan Gustavson. All rights reserved.
+// Distributed under the MIT license. See LICENSE file.
+// https://github.com/ashima/webgl-noise
+//
   vec3 mod289(vec3 x)
   {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -22,7 +34,6 @@
   vec3 fade(vec3 t) {
     return t*t*t*(t*(t*6.0-15.0)+10.0);
   }
-
 
   // Classic Perlin noise, periodic variant
   float pnoise(vec3 P, vec3 rep)
@@ -93,11 +104,9 @@
     float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x); 
     return 2.2 * n_xyz;
   }
-
   //Ashima Noise End
-
-  varying vec2 vUv;
   varying float noise;
+  uniform float time;
 
   float turbulence( vec3 p ) {
     float w = 100.0;
@@ -110,14 +119,12 @@
   }
 
   void main() {
-
-      vUv = uv;
-
-      noise = 5.0 *  -.10 * turbulence( .5 * normal );
-      float b = 8.0 * pnoise( .5 * position, vec3( 100.0 ) );
-      float displacement = - 10. * noise + b;
-      vec3 newPosition = position + normal * displacement;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
-
+   
+    noise = 10.0 *  -.10 * turbulence( .5 * normal + (time/10.0));
+    float b = 1.0 * pnoise( .5 * position, vec3( 100.0 ) );
+    float displacement = - 10. * noise + b;
+    vec3 newPosition = position + normal * displacement;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
   }
+
 </script>

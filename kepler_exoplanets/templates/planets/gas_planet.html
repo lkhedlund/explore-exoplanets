@@ -4,11 +4,13 @@
 {% include "partials/_gasvertex.html" %} 
   <div id="planet_container"></div>
     <script type="text/javascript" id="mainCode">
+
       var container, stats;
       var camera, scene, renderer, controls;
       var group;
       var fov = 30;
       var texloader = new THREE.TextureLoader();
+      var explocolor = texloader.load('/static/images/explosion.png');
       var start = Date.now()
 
       init();
@@ -17,12 +19,12 @@
         container = document.getElementById( 'planet_container' );
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 0.1, 10000);
-        camera.position.z = 10;
+        camera.position.z = 100;
         camera.target = new THREE.Vector3( 0, 0, 0 );
         group = new THREE.Group();
         scene.add( group );
   
-
+        //Move the camera around
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 100;
         controls.maxDistance = 2000;
@@ -35,15 +37,26 @@
         dirlight.position.set(10,3,5)
         group.add( dirlight );
 
-        //Planet
+        //Gasplanet
         planetmaterial = new THREE.ShaderMaterial({
-        
+
+          uniforms: { 
+            tExplosion: {
+              type: "t", 
+              value: explocolor
+            },
+            time: { // float initialized to 0
+              type: "f", 
+              value: 0.0 
+            }
+          },
+
           vertexShader: document.getElementById( 'vertexShader' ).textContent,
           fragmentShader: document.getElementById( 'fragmentShader' ).textContent
-        });
-        var geometry = new THREE.IcosahedronGeometry( 10, 5 );
-        var gasplanet = new THREE.Mesh( geometry, planetmaterial );
 
+        });
+        var geometry = new THREE.IcosahedronGeometry( 20, 5 );
+        var gasplanet = new THREE.Mesh( geometry, planetmaterial );
 
         group.add(gasplanet);
         group.add(camera);
@@ -57,6 +70,7 @@
 
       function animate() {
         requestAnimationFrame(animate);
+        planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
         controls.update();
         renderer.render( scene, camera );
       }

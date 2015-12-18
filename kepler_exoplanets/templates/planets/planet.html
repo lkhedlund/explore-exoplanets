@@ -87,6 +87,7 @@
       }
 
       function animate() {
+        material.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
         requestAnimationFrame(animate);
         controls.update;
         renderer.render( scene, camera );

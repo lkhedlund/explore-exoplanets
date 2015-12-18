@@ -1,10 +1,10 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-  {% include '/sidebar/sidebar_planet.html' %}
+  {% include 'sidebar/sidebar_planet.html' %}
   <div id="planet_container">
-    {% include "partials/_gasfragment.html" %} 
-    {% include "partials/_gasvertex.html" %}  
+    {% include "partials/_gasfragment.html" %}
+    {% include "partials/_gasvertex.html" %}
     <script>
       var container, stats;
       var camera, scene, renderer, controls;
@@ -45,10 +45,10 @@
         group.add( dirlight );
 
         //Planet
-        var material = new THREE.ShaderMaterial({ 
+        var material = new THREE.ShaderMaterial({
 
           vertexShader: document.getElementById( 'vertexShader' ).textContent,
-          fragmentShader: document.getElementById( 'fragmentShader' ).textContent 
+          fragmentShader: document.getElementById( 'fragmentShader' ).textContent
 
         });
         var geometry = new THREE.IcosahedronGeometry( 20, 4 )

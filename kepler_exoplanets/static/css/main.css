@@ -41,3 +41,15 @@ div.jumbo {
   bottom: 0;
   right: 0;
 }
+
+#sidebar {
+  position: fixed;
+  margin: 10px;
+  padding: 10px;
+  right: 0;
+  color: #faebd7;
+}
+
+#sidebar div {
+  margin: 30px;
+}

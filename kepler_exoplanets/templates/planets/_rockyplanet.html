@@ -7,7 +7,7 @@
       var camera, scene, renderer, controls;
       var group;
       var texloader = new THREE.TextureLoader();
-      var texture = texloader.load('/static/images/plutomap2k.jpg');
+      var texture = texloader.load('/static/images/rocky.jpg');
       var bump = texloader.load('/static/images/plutobump2k.jpg');
 
       init();
@@ -17,7 +17,8 @@
         container = document.getElementById( 'space_container' );
         scene = new THREE.Scene();
         group = new THREE.Group();
-        renderer = new THREE.WebGLRenderer();
+        renderer = new THREE.WebGLRenderer({alpha: true});
+        renderer.setClearColor( 0xffffff, 0);
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 10000);
         camera.position.z = 1;

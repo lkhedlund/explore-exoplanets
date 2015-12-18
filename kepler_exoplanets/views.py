@@ -31,11 +31,20 @@ def star(request, star_id):
     })
 
 # Testing Planets
-def gas_planet(request):
-    return render(request, 'planets/_gasplanet.html')
+def redgas_planet(request):
+    return render(request, 'planets/_gasredplanet.html')
 
-def test_planet(request):
-    return render(request, 'planets/_bluerockyplanet.html')
+def bluegas_planet(request):
+    return render(request, 'planets/_gasblueplanet.html')
+
+def habitable_planet(request):
+    return render(request, 'planets/_habitable.html')
+
+def rocky_planet(request):
+    return render(request, 'planets/_rockyplanet.html')
+
+def skybox(request):
+    return render(request, 'main/skybox.html')
 
 def star(request):
     return render(request, 'stars/star.html')

@@ -1,0 +1,70 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+{% include '/sidebar/sidebar_planet.html' %}
+<div id="planet_container">
+    <script>
+      var container, stats;
+      var camera, scene, renderer, controls;
+      var group;
+      // NOTE: This loader would replace texture loader with JSON values
+      var loader = new THREE.JSONLoader();
+      // var texloader = new THREE.TextureLoader();
+      // var texture = texloader.load('/static/images/plutomap2k.jpg');
+      // var bump = texloader.load('/static/images/plutobump2k.jpg');
+
+      init();
+      animate();
+
+      function init(){
+        container = document.getElementById( 'planet_container' );
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 10000);
+        camera.position.z = 0.75;
+        group = new THREE.Group();
+        scene.add( group );
+        renderer = new THREE.WebGLRenderer();
+
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        controls = new THREE.OrbitControls( camera );
+        controls.minDistance = 1;
+        controls.maxDistance = 2000;
+
+        var amlight = new THREE.AmbientLight( 0x888888 )
+        group.add( amlight );
+
+        var dirlight = new THREE.DirectionalLight( 0xcccccc, 1 )
+        dirlight.position.set(10,3,5)
+        group.add( dirlight );
+
+        // NOTE: We can load these using the JSON Loader instead
+        // var material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 0.02 });
+        // var geometry = new THREE.SphereGeometry( 0.5, 32, 32 );
+        // var planet = new THREE.Mesh( geometry, material );
+        // EXAMPLE
+        loader.load(
+	        // resource URL
+	        'models/animated/monster/monster.js',
+	        // Function when resource is loaded
+	        function ( geometry, materials ) {
+		        var material = new THREE.MeshFaceMaterial( materials );
+		        var object = new THREE.Mesh( geometry, material );
+		        scene.add( object );
+	        }
+        );
+
+        group.add(planet);
+        group.add(camera);
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        //controls.update;
+        renderer.render( scene, camera );
+      }
+    </script>
+  </div>
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Planet, Star
 
 def index(request):
@@ -10,8 +10,24 @@ def starmap(request):
         'stars': stars
     })
 
-def planet(request):
-    return render(request, 'planets/planet.html')
+def stellar_system(request, star_id):
+    star = get_object_or_404(Star, pk=star_id)
+    planets = star.planets.all()
+    return render(request, 'stellar_system/stellar_system.html', {
+        'star': star, 'planets': planets
+    })
 
+def planet(request, planet_id):
+    planet = Planet.objects.get(pk=planet_id)
+    print(planet)
+    star_id = planet.star.pk
+    return render(request, 'planets/planet.html', {
+        'planet': planet
+    })
+
+# Testing Planets
 def gas_planet(request):
     return render(request, 'planets/gas_planet.html')
+
+def test_planet(request):
+    return render(request, 'planets/test_planet.html')

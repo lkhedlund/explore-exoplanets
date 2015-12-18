@@ -10,10 +10,10 @@ def starmap(request):
         'stars': stars
     })
 
-def solarsystem(request, star_id):
+def stellar_system(request, star_id):
     star = get_object_or_404(Star, pk=star_id)
     planets = star.planets.all()
-    return render(request, 'solarsystem/solarsystem.html', {
+    return render(request, 'stellar_system/stellar_system.html', {
         'star': star, 'planets': planets
     })
 
@@ -30,4 +30,7 @@ def gas_planet(request):
     return render(request, 'planets/gas_planet.html')
 
 def test_planet(request):
-    return render(request, 'planets/test_planet.html')
+    return render(request, 'planets/_bluerockyplanet.html')
+
+def star(request):
+    return render(request, 'stars/star.html')

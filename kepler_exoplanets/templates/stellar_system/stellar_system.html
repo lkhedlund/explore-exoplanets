@@ -1,14 +1,18 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-    <script>
+{% include "partials/_starfragment.html" %} 
+{% include "partials/_starvertex.html" %}
+  <div id="space_container"></div> 
+    <script type="text/javascript">
       var control, camera, scene, renderer, intersects;
       var stars = [];
-
+      var launch = Date.now()
       var width = window.innerWidth;
       var height = window.innerHeight;
-
       var texloader = new THREE.TextureLoader();
+
+      var explocolor = texloader.load('/static/images/star.png');
       var texture = texloader.load('/static/images/plutomap2k.jpg');
       var bump = texloader.load('/static/images/plutobump2k.jpg');
       
@@ -42,13 +46,28 @@
         scene.add( dirlight );
 
         // Add 300 spheres to the scene. Random size, random positioning
-        var geometry = new THREE.SphereGeometry(14, 15, 15);
-        var material = new THREE.MeshBasicMaterial({color: 0xffff00, wireframe:true});
-        var star = new THREE.Mesh(geometry, material);
+        var geometry = new THREE.IcosahedronGeometry( 14, 5 );
+        starmaterial = new THREE.ShaderMaterial({
+          uniforms: { 
+            tExplosion: {
+              type: "t", 
+              value: explocolor
+            },
+            time: { // float initialized to 0
+              type: "f", 
+              value: 0.0 
+            }
+          },
+
+          vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
+          fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
+        });
+
+        var star = new THREE.Mesh(geometry, starmaterial);
         scene.add(star);
 
         geometry = new THREE.SphereGeometry(3.08, 15, 15);
-        material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
+        var material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
         var planet1 = new THREE.Mesh(geometry, material);
         scene.add(planet1);
         planet1.position.set(18, 0, 0);
@@ -73,6 +92,7 @@
 
         function render() {
           requestAnimationFrame(render);
+          starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
           t += 0.01;
           star.rotation.y += 0.005;
           planet1.rotation.y += 0.03;
@@ -93,6 +113,7 @@
           control = new THREE.TrackballControls(camera);
           control.addEventListener("change", render);
 
+          
           renderer.render(scene, camera);
         }
 
@@ -115,6 +136,7 @@
 
       function animate() {
         requestAnimationFrame(animate);
+
         control.update();
       }
 

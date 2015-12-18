@@ -13,7 +13,7 @@ def starmap(request):
 def stellar_system(request, star_id):
     star = get_object_or_404(Star, pk=star_id)
     planets = star.planets.all()
-    return render(request, 'solarsystem/stellar_system.html', {
+    return render(request, 'stellar_system/stellar_system.html', {
         'star': star, 'planets': planets
     })
 

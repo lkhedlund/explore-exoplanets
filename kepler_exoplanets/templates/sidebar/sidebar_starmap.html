@@ -1,10 +1,16 @@
 <div id="sidebar">
-  <h5>Welcome To Kepler's Stars!</h5>
+  <h5>Welcome To Kepler!</h5>
   <div>
     <h6>~ Stuff to know ~</h6>
     Stars observed with exoplanets: {{ stars|length }}<br>
     Planets discovered by Kepler: {{ planets|length }}<br>
-    Planets in the habitable zone: {{ habitable|length }}<br>    
+
+    {% if habitable %}
+      Planets in the habitable zone: {{ habitable|length }}
+    {% else %}
+      Planets in the habitable zone: 0
+    {% endif %}<br>
+
   </div>
   <div>
     <ul>Dropdown menu: 

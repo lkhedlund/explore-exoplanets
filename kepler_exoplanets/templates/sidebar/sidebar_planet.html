@@ -1,15 +1,20 @@
 <div id="sidebar">
-  <h5>Kepler-104b</h5>
+  <h5>{{ planet.kepler_name }}</h5>
   <div>
     <h6>~ Stuff to know ~</h6>
-    Is this planet in the habitable zone? YES!<br>
-    Kepler ID: (planet.kepler_id)<br>
-    planet.surface_temp (temperature on surface of planet)<br>
-    planet.planet_radius<br>
-    planet.stellar_mass<br>
-    How many transits have been observed?<br>
-    planet.semimajor_axis<br>
-    planet.orbital_period<br>
+
+    Kepler ID: {{ planet.kepler_id }}<br>
+    Surface Temperature: {{ planet.surface_temp }}K<br>
+    Is this planet in the habitable zone? 
+    {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
+        YES!
+    {% else %}
+        No
+    {% endif %}<br>
+    Planet Radius: {{ planet.planet_radius }} Earth radii<br>
+    How many transits have been observed? {{ planet.transits_observed }}<br>
+    Distance from star to planet: {{ planet.semimajor_axis }}<br>
+    How long is one "year" on this planet? {{ planet.orbital_period }} days<br>
   </div>
   <div class="toggle">Toggle: overlay or compare with Earth</div>
   <div class="button">Return To Stellar System</div>

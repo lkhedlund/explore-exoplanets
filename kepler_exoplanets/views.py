@@ -38,7 +38,10 @@ def star(request, star_id):
 
 # Testing Planets
 def gas_planet(request):
-    return render(request, 'planets/gas_planet.html')
+    return render(request, 'planets/_gasplanet.html')
 
 def test_planet(request):
-    return render(request, 'planets/test_planet.html')
+    return render(request, 'planets/_bluerockyplanet.html')
+
+def star(request):
+    return render(request, 'stars/star.html')

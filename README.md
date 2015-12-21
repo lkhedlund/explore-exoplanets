@@ -1,8 +1,9 @@
 # Explore the Kepler Exoplanets (In Development)
 Lighthouse Labs final project: Data visualization of the Kepler system using threeJS and Django.
 
-## Getting Ready
+The app, once deployed, is set to update the planet database every month in cases of new discoveries by the satellite (or new additions to the data).
 
+## Getting Ready
 ### Python Installation
 You should install Python v3.4.3. Run the following to check if it is installed (and to check which version):
 
@@ -65,9 +66,14 @@ pip freeze
 ```bash
 python manage.py migrate
 python manage.py migrate kepler_exoplanets
-./manage.py generate_data
+python manage.py migrate django_cron
 ```
 
+###Populating the Database
+To manually populate the database, run `python manage.py generate_data`. This option is great if you don't want new discoveries added.
+For a more 'responsive' model, use the scheduled cron job by running `python manage.py runcrons`
+
+###Running the Server
 To run the server, type the following into your terminal:
 
 ```bash

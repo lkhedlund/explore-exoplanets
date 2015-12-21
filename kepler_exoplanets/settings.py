@@ -16,7 +16,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'kepler_exoplanets'
+    'kepler_exoplanets',
+    'django_cron',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -72,3 +73,6 @@ STATIC_URL = '/static/'
 # TEMPLATE_DIRS = (
 #     BASE_DIR + '/kepler_exoplanets/templates/',
 # )
+CRON_CLASSES = [
+    'kepler_exoplanets.cron.AddNewKeplerData',
+]

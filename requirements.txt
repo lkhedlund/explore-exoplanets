@@ -1,4 +1,7 @@
 Django==1.9
 argparse==1.2.1
+django-common-helpers==0.7.0
+django-cron==0.4.6
+djangorestframework==3.3.2
+-e git+https://github.com/dfm/kplr.git@38bda8e5e237ee75b61197851b8e464bc4a51e04#egg=kplr-origin/master
 six==1.10.0
--e git+https://github.com/dfm/kplr.git@38bda8e5e237ee75b61197851b8e464bc4a51e04#egg=kplr-master

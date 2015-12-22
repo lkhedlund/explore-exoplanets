@@ -1,123 +1,21 @@
 {% extends "main/base.html" %}
-    <!-- <style>
-    NOTE: I moved these into main.css
-      body { margin: 0; }
-      canvas { width: 100%; height: 100% }
-    </style> -->
-    <!-- <audio autoplay loop><source src="music/theme.mp3" type="audio/mpeg"/></audio> -->
   {% block content %}
   {% include 'sidebar/sidebar_starmap.html' %}
 
     <script>
     var controls, camera, scene, renderer, intersects;
     var suns = [];
+    var width = window.innerWidth;
+    var height = window.innerHeight - 45;
 
     $(function() {
-
-
-      $('.container').on('mousedown', function() {
-        control.enabled = false;
-      });
-
-      $('.container').on('mouseup', function() {
-        control.enabled = true;
-      });
-
-      function star_color(temp) {
-        if (temp > 28000) {
-          return 0xaabfff
-        } else if (temp > 10000) {
-          return 0xe4e8ff
-        } else if (temp > 7500) {
-          return 0xffffff
-        } else if (temp > 6000) {
-          return 0xffff99;
-        } else if (temp > 4900) {
-          return 0xffff66
-        } else if (temp > 3500) {
-          return 0xffbe7f
-        } else if (temp > 2000) {
-          return 0xfa8072;
-        } else {
-          return 0xffffff
-        }
-      }
-
-      var width = window.innerWidth;
-      var height = window.innerHeight - 45;
-
       start();
       animate();
       render();
 
-      function grabPlanets() {
-        var offset = {
-          x: document.getElementsByTagName("canvas")[0].offsetLeft,
-          y: document.getElementsByTagName("canvas")[0].offsetTop,
-        }
-        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
-        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
-        raycaster.setFromCamera(mouse, camera);
-        intersects = raycaster.intersectObjects(suns, true);
-      };
-
-      // // Planets turn blue on mouseover (It will make them brighter)
+      // Set up tools for hover and click events
       var raycaster = new THREE.Raycaster();
-      var mouse = new THREE.Vector2(), INTERSECTED;
-      // document.addEventListener('mousemove', onDocumentMouseMove, false);
-      // function onDocumentMouseMove() {
-      //   event.preventDefault();
-      //   grabPlanets();
-
-      //   if (intersects.length > 0) {
-      //     stars.forEach(function(element){element.material.color.setHex(star_color())});
-      //     intersects[0].object.material.color.setHex(0x0000ff);
-      //     render();
-      //   }
-      //   else {
-      //     stars.forEach(function(element){element.material.color.setHex(star_color())});
-      //     render();
-      //   }
-      // }
-
-      // Make the planets clickable (for now, it alerts the coordinates)
-      document.addEventListener('click', onDocumentMouseClick, false);
-      function onDocumentMouseClick() {
-        event.preventDefault();
-        grabPlanets();
-
-        if (intersects.length > 0) {
-          clickedPlanet = intersects[0].object;
-          x = clickedPlanet.position.x;
-          y = clickedPlanet.position.y;
-          z = clickedPlanet.position.z;
-          alert('Star coordinates:' + '\nx: ' + x.toFixed(2) + '\ny: ' + y.toFixed(2) + '\nz: ' + z.toFixed(2));
-        }
-      }
-
-      // Create an event listener that resizes the renderer with the browser window. /!\ Performance not great /!\
-        window.addEventListener('resize', function() {
-          width = window.innerWidth,
-          height = window.innerHeight;
-          renderer.setSize(width, height);
-          camera.aspect = width / height;
-          camera.updateProjectionMatrix();
-        });
-
-      // WIP - Keyboard control of the camera in the star map
-      document.addEventListener('keydown', onDocumentKeyDown,false);
-      function onDocumentKeyDown(event){
-        var keyCode = event.which;
-        var positionDelta = 70;
-        var rotationDelta = 0.1;
-        //W
-        if ((keyCode == 87) || (keyCode == 38))
-        { camera.position.z += positionDelta; }
-        //D
-        else if ((keyCode == 68) || (keyCode == 39))
-        { camera.position.x += positionDelta; }
-      }
-
+      var mouse = new THREE.Vector2(), INTERSECTED;    
 
       function start(){
         //Scene creation
@@ -173,6 +71,104 @@
       function render() {
         renderer.render(scene,camera);
       }
+
+      // EVENT LISTENERS
+      // Planets turn blue on mouseover (It will make them brighter)
+      document.addEventListener('mousemove', onDocumentMouseMove, false);
+      function onDocumentMouseMove() {
+        event.preventDefault();
+        grabPlanets();
+        if (intersects.length > 0) {
+          // stars.forEach(function(element){element.material.color.setHex(star_color())});
+          var hoverPlanet = intersects[0].object;
+          if (hoverPlanet.scale.x < 2) {
+            hoverPlanet.scale.x += 1;
+            hoverPlanet.scale.y += 1;
+            hoverPlanet.scale.z += 1;
+            render();
+          }
+        }
+      }
+
+      // Make the planets clickable (for now, it alerts the coordinates)
+      document.addEventListener('click', onDocumentMouseClick, false);
+      function onDocumentMouseClick() {
+        event.preventDefault();
+        grabPlanets();
+
+        if (intersects.length > 0) {
+          clickedPlanet = intersects[0].object;
+          x = clickedPlanet.position.x;
+          y = clickedPlanet.position.y;
+          z = clickedPlanet.position.z;
+          alert('Star coordinates:' + '\nx: ' + x.toFixed(2) + '\ny: ' + y.toFixed(2) + '\nz: ' + z.toFixed(2));
+        }
+      }
+
+      // Create an event listener that resizes the renderer with the browser window.
+      window.addEventListener('resize', function() {
+        width = window.innerWidth,
+        height = window.innerHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        render();
+      });
+
+      // WIP - Keyboard control of the camera in the star map
+      document.addEventListener('keydown', onDocumentKeyDown,false);
+      function onDocumentKeyDown(event){
+        var keyCode = event.which;
+        var positionDelta = 70;
+        var rotationDelta = 0.1;
+        //W
+        if ((keyCode == 87) || (keyCode == 38))
+        { camera.position.z += positionDelta; }
+        //D
+        else if ((keyCode == 68) || (keyCode == 39))
+        { camera.position.x += positionDelta; }
+      }
+
+      // Deactivate trackball controlls when interacting with the panel
+      $('.container').on('mousedown', function() {
+        control.enabled = false;
+      });
+      $('.container').on('mouseup', function() {
+        control.enabled = true;
+      });
+
+      // Stars are colored based on their temperature
+      function star_color(temp) {
+        if (temp > 28000) {
+          return 0xaabfff
+        } else if (temp > 10000) {
+          return 0xe4e8ff
+        } else if (temp > 7500) {
+          return 0xffffff
+        } else if (temp > 6000) {
+          return 0xffff99;
+        } else if (temp > 4900) {
+          return 0xffff66
+        } else if (temp > 3500) {
+          return 0xffbe7f
+        } else if (temp > 2000) {
+          return 0xfa8072;
+        } else {
+          return 0xffffff
+        }
+      }
+
+      // Register the targeted planet with click events
+      function grabPlanets() {
+        var offset = {
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
+        }
+        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
+        raycaster.setFromCamera(mouse, camera);
+        intersects = raycaster.intersectObjects(suns, true);
+      };
     });
     </script>
   {% endblock %}

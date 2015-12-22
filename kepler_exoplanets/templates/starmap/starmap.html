@@ -7,9 +7,37 @@
     <!-- <audio autoplay loop><source src="music/theme.mp3" type="audio/mpeg"/></audio> -->
   {% block content %}
   {% include 'sidebar/sidebar_starmap.html' %}
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+      uniform vec3 viewVector;
+      uniform float c;
+      uniform float p;
+      varying float intensity;
+      void main() 
+      {
+          vec3 vNormal = normalize( normalMatrix * normal );
+        vec3 vNormel = normalize( normalMatrix * viewVector );
+        intensity = pow( c - dot(vNormal, vNormel), p );
+        
+          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      }
+    </script>
+
+    <script id="fragmentShader" type="x-shader/x-vertex"> 
+      uniform vec3 glowColor;
+      varying float intensity;
+      void main() 
+      {
+        vec3 glow = glowColor * intensity;
+        gl_FragColor = vec4( glow, 1.0 );
+      }
+    </script>
+
     <script>
-      var control, camera, scene, renderer, intersects;
-      var stars = [];
+    var controls, camera, scene, renderer, intersects;
+    var suns = [];
+
+    $(function() {
       function star_color(temp) {
         if (temp > 28000) {
           return 0xaabfff
@@ -38,7 +66,6 @@
       render();
 
       function grabPlanets() {
-
         var offset = {
           x: document.getElementsByTagName("canvas")[0].offsetLeft,
           y: document.getElementsByTagName("canvas")[0].offsetTop,
@@ -46,12 +73,12 @@
         mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
         mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
         raycaster.setFromCamera(mouse, camera);
-        intersects = raycaster.intersectObjects(stars, true);
+        intersects = raycaster.intersectObjects(suns, true);
       };
 
       // // Planets turn blue on mouseover (It will make them brighter)
-      // var raycaster = new THREE.Raycaster();
-      // var mouse = new THREE.Vector2(), INTERSECTED;
+      var raycaster = new THREE.Raycaster();
+      var mouse = new THREE.Vector2(), INTERSECTED;
       // document.addEventListener('mousemove', onDocumentMouseMove, false);
       // function onDocumentMouseMove() {
       //   event.preventDefault();
@@ -98,36 +125,12 @@
         var keyCode = event.which;
         var positionDelta = 70;
         var rotationDelta = 0.1;
-        //A
-        if ((keyCode == 65) || (keyCode == 37))
-        { camera.position.x -= positionDelta; }
+        //W
+        if ((keyCode == 87) || (keyCode == 38))
+        { camera.position.z += positionDelta; }
         //D
         else if ((keyCode == 68) || (keyCode == 39))
         { camera.position.x += positionDelta; }
-        //W
-        else if ((keyCode == 87) || (keyCode == 38))
-        { camera.position.z += positionDelta; }
-        //S
-        else if ((keyCode == 83) || (keyCode == 40))
-        { camera.position.z -= positionDelta; }
-        //Q
-        else if ( keyCode == 81 )
-        { camera.position.y += positionDelta; }
-        //E
-        else if ( keyCode == 69 )
-        { camera.position.y -= positionDelta; }
-        //T
-        else if ( keyCode == 84 )
-        { camera.rotation.x += rotationDelta; }
-        //G
-        else if ( keyCode == 71 )
-        { camera.rotation.x -= rotationDelta; }
-        //F
-        else if ( keyCode == 70 )
-        { camera.rotation.y += rotationDelta; }
-        //H
-        else if ( keyCode == 72 )
-        { camera.rotation.y -= rotationDelta; }
       }
 
 
@@ -149,25 +152,32 @@
         control.addEventListener("change", render);
         control.target.set(0, 0, 2600);
 
+        var light = new THREE.PointLight(0xffffff);
+        light.position.set(0,0,3000);
+        scene.add(light);
+
         // Create the WebGL renderer and append it to the DOM bia the body element
-        renderer = new THREE.WebGLRenderer();
-        renderer.setSize(width, height);
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(width, height); 
+        // renderer.setClearColor( 0x000000, 0 );
         document.body.appendChild(renderer.domElement);
         renderer.render(scene,camera);
 
         // Add 300 spheres to the scene. Random size, random positioning
-        // for (var i = 0; i < 300; i++) {
-        var temp;
-        {% for star in stars %}
-          var geometry = new THREE.SphereGeometry(1, 15, 15);
-          var material = new THREE.MeshBasicMaterial({color: star_color({{star.stellar_temp}}), wireframe:false});
-          var planet = new THREE.Mesh(geometry, material);
-          scene.add(planet);
-          stars.push(planet);
-          planet.position.set(({{ star.right_ascension }} - 290) * 5 * ({{ star.light_years_dist }} / 1000), ({{ star.declination}} - 45) * 5 * ({{ star.light_years_dist }} / 1000),{{ star.light_years_dist }} - 500);
-        {% endfor %}
-        // }
+        var geometry, material, star;
 
+        {% for star in stars %}
+          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}});
+        {% endfor %}
+
+        function createStar (temp, ra, declination, ly) {
+          geometry = new THREE.SphereGeometry(1, 15, 15);
+          material = new THREE.MeshBasicMaterial({color: star_color(temp), wireframe:false});
+          star = new THREE.Mesh(geometry, material);
+          scene.add(star);
+          suns.push(star);
+          star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
+        }
       }
 
       function animate() {
@@ -178,5 +188,6 @@
       function render() {
         renderer.render(scene,camera);
       }
+    });
     </script>
   {% endblock %}

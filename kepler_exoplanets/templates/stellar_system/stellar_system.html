@@ -1,10 +1,11 @@
 {% extends "main/base.html" %}
 
 {% block content %}
+{% include 'sidebar/sidebar_stellarsystem.html' %}
 {% include "partials/_starfragment.html" %} 
 {% include "partials/_starvertex.html" %}
-  <div id="space_container"></div> 
-    <script type="text/javascript">
+  <div id='space_container'></div> 
+    <script type='text/javascript'>
       var control, camera, scene, renderer, intersects;
       var stars = [];
       var launch = Date.now()

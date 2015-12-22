@@ -29,7 +29,7 @@
         // 3. Near – This is the distance at which the camera will start rendering scene objects.
         // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
         camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 3000);
-        camera.position.set(0, 30, 75);
+        camera.position.set(0, - 50, 75);
         scene.add(camera);
 
         // Create the WebGL renderer and append it to the DOM bia the body element
@@ -70,25 +70,25 @@
         var material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
         var planet1 = new THREE.Mesh(geometry, material);
         scene.add(planet1);
-        planet1.position.set(18, 0, 0);
+        planet1.position.set(0, 18, 0);
 
         geometry = new THREE.SphereGeometry(3.06, 15, 15);
         material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
         var planet2 = new THREE.Mesh(geometry, material);
         scene.add(planet2);
-        planet2.position.set(30, 0, 0);
+        planet2.position.set(0, 30, 0);
 
         geometry = new THREE.SphereGeometry(3.41, 15, 15);
         material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
         var planet3 = new THREE.Mesh(geometry, material);
         scene.add(planet3);
-        planet3.position.set(50, 0, 0);
+        planet3.position.set(0, 50, 0);
 
         var t = 0;
-        var x1 = planet1.position.x;
-        var x2 = planet2.position.x;
-        var x3 = planet3.position.x;
-        var z = planet1.position.z;
+        var y1 = planet1.position.y;
+        var y2 = planet2.position.y;
+        var y3 = planet3.position.y;
+        var x = planet1.position.x;
 
         function render() {
           requestAnimationFrame(render);
@@ -100,15 +100,41 @@
           planet3.rotation.y += 0.05;
 
 
-          planet1.position.x = x1 * Math.cos(t) + z * Math.sin(t);
-          planet1.position.z = z * Math.cos(t) - x1 * Math.sin(t);
+          planet1.position.y = y1 * Math.cos(t) + x * Math.sin(t);
+          planet1.position.x = x * Math.cos(t) - y1 * Math.sin(t);
 
 
-          planet2.position.x = x2 * Math.cos(t * 2) + z * Math.sin(t * 2);
-          planet2.position.z = z * Math.cos(t * 2) - x2 * Math.sin(t * 2);
+          planet2.position.y = y2 * Math.cos(t * 2) + x * Math.sin(t * 2);
+          planet2.position.x = x * Math.cos(t * 2) - y2 * Math.sin(t * 2);
 
-          planet3.position.x = x3 * Math.cos(t * 1.5) + z * Math.sin(t * 1.5);
-          planet3.position.z = z * Math.cos(t * 1.5) - x3 * Math.sin(t * 1.5);
+          planet3.position.y = y3 * Math.cos(t * 1.5) + x * Math.sin(t * 1.5);
+          planet3.position.x = x * Math.cos(t * 1.5) - y3 * Math.sin(t * 1.5);
+
+          
+          var material = new THREE.MeshBasicMaterial({
+            color: 0x0000ff,
+            wireframe: true
+          });
+
+          var segments = 64;
+          material = new THREE.LineBasicMaterial( { color: 0xF0C400 } ),
+
+          geometry = new THREE.CircleGeometry( 18, segments );
+          geometry.vertices.shift();
+          var circle = new THREE.Line(geometry, material);
+          scene.add(circle);
+
+
+          geometry = new THREE.CircleGeometry( 30, segments );
+          geometry.vertices.shift();
+          var circle = new THREE.Line(geometry, material);
+          scene.add(circle);
+
+
+          geometry = new THREE.CircleGeometry( 50, segments );
+          geometry.vertices.shift();
+          var circle = new THREE.Line(geometry, material);
+          scene.add(circle);
 
           control = new THREE.TrackballControls(camera);
           control.addEventListener("change", render);

@@ -3,19 +3,20 @@
   {% include 'sidebar/sidebar_starmap.html' %}
 
     <script>
-    var controls, camera, scene, renderer, intersects;
-    var suns = [];
-    var width = window.innerWidth;
-    var height = window.innerHeight - 45;
 
     $(function() {
-      start();
-      animate();
-      render();
+      var controls, camera, scene, renderer, intersects;
+
+      // Set up canvas dimensions
+      var width = window.innerWidth;
+      var height = window.innerHeight - 45;
 
       // Set up tools for hover and click events
       var raycaster = new THREE.Raycaster();
-      var mouse = new THREE.Vector2(), INTERSECTED;    
+      var mouse = new THREE.Vector2(), INTERSECTED;
+
+      // Create the starmap   
+      start();
 
       function start(){
         //Scene creation
@@ -31,9 +32,9 @@
         scene.add(camera);
 
         // Mouse controls - MOVE mouse & press LEFT: rotate, MIDDLE: zoom, RIGHT: pan
-        control = new THREE.TrackballControls(camera);
-        control.addEventListener("change", render);
-        control.target.set(0, 0, 2600);
+        controls = new THREE.TrackballControls(camera);
+        controls.addEventListener("change", render);
+        controls.target.set(0, 0, 2600);
 
         var light = new THREE.PointLight(0xffffff);
         light.position.set(0,0,3000);
@@ -58,14 +59,16 @@
           material = new THREE.MeshBasicMaterial({color: star_color(temp), wireframe:false});
           star = new THREE.Mesh(geometry, material);
           scene.add(star);
-          suns.push(star);
           star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
         }
+
+        animate();
+        render();
       }
 
       function animate() {
         requestAnimationFrame(animate);
-        control.update();
+        controls.update();
       }
 
       function render() {
@@ -115,7 +118,7 @@
         render();
       });
 
-      // WIP - Keyboard control of the camera in the star map
+      // WIP - Keyboard controls of the camera in the star map
       document.addEventListener('keydown', onDocumentKeyDown,false);
       function onDocumentKeyDown(event){
         var keyCode = event.which;
@@ -131,10 +134,10 @@
 
       // Deactivate trackball controlls when interacting with the panel
       $('.container').on('mousedown', function() {
-        control.enabled = false;
+        controls.enabled = false;
       });
       $('.container').on('mouseup', function() {
-        control.enabled = true;
+        controls.enabled = true;
       });
 
       // Stars are colored based on their temperature
@@ -167,7 +170,7 @@
         mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
         mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
         raycaster.setFromCamera(mouse, camera);
-        intersects = raycaster.intersectObjects(suns, true);
+        intersects = raycaster.intersectObjects(scene.children, true);
       };
     });
     </script>

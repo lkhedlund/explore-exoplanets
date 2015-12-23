@@ -5,21 +5,22 @@
 {% include "partials/_starvertex.html" %}
   <div id="space_container"></div> 
     <script type="text/javascript">
-      var control, camera, scene, renderer, intersects;
-      var stars = [];
-      var launch = Date.now()
-      var width = window.innerWidth;
-      var height = window.innerHeight;
-      var texloader = new THREE.TextureLoader();
 
+      // Set up canvas dimensions
+      var width = window.innerWidth;
+      var height = window.innerHeight - 45;
+
+      // Set up planets/sun textures
+      var texloader = new THREE.TextureLoader();
       var explocolor = texloader.load('/static/images/star.png');
       var texture = texloader.load('/static/images/plutomap2k.jpg');
       var bump = texloader.load('/static/images/plutobump2k.jpg');
       
       start();
-      // animate();
 
       function start(){
+        var control, camera, scene, renderer, intersects;
+
         //Scene creation
         scene = new THREE.Scene();
 
@@ -37,15 +38,14 @@
         renderer.setSize(width, height);
         document.body.appendChild(renderer.domElement);
         
-
+        // Create and add lights to the scene
         var amlight = new THREE.AmbientLight( 0x888888 )
         scene.add( amlight );
-
         var dirlight = new THREE.DirectionalLight( 0xcccccc, 1 )
         dirlight.position.set(10,3,5)
         scene.add( dirlight );
 
-        // Add 300 spheres to the scene. Random size, random positioning
+        // Create and add the star to the stellar system
         var geometry = new THREE.IcosahedronGeometry( 14, 5 );
         starmaterial = new THREE.ShaderMaterial({
           uniforms: { 
@@ -62,10 +62,10 @@
           vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
           fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
         });
-
         var star = new THREE.Mesh(geometry, starmaterial);
         scene.add(star);
 
+        // create and add three planets to the stellar system
         geometry = new THREE.SphereGeometry(3.08, 15, 15);
         var material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
         var planet1 = new THREE.Mesh(geometry, material);
@@ -91,6 +91,7 @@
         var x = planet1.position.x;
 
         function render() {
+          var launch = Date.now();
           requestAnimationFrame(render);
           starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
           t += 0.01;
@@ -99,17 +100,14 @@
           planet2.rotation.y += 0.04;
           planet3.rotation.y += 0.05;
 
-
           planet1.position.y = y1 * Math.cos(t) + x * Math.sin(t);
           planet1.position.x = x * Math.cos(t) - y1 * Math.sin(t);
-
 
           planet2.position.y = y2 * Math.cos(t * 2) + x * Math.sin(t * 2);
           planet2.position.x = x * Math.cos(t * 2) - y2 * Math.sin(t * 2);
 
           planet3.position.y = y3 * Math.cos(t * 1.5) + x * Math.sin(t * 1.5);
           planet3.position.x = x * Math.cos(t * 1.5) - y3 * Math.sin(t * 1.5);
-
           
           var material = new THREE.MeshBasicMaterial({
             color: 0x0000ff,
@@ -124,12 +122,10 @@
           var circle = new THREE.Line(geometry, material);
           scene.add(circle);
 
-
           geometry = new THREE.CircleGeometry( 30, segments );
           geometry.vertices.shift();
           var circle = new THREE.Line(geometry, material);
           scene.add(circle);
-
 
           geometry = new THREE.CircleGeometry( 50, segments );
           geometry.vertices.shift();
@@ -139,31 +135,10 @@
           control = new THREE.TrackballControls(camera);
           control.addEventListener("change", render);
 
-          
           renderer.render(scene, camera);
         }
 
-        // material = new THREE.MeshBasicMaterial({ color: 0xe4e8ff, wireframe:true });
-        // var radius = 15;
-        // var segments = 32;
-        // var circleGeometry = new THREE.CircleGeometry( radius, segments );
-        // var circle = new THREE.Mesh( circleGeometry, material );
-        // scene.add(circle);
-
-        // material = new THREE.MeshBasicMaterial({ color: 0xfa8072, wireframe:true });
-        // var radius = 30;
-        // var segments = 32;
-        // var circleGeometry = new THREE.CircleGeometry( radius, segments );
-        // var circle = new THREE.Mesh( circleGeometry, material );
-        // scene.add(circle);
-
         render();
-      }
-
-      function animate() {
-        requestAnimationFrame(animate);
-
-        control.update();
       }
 
     </script>

@@ -1,8 +1,8 @@
 {% extends 'main/base.html' %}
 {% block content %}
-{% include '/sidebar/sidebar_star.html' %}
-{% include 'partials/_starfragment.html' %} 
-{% include 'partials/_starvertex.html' %} 
+{% include 'sidebar/sidebar_star.html' %}
+{% include 'partials/_starfragment.html' %}
+{% include 'partials/_starvertex.html' %}
   <div id="space_container"></div>
     <script type="text/javascript">
 
@@ -29,7 +29,7 @@
         camera.target = new THREE.Vector3( 0, 0, 0 );
         scene.add( group );
         group.add(camera);
-  
+
         //move the camera around
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 100;
@@ -45,14 +45,14 @@
 
         //star
         starmaterial = new THREE.ShaderMaterial({
-          uniforms: { 
+          uniforms: {
             tExplosion: {
-              type: "t", 
+              type: "t",
               value: explocolor
             },
             time: { // float initialized to 0
-              type: "f", 
-              value: 0.0 
+              type: "f",
+              value: 0.0
             }
           },
 
@@ -63,7 +63,7 @@
         var geometry = new THREE.IcosahedronGeometry( 20, 5 );
         var star = new THREE.Mesh( geometry, starmaterial );
         group.add(star);
-       
+
         container.appendChild( renderer.domElement );
         animate();
       }

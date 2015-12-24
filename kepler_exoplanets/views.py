@@ -43,5 +43,5 @@ def gas_planet(request):
 def test_planet(request):
     return render(request, 'planets/_bluerockyplanet.html')
 
-def star(request):
+def test_star(request):
     return render(request, 'stars/star.html')

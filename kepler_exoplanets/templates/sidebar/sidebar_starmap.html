@@ -1,27 +1,44 @@
-<div id="sidebar">
+<div id='sidebar'>
   <h5>Welcome To Kepler!</h5>
   <div>
-    <h6>~ Stuff to know ~</h6>
+    <h6>You are looking at:</h6>
     Stars observed with exoplanets: {{ stars|length }}<br>
     Planets discovered by Kepler: {{ planets|length }}<br>
-
     {% if habitable %}
       Planets in the habitable zone: {{ habitable|length }}
     {% else %}
       Planets in the habitable zone: 0
     {% endif %}<br>
+  </div>
 
-  </div>
+  <!-- SLIDER FOR MOVEMENT -->
   <div>
-    <ul>Dropdown menu: 
-      <li>show all</li> 
-      <li>habitable</li> 
-      <li>circumbinary</li>
-    </ul>
+    <label for='slider-1'>Move Forwards/Backwards</label>
+    <input type='range' name='slider-1' id='slider-1' value='60' min='0' max='100' step='10'>
   </div>
-  <div>Slider: forwards/backwards<br></div>
-  <div class="toggle">Toggle: labels (grid?) on/off</div>
-  <div class="button">Reset View</div>
+
+  <!-- DROPDOWN MENU FOR FILTERING OPTIONS -->
+  <div>
+    <label for="select-choice-min" class="select">Filter Planets</label>
+    <select class='toggleStyle' name="select-choice-min" id="select-choice-min" data-mini="true">
+       <option value="standard">Show All (default)</option>
+       <option value="rush">Habitable</option>
+       <option value="express">Circumbinary</option>
+    </select>
+  </div>
+
+  <!-- ON/OFF TOGGLE FOR LABELS -->
+  <div>
+    <label for='flip-1'>Labels</label>
+    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
+      <option value='off'>Off</option>
+      <option value='on'>On</option>
+    </select>
+  </div>
+
+  <div class='button'>
+    Reset View
+  </div>
 </div>
 
 <script>
@@ -29,11 +46,5 @@
   $('.button').on('click', function() {
     alert('You clicked the button');
   });
-
-  // $('.toggle').on('click', function() {
-  //   $(this).toggle('slow', function() {
-  //     alert("You clicked on the toggle");
-  //   })
-  // });
 
 </script>

@@ -172,6 +172,19 @@
         raycaster.setFromCamera(mouse, camera);
         intersects = raycaster.intersectObjects(scene.children, true);
       };
+
+      // Button on sidebar to reset camera
+      $('#camera-reset').on('click', function() {
+        camera.position.set(0, 0, 500);
+        document.querySelector('#star-slider').value = 500
+        document.querySelector('#dist').value = 500
+      });
+
+      // Slider on sidebar to move forwards/backwards
+      $('#star-slider').on('click', function() {
+        camera.position.set(0, 0, dist.value);
+      });
+
     });
     </script>
   {% endblock %}

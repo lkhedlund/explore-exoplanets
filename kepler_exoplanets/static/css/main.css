@@ -1,7 +1,7 @@
-body {
+/*body {
   margin: 0;
   background: url(../images/background.jpg);
-}
+}*/
 
 canvas {
   width: 100%;
@@ -37,18 +37,24 @@ div.jumbo {
           border-radius: 6px;
 }
 
+#amount {
+  background-color: black;
+}
+
 #music_player {
   position: fixed;
   bottom: 0;
   right: 0;
 }
 
-#sidebar {
+.sidebar {
   position: fixed;
   margin: 10px;
   padding: 10px;
   right: 0;
   color: #faebd7;
+  background-color: black;
+  opacity: 0.8;
 }
 
 .toggleStyle {

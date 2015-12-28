@@ -48,19 +48,25 @@ div.jumbo {
   z-index: 2;
 }
 
+#amount {
+  background-color: black;
+}
+
 #music_player {
   position: fixed;
   bottom: 0;
   right: 0;
 }
 
-#sidebar {
+.sidebar {
   position: fixed;
   margin: 10px;
   padding: 10px;
   right: 0px;
   color: #faebd7;
-  z-index: 3
+  z-index: 3;
+  background-color: black;
+  opacity: 0.8;
 }
 
 .toggleStyle {

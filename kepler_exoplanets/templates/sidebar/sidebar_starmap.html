@@ -1,4 +1,4 @@
-<div id='sidebar'>
+<div class='sidebar'>
   <h5>Welcome To Kepler!</h5>
   <div>
     <h6>You are looking at:</h6>
@@ -11,19 +11,13 @@
     {% endif %}<br>
   </div>
 
-  <!-- SLIDER FOR MOVEMENT -->
-  <div>
-    <label for='slider-1'>Move Forwards/Backwards</label>
-    <input type='range' name='slider-1' id='slider-1' value='60' min='0' max='100' step='10'>
-  </div>
-
   <!-- DROPDOWN MENU FOR FILTERING OPTIONS -->
   <div>
-    <label for="select-choice-min" class="select">Filter Planets</label>
-    <select class='toggleStyle' name="select-choice-min" id="select-choice-min" data-mini="true">
-       <option value="standard">Show All (default)</option>
-       <option value="rush">Habitable</option>
-       <option value="express">Circumbinary</option>
+    <label for='select-choice-min' class='select'>Filter Planets</label>
+    <select class='toggleStyle' name='select-choice-min' id='select-choice-min' data-mini='true'>
+       <option value='standard'>Show All (default)</option>
+       <option value='rush'>Habitable</option>
+       <option value='express'>Circumbinary</option>
     </select>
   </div>
 
@@ -36,15 +30,20 @@
     </select>
   </div>
 
-  <div class='button'>
+  <!-- SLIDER FOR MOVEMENT -->
+  <div>
+    <label for='star-slider'>Distance from Earth (light years)</label>
+    <input type='range' id='star-slider' value='500' min='0' max='3000' step='1' oninput='outputUpdate(value)'>
+    <output for='star-slider' id='dist'>500</output>
+  </div>
+
+  <div class='button' id='camera-reset'>
     Reset View
   </div>
 </div>
 
 <script>
-
-  $('.button').on('click', function() {
-    alert('You clicked the button');
-  });
-
+  function outputUpdate(dist) {
+    document.querySelector('#dist').value = dist;
+  }
 </script>

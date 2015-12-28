@@ -5,14 +5,13 @@
 {% include 'partials/_starvertex.html' %}
 <div id="space_container"></div>
   <script type="text/javascript">
+
     $(function() {
       var container, stats;
       var camera, scene, renderer, controls;
       var fov = 25;
       var texloader = new THREE.TextureLoader();
       var explocolor = texloader.load('/static/images/star.png');
-      var WIDTH = 700,
-          HEIGHT = 700,
       var start = Date.now();
 
       init();

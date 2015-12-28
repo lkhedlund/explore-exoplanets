@@ -3,16 +3,17 @@
 {% include 'sidebar/sidebar_star.html' %}
 {% include 'partials/_starfragment.html' %}
 {% include 'partials/_starvertex.html' %}
-  <div id="space_container"></div>
-    <script type="text/javascript">
-
+<div id="space_container"></div>
+  <script type="text/javascript">
+    $(function() {
       var container, stats;
       var camera, scene, renderer, controls;
-      var group;
-      var fov = 30;
+      var fov = 25;
       var texloader = new THREE.TextureLoader();
       var explocolor = texloader.load('/static/images/star.png');
-      var start = Date.now()
+      var WIDTH = 700,
+          HEIGHT = 700,
+      var start = Date.now();
 
       init();
 
@@ -20,15 +21,13 @@
         //set up scene and camera
         container = document.getElementById( 'space_container' );
         scene = new THREE.Scene();
-        group = new THREE.Group()
         renderer = new THREE.WebGLRenderer({alpha: true});
         renderer.setClearColor( 0xffffff, 0);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 0.1, 10000);
-        camera.position.z = 100;
-        camera.target = new THREE.Vector3( 0, 0, 0 );
-        scene.add( group );
-        group.add(camera);
+        camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 50, 10000);
+        camera.position.z = 50;
+        // camera.target = new THREE.Vector3( 0, 0, 0 );
+        scene.add( camera );
 
         //move the camera around
         controls = new THREE.OrbitControls( camera );
@@ -37,11 +36,10 @@
 
         //light
         var amlight = new THREE.AmbientLight( 0x888888 )
-        group.add( amlight );
-
+        scene.add( amlight );
         var dirlight = new THREE.DirectionalLight( 0xcccccc, 1 )
         dirlight.position.set(10,3,5)
-        group.add( dirlight );
+        scene.add( dirlight );
 
         //star
         starmaterial = new THREE.ShaderMaterial({
@@ -55,14 +53,12 @@
               value: 0.0
             }
           },
-
           vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
           fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
         });
-
         var geometry = new THREE.IcosahedronGeometry( 20, 5 );
         var star = new THREE.Mesh( geometry, starmaterial );
-        group.add(star);
+        scene.add(star);
 
         container.appendChild( renderer.domElement );
         animate();
@@ -74,5 +70,6 @@
         controls.update();
         renderer.render( scene, camera );
       }
-    </script>
+    });
+  </script>
 {% endblock %}

@@ -8,7 +8,7 @@
   <div id="space_container"></div> 
     <script type="text/javascript">
       $(function() {
-        var control, camera, scene, renderer, intersects;
+        var control, camera, scene, renderer, container, intersects;
 
         // Set up canvas dimensions
         var width = window.innerWidth;
@@ -29,6 +29,7 @@
         function start(){
           //Scene creation
           scene = new THREE.Scene();
+          container = document.getElementById( 'space_container' );
 
           // PerspectiveCamera creation and Set up. Parameters
           // 1. FOV – We’re using 45 degrees for our field of view.
@@ -42,7 +43,7 @@
           // Create the WebGL renderer and append it to the DOM bia the body element
           renderer = new THREE.WebGLRenderer();
           renderer.setSize(width, height);
-          document.body.appendChild(renderer.domElement);
+          container.appendChild(renderer.domElement);
           
           // Create and add lights to the scene
           var amlight = new THREE.AmbientLight( 0x888888 )

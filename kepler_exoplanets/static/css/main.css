@@ -1,7 +1,10 @@
-/*body {
+body {
   margin: 0;
-  background: url(../images/background.jpg);
-}*/
+  left: 0px;
+  height: 700px;
+  width: 700px;
+  z-index: 1;
+}
 
 canvas {
   width: 100%;
@@ -33,8 +36,19 @@ div.jumbo {
   padding: 20px;
   background-color: #eeeeee;
   -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+#space_container {
+  position: absolute;
+  margin: 10px;
+  padding: 10px;
+  left: -100px;
+  height: 700px;
+  width: 700px;
+/*  background-color: blue;*/
+  z-index: 2;
 }
 
 #amount {
@@ -51,8 +65,9 @@ div.jumbo {
   position: fixed;
   margin: 10px;
   padding: 10px;
-  right: 0;
+  right: 0px;
   color: #faebd7;
+  z-index: 3;
   background-color: black;
   opacity: 0.8;
 }

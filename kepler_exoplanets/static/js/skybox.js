@@ -1,14 +1,14 @@
-{% extends 'main/base.html' %}
-{% block content %}
-<script type="text/javascript">
   var camera, scene, renderer, stats;
   var texloader = new THREE.TextureLoader();
+
   var sky_bk = texloader.load( '/static/images/skybox/stars_bk.jpg' );
   var sky_dn = texloader.load( '/static/images/skybox/stars_dn.jpg' );
   var sky_fr = texloader.load( '/static/images/skybox/stars_fr.jpg' );
   var sky_lf = texloader.load( '/static/images/skybox/stars_lf.jpg' );
   var sky_rt = texloader.load( '/static/images/skybox/stars_rt.jpg' );
   var sky_up = texloader.load( '/static/images/skybox/stars_up.jpg' );
+
+  $(function() {
 
   init();
 
@@ -23,14 +23,16 @@
     camera.lookAt(scene.position);
     scene.add( camera );
 
-    var axes = new THREE.AxisHelper(100);
-    scene.add(axes);
+    //helps keep track of skybox side when testing
+    // var axes = new THREE.AxisHelper(100);
+    // scene.add(axes);
 
-    controls = new THREE.OrbitControls( camera );
+    //camera movement
+    var controls = new THREE.OrbitControls( camera );
       controls.minDistance = 100;
-      controls.maxDistance = 2000;
+      controls.maxDistance = 1000;
 
-
+    //box sides
     var materialArray = [];
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_bk }));
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_dn }));
@@ -39,14 +41,12 @@
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_rt }));
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_up }));
       
-
     for (var i = 0; i < 6; i++)
        materialArray[i].side = THREE.BackSide;
     var skyboxMaterial = new THREE.MeshFaceMaterial( materialArray );
     var skyboxGeom = new THREE.CubeGeometry( 5000, 5000, 5000, 1, 1, 1 );
     var skybox = new THREE.Mesh( skyboxGeom, skyboxMaterial );
     scene.add( skybox );
-
 
     document.body.appendChild( renderer.domElement );
     animate();
@@ -56,5 +56,4 @@
     requestAnimationFrame(animate);
     renderer.render( scene, camera );
   }
-</script>
-{% endblock %}
+});

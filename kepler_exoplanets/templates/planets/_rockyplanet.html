@@ -2,7 +2,8 @@
 
 {% block content %}
 <div id="space_container"></div>
-    <script type="text/javascript">
+  <script type="text/javascript">
+    $(function() {
       var container, stats;
       var camera, scene, renderer, controls;
       var group;
@@ -28,7 +29,7 @@
         //control camera
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 1;
-        controls.maxDistance = 2000;
+        controls.maxDistance = 1000;
 
         //light
         var amlight = new THREE.AmbientLight( 0x888888 )
@@ -54,5 +55,6 @@
         controls.update;
         renderer.render( scene, camera );
       }
+    });
   </script>
 {% endblock %}

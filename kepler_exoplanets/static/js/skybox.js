@@ -23,11 +23,11 @@
     camera.lookAt(scene.position);
     scene.add( camera );
 
-    //helps keep track of skybox side when testing
-    // var axes = new THREE.AxisHelper(100);
-    // scene.add(axes);
+    // helps keep track of skybox side when testing
+    var axes = new THREE.AxisHelper(100);
+    scene.add(axes);
 
-    //camera movement
+    // camera movement
     var controls = new THREE.OrbitControls( camera );
       controls.minDistance = 100;
       controls.maxDistance = 1000;

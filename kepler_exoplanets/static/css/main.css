@@ -1,5 +1,8 @@
 body {
   margin: 0;
+  left: 0px;
+  height: 700px;
+  width: 700px;
   z-index: 1;
 }
 
@@ -44,7 +47,7 @@ div.jumbo {
   left: -100px;
   height: 700px;
   width: 700px;
-  background-color: blue;
+/*  background-color: blue;*/
   z-index: 2;
 }
 

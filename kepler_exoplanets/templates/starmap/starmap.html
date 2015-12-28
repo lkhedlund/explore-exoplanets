@@ -1,11 +1,12 @@
 {% extends "main/base.html" %}
   {% block content %}
   {% include 'sidebar/sidebar_starmap.html' %}
+  <div id="space_container"></div>
 
     <script>
 
     $(function() {
-      var controls, camera, scene, renderer, intersects;
+      var controls, camera, scene, renderer, container, intersects;
 
       // Set up canvas dimensions
       var width = window.innerWidth;
@@ -21,6 +22,7 @@
       function start(){
         //Scene creation
         scene = new THREE.Scene();
+        container = document.getElementById( 'space_container' );
 
         // PerspectiveCamera creation and Set up. Parameters
         // 1. FOV – We’re using 45 degrees for our field of view.
@@ -44,7 +46,7 @@
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(width, height); 
         // renderer.setClearColor( 0x000000, 0 );
-        document.body.appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
         renderer.render(scene,camera);
 
         // Add 300 spheres to the scene. Random size, random positioning

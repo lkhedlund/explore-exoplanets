@@ -49,8 +49,5 @@ def habitable_planet(request):
 def rocky_planet(request):
     return render(request, 'planets/_rockyplanet.html')
 
-def skybox(request):
-    return render(request, 'main/skybox.html')
-
 def test_star(request):
     return render(request, 'stars/star.html')

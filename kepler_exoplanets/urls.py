@@ -14,6 +14,5 @@ urlpatterns = [
     url(r'^planet/bluegas_planet/$', views.bluegas_planet, name='bluegas_planet'),
     url(r'^planet/habitable_planet/$', views.habitable_planet, name='habitable_planet'),
     url(r'^planet/rockyplanet/$', views.rocky_planet, name='rockyplanet'),
-    url(r'^stars/kepler_104/$', views.test_star, name='kepler104'),
-    url(r'^skybox/$', views.skybox, name='skybox')
+    url(r'^stars/kepler_104/$', views.test_star, name='kepler104')
 ]

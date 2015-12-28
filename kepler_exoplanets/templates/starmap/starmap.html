@@ -10,7 +10,7 @@
 
       // Set up canvas dimensions
       var width = window.innerWidth;
-      var height = window.innerHeight - 45;
+      var height = window.innerHeight;
 
       // Set up tools for hover and click events
       var raycaster = new THREE.Raycaster();
@@ -34,8 +34,10 @@
         scene.add(camera);
 
         // Mouse controls - MOVE mouse & press LEFT: rotate, MIDDLE: zoom, RIGHT: pan
-        controls = new THREE.TrackballControls(camera);
-        controls.addEventListener("change", render);
+        controls = new THREE.OrbitControls( camera );
+        controls.minDistance = 1;
+        controls.maxDistance = 2600;
+        // controls.addEventListener("change", render);
         controls.target.set(0, 0, 2600);
 
         var light = new THREE.PointLight(0xffffff);
@@ -65,12 +67,12 @@
         }
 
         animate();
-        render();
       }
 
       function animate() {
         requestAnimationFrame(animate);
         controls.update();
+        render();
       }
 
       function render() {

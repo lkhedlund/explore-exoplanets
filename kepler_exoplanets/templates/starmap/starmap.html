@@ -120,20 +120,6 @@
         render();
       });
 
-      // WIP - Keyboard controls of the camera in the star map
-      document.addEventListener('keydown', onDocumentKeyDown,false);
-      function onDocumentKeyDown(event){
-        var keyCode = event.which;
-        var positionDelta = 70;
-        var rotationDelta = 0.1;
-        //W
-        if ((keyCode == 87) || (keyCode == 38))
-        { camera.position.z += positionDelta; }
-        //D
-        else if ((keyCode == 68) || (keyCode == 39))
-        { camera.position.x += positionDelta; }
-      }
-
       // Deactivate trackball controlls when interacting with the panel
       $('.container').on('mousedown', function() {
         controls.enabled = false;

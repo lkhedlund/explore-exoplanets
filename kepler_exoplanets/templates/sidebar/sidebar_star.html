@@ -1,0 +1,35 @@
+<div id='sidebar'>
+  <h5>Kepler-104</h5>
+  <div>
+    <h6>~ Stuff to know ~</h6>
+    2MASS star name: {{ star|length }} (star.star_designation)<br>
+    Coordinates: star.right_ascension &amp; star.declination<br>
+    Number of planets: ? <br>
+    star.stellar_temp (stellar colour spectral class)<br>
+    star.stellar_radius<br>
+    star.stellar_mass<br>
+  </div>
+
+  <div>Stretch Project for Jenn: (Image) show this sun on the spectral scale</div>
+
+  <!-- TOGGLE SWITCH FOR SUN -->
+  <div>
+    <label for='flip-1'>Compare with our Sun</label>
+    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
+      <option value='off'>Off</option>
+      <option value='on'>On</option>
+    </select>
+  </div>
+
+  <div class='button'>
+    Return To Stellar System
+  </div>
+</div>
+
+<script>
+
+  $('.button').on('click', function() {
+    alert('You clicked the button');
+  });
+
+</script>

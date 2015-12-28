@@ -6,15 +6,20 @@ def index(request):
 
 def starmap(request):
     stars = Star.objects.all().order_by('pk')
+    planets = Planet.objects.all().order_by('pk')
+    habitable = planets.filter(surface_temp__gte=273, surface_temp__lt=373)
     return render(request, 'starmap/starmap.html', {
-        'stars': stars
+        'stars': stars,
+        'planets': planets,
+        'habitable': habitable
     })
 
 def stellar_system(request, system_id):
     star = get_object_or_404(Star, pk=system_id)
     planets = star.planets.all()
     return render(request, 'stellar_system/stellar_system.html', {
-        'star': star, 'planets': planets
+        'star': star,
+        'planets': planets
     })
 
 def planet(request, planet_id):
@@ -26,6 +31,7 @@ def planet(request, planet_id):
 
 def star(request, star_id):
     star = Star.objects.get(pk=star_id)
+    planets = star.planets.all()
     return render(request, 'stars/star.html', {
         'star': star
     })
@@ -46,5 +52,5 @@ def rocky_planet(request):
 def skybox(request):
     return render(request, 'main/skybox.html')
 
-def star(request):
+def test_star(request):
     return render(request, 'stars/star.html')

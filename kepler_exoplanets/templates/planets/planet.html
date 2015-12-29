@@ -3,13 +3,13 @@
 
 {% block content %}
   <div id="space_container"></div>
-  {% if (planet.surface_temp >= 273) and (planet.surface_temp <= 373) %}
+  {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
     <!--habitable-->
     <script type="text/javascript" src="/static/js/planets/habitable.js">
-  {% elsif (planet.planet_radius <= 4) %}
+  {% elif planet.planet_radius <= 4 %}
     <!--Blue Gas-->
     <script type="text/javascript" src="/static/js/planets/gas.js">
-  {% elsif (planet.planet_radius <= 2) %}
+  {% elif planet.planet_radius <= 2 %}
     <!--Rocky-->
     <script type="text/javascript" src="/static/js/planets/rocky.js">
   {% else %}

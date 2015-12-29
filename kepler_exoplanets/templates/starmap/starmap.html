@@ -1,15 +1,16 @@
 {% extends "main/base.html" %}
   {% block content %}
   {% include 'sidebar/sidebar_starmap.html' %}
+  <div id="space_container"></div>
 
     <script>
 
     $(function() {
-      var controls, camera, scene, renderer, intersects;
+      var controls, camera, scene, renderer, container, intersects;
 
       // Set up canvas dimensions
       var width = window.innerWidth;
-      var height = window.innerHeight - 45;
+      var height = window.innerHeight;
 
       // Set up tools for hover and click events
       var raycaster = new THREE.Raycaster();
@@ -21,6 +22,7 @@
       function start(){
         //Scene creation
         scene = new THREE.Scene();
+        container = document.getElementById( 'space_container' );
 
         // PerspectiveCamera creation and Set up. Parameters
         // 1. FOV – We’re using 45 degrees for our field of view.
@@ -28,23 +30,32 @@
         // 3. Near – This is the distance at which the camera will start rendering scene objects.
         // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
         camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 10000);
-        camera.position.set(0, 0, 500);
+        camera.position.set(0, 0, 2500);
         scene.add(camera);
 
-        // Mouse controls - MOVE mouse & press LEFT: rotate, MIDDLE: zoom, RIGHT: pan
-        controls = new THREE.TrackballControls(camera);
-        controls.addEventListener("change", render);
-        controls.target.set(0, 0, 2600);
+        // Mouse controls - Zoom only for skybox and starmap
+        controls = new THREE.OrbitControls( camera );
+        controls.minDistance = 200;
+        controls.maxDistance = 2600;
+        controls.enableRotate = false;
+        controls.enablePan = false;
+        skybox_controls.minDistance = 200;
+        skybox_controls.maxDistance = 2600;
+        skybox_controls.enableRotate = false;
+        skybox_controls.enablePan = false;
+
+        // // controls.addEventListener("change", render);
+        // controls.target.set(0, 0, 2600);
 
         var light = new THREE.PointLight(0xffffff);
-        light.position.set(0,0,3000);
+        light.position.set(0,0,2375);
         scene.add(light);
 
         // Create the WebGL renderer and append it to the DOM bia the body element
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(width, height); 
         // renderer.setClearColor( 0x000000, 0 );
-        document.body.appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
         renderer.render(scene,camera);
 
         // Add 300 spheres to the scene. Random size, random positioning
@@ -63,12 +74,12 @@
         }
 
         animate();
-        render();
       }
 
       function animate() {
         requestAnimationFrame(animate);
         controls.update();
+        render();
       }
 
       function render() {
@@ -98,7 +109,7 @@
       function onDocumentMouseClick() {
         event.preventDefault();
         grabPlanets();
-
+        console.log(camera.position.z);
         if (intersects.length > 0) {
           clickedPlanet = intersects[0].object;
           x = clickedPlanet.position.x;
@@ -106,6 +117,7 @@
           z = clickedPlanet.position.z;
           alert('Star coordinates:' + '\nx: ' + x.toFixed(2) + '\ny: ' + y.toFixed(2) + '\nz: ' + z.toFixed(2));
         }
+
       }
 
       // Create an event listener that resizes the renderer with the browser window.
@@ -118,23 +130,9 @@
         render();
       });
 
-      // WIP - Keyboard controls of the camera in the star map
-      document.addEventListener('keydown', onDocumentKeyDown,false);
-      function onDocumentKeyDown(event){
-        var keyCode = event.which;
-        var positionDelta = 70;
-        var rotationDelta = 0.1;
-        //W
-        if ((keyCode == 87) || (keyCode == 38))
-        { camera.position.z += positionDelta; }
-        //D
-        else if ((keyCode == 68) || (keyCode == 39))
-        { camera.position.x += positionDelta; }
-      }
-
       // Deactivate trackball controlls when interacting with the panel
       $('.container').on('mousedown', function() {
-        controls.enabled = false;
+        controls.enabled = true;
       });
       $('.container').on('mouseup', function() {
         controls.enabled = true;
@@ -149,13 +147,13 @@
         } else if (temp > 7500) {
           return 0xffffff
         } else if (temp > 6000) {
-          return 0xffff99;
+          return 0xffffe0;
         } else if (temp > 4900) {
           return 0xffff66
         } else if (temp > 3500) {
-          return 0xffbe7f
+          return 0xffa44c
         } else if (temp > 2000) {
-          return 0xfa8072;
+          return 0xf73d28;
         } else {
           return 0xffffff
         }
@@ -172,6 +170,19 @@
         raycaster.setFromCamera(mouse, camera);
         intersects = raycaster.intersectObjects(scene.children, true);
       };
+
+      // Button on sidebar to reset camera
+      $('#camera-reset').on('click', function() {
+        camera.position.set(0, 0, 500);
+        document.querySelector('#star-slider').value = 500
+        document.querySelector('#dist').value = 500
+      });
+
+      // Slider on sidebar to move forwards/backwards
+      $('#star-slider').on('click', function() {
+        camera.position.set(0, 0, dist.value);
+      });
+
     });
     </script>
   {% endblock %}

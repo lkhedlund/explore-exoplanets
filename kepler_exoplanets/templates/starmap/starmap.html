@@ -10,7 +10,7 @@
 
       // Set up canvas dimensions
       var width = window.innerWidth;
-      var height = window.innerHeight - 45;
+      var height = window.innerHeight;
 
       // Set up tools for hover and click events
       var raycaster = new THREE.Raycaster();
@@ -30,16 +30,25 @@
         // 3. Near – This is the distance at which the camera will start rendering scene objects.
         // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
         camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 10000);
-        camera.position.set(0, 0, 500);
+        camera.position.set(0, 0, 2500);
         scene.add(camera);
 
-        // Mouse controls - MOVE mouse & press LEFT: rotate, MIDDLE: zoom, RIGHT: pan
-        controls = new THREE.TrackballControls(camera);
-        controls.addEventListener("change", render);
-        controls.target.set(0, 0, 2600);
+        // Mouse controls - Zoom only for skybox and starmap
+        controls = new THREE.OrbitControls( camera );
+        controls.minDistance = 200;
+        controls.maxDistance = 2600;
+        controls.enableRotate = false;
+        controls.enablePan = false;
+        skybox_controls.minDistance = 200;
+        skybox_controls.maxDistance = 2600;
+        skybox_controls.enableRotate = false;
+        skybox_controls.enablePan = false;
+
+        // // controls.addEventListener("change", render);
+        // controls.target.set(0, 0, 2600);
 
         var light = new THREE.PointLight(0xffffff);
-        light.position.set(0,0,3000);
+        light.position.set(0,0,2375);
         scene.add(light);
 
         // Create the WebGL renderer and append it to the DOM bia the body element
@@ -65,12 +74,12 @@
         }
 
         animate();
-        render();
       }
 
       function animate() {
         requestAnimationFrame(animate);
         controls.update();
+        render();
       }
 
       function render() {
@@ -100,7 +109,7 @@
       function onDocumentMouseClick() {
         event.preventDefault();
         grabPlanets();
-
+        console.log(camera.position.z);
         if (intersects.length > 0) {
           clickedPlanet = intersects[0].object;
           x = clickedPlanet.position.x;
@@ -108,6 +117,7 @@
           z = clickedPlanet.position.z;
           alert('Star coordinates:' + '\nx: ' + x.toFixed(2) + '\ny: ' + y.toFixed(2) + '\nz: ' + z.toFixed(2));
         }
+
       }
 
       // Create an event listener that resizes the renderer with the browser window.

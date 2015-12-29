@@ -1,19 +1,12 @@
 {% extends "main/base.html" %}
-{% include 'sidebar/sidebar_planet.html' %}
 
 {% block content %}
+{% include 'sidebar/sidebar_planet.html' %}
   <div id="space_container"></div>
-  {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
-    <!--habitable-->
-    <script type="text/javascript" src="/static/js/planets/habitable.js">
-  {% elif planet.planet_radius <= 4 %}
-    <!--Blue Gas-->
-    <script type="text/javascript" src="/static/js/planets/gas.js">
-  {% elif planet.planet_radius <= 2 %}
-    <!--Rocky-->
-    <script type="text/javascript" src="/static/js/planets/rocky.js">
-  {% else %}
-    <!--Red Gas-->
-    <script type="text/javascript" src="/static/js/planets/gas.js">
-  {% endif %}
 {% endblock %}
+<script src="/static/js/planets/rocky.js">
+console.log("Rocky loaded...");
+  $(function() {
+    planet();
+  });
+</script>

@@ -41,7 +41,8 @@
           scene.add(camera);
 
           // Create the WebGL renderer and append it to the DOM bia the body element
-          renderer = new THREE.WebGLRenderer();
+          renderer = new THREE.WebGLRenderer({alpha: true});
+          renderer.setClearColor( 0xffffff, 0);
           renderer.setSize(width, height);
           container.appendChild(renderer.domElement);
           

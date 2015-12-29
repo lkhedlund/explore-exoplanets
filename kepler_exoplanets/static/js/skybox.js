@@ -28,9 +28,9 @@
     scene.add(axes);
 
     // camera movement
-    var controls = new THREE.OrbitControls( camera );
-      controls.minDistance = 100;
-      controls.maxDistance = 1000;
+    skybox_controls = new THREE.OrbitControls( camera );
+      skybox_controls.minDistance = 100;
+      skybox_controls.maxDistance = 1000;
 
     //box sides
     var materialArray = [];

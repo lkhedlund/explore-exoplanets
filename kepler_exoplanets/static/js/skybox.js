@@ -1,12 +1,12 @@
   var camera, scene, renderer, stats;
   var texloader = new THREE.TextureLoader();
 
-  var sky_bk = texloader.load( '/static/images/skybox/stars_bk.jpg' );
-  var sky_dn = texloader.load( '/static/images/skybox/stars_dn.jpg' );
-  var sky_fr = texloader.load( '/static/images/skybox/stars_fr.jpg' );
-  var sky_lf = texloader.load( '/static/images/skybox/stars_lf.jpg' );
-  var sky_rt = texloader.load( '/static/images/skybox/stars_rt.jpg' );
-  var sky_up = texloader.load( '/static/images/skybox/stars_up.jpg' );
+  var sky_bk = texloader.load( '/static/images/pointstars/bluenebulaBK.png' );
+  var sky_dn = texloader.load( '/static/images/pointstars/bluenebulaDN.png' );
+  var sky_fr = texloader.load( '/static/images/pointstars/bluenebulaFT.png' );
+  var sky_lf = texloader.load( '/static/images/pointstars/bluenebulaLF.png' );
+  var sky_rt = texloader.load( '/static/images/pointstars/bluenebulaRT.png' );
+  var sky_up = texloader.load( '/static/images/pointstars/bluenebulaUP.png' );
 
   $(function() {
 

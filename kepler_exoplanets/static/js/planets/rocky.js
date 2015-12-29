@@ -1,4 +1,4 @@
-var planet = function() {
+var planet = function planet() {
   console.log("Load within planet...")
   var container;
   var camera, scene, renderer, controls;

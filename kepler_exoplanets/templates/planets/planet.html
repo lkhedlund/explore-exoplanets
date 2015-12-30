@@ -1,14 +1,6 @@
 {% extends "main/base.html" %}
-{% load staticfiles %}
-<script src="{% static 'js/planets/rocky.js' %}"></script>
-
 {% block content %}
 {% include 'sidebar/sidebar_planet.html' %}
-  <div id="space_container"></div>
-  <script>
-  $(function() {
-    console.log("testing...");
-    planet();
-  });
-  </script>
+
+<div id="space_container"></div>
 {% endblock %}

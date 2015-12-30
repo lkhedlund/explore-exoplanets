@@ -35,3 +35,13 @@ def star(request, star_id):
     return render(request, 'stars/star.html', {
         'star': star
     })
+
+# Testing Planets
+def gas_planet(request):
+    return render(request, 'planets/_gasplanet.html')
+
+def test_planet(request):
+    return render(request, 'planets/_bluerockyplanet.html')
+
+def test_star(request):
+    return render(request, 'stars/star.html')

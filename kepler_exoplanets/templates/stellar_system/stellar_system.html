@@ -45,13 +45,6 @@
           renderer.setClearColor(0xffffff, 0);
           renderer.setSize(width, height);
           container.appendChild(renderer.domElement);
-          
-          // Create and add lights to the scene
-          var amlight = new THREE.AmbientLight( 0x888888 )
-          scene.add( amlight );
-          var dirlight = new THREE.DirectionalLight( 0xcccccc, 1 )
-          dirlight.position.set(10,3,5)
-          scene.add( dirlight );
 
           // Create and add the star to the stellar system
           var geometry = new THREE.IcosahedronGeometry( 14, 5 );
@@ -71,7 +64,10 @@
             fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
           });
           var star = new THREE.Mesh(geometry, starmaterial);
-          scene.add(star);
+          scene.add( star );
+          pointLight = new THREE.PointLight( 0xffffff );
+          scene.add( pointLight );
+          pointLight.add( star );
 
           // create and add three planets to the stellar system
           geometry = new THREE.SphereGeometry(3.08, 15, 15);
@@ -103,19 +99,19 @@
             requestAnimationFrame(render);
             starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
             t += 0.01;
-            star.rotation.y += 0.005;
-            planet1.rotation.y += 0.03;
-            planet2.rotation.y += 0.04;
-            planet3.rotation.y += 0.05;
+            star.rotation.z += 0.005;
+            planet1.rotation.z += 0.03;
+            planet2.rotation.z += 0.04;
+            planet3.rotation.z += 0.05;
 
             planet1.position.y = y1 * Math.cos(t) + x * Math.sin(t);
             planet1.position.x = x * Math.cos(t) - y1 * Math.sin(t);
 
-            planet2.position.y = y2 * Math.cos(t * 2) + x * Math.sin(t * 2);
-            planet2.position.x = x * Math.cos(t * 2) - y2 * Math.sin(t * 2);
+            planet2.position.y = y2 * Math.cos(t * 0.5) + x * Math.sin(t * 0.5);
+            planet2.position.x = x * Math.cos(t * 0.5) - y2 * Math.sin(t * 0.5);
 
-            planet3.position.y = y3 * Math.cos(t * 1.5) + x * Math.sin(t * 1.5);
-            planet3.position.x = x * Math.cos(t * 1.5) - y3 * Math.sin(t * 1.5);
+            planet3.position.y = y3 * Math.cos(t * 1.2) + x * Math.sin(t * 1.2);
+            planet3.position.x = x * Math.cos(t * 1.2) - y3 * Math.sin(t * 1.2);
             
             var material = new THREE.MeshBasicMaterial({
               color: 0x0000ff,

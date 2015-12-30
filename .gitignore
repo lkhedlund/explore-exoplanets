@@ -62,3 +62,6 @@ target/
 
 # System Files
 *.DS_Store
+
+# Development Backbone
+backbone.js

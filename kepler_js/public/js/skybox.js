@@ -1,12 +1,12 @@
   var camera, scene, renderer, stats;
   var texloader = new THREE.TextureLoader();
 
-  var sky_bk = texloader.load( '/static/images/skybox/stars_bk.jpg' );
-  var sky_dn = texloader.load( '/static/images/skybox/stars_dn.jpg' );
-  var sky_fr = texloader.load( '/static/images/skybox/stars_fr.jpg' );
-  var sky_lf = texloader.load( '/static/images/skybox/stars_lf.jpg' );
-  var sky_rt = texloader.load( '/static/images/skybox/stars_rt.jpg' );
-  var sky_up = texloader.load( '/static/images/skybox/stars_up.jpg' );
+  var sky_bk = texloader.load( '../public/images/skybox/stars_bk.jpg' );
+  var sky_dn = texloader.load( '../public/images/skybox/stars_dn.jpg' );
+  var sky_fr = texloader.load( '../public/images/skybox/stars_fr.jpg' );
+  var sky_lf = texloader.load( '../public/images/skybox/stars_lf.jpg' );
+  var sky_rt = texloader.load( '../public/images/skybox/stars_rt.jpg' );
+  var sky_up = texloader.load( '../public/images/skybox/stars_up.jpg' );
 
   $(function() {
 
@@ -40,7 +40,7 @@
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_lf }));
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_rt }));
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_up }));
-      
+
     for (var i = 0; i < 6; i++){
        materialArray[i].side = THREE.BackSide;
     }

@@ -1,10 +1,10 @@
 $(function() {
   var container, stats;
   var camera, scene, renderer, controls;
-  var fov = 25;
+  var fov = 30;
   var texloader = new THREE.TextureLoader();
-  var explocolor = texloader.load('/static/images/star.png');
-  var start = Date.now();
+  var explocolor = texloader.load('../../images/redgas.png');
+  var start = Date.now()
 
   init();
 
@@ -15,16 +15,14 @@ $(function() {
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setClearColor( 0xffffff, 0);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 50, 10000);
-    camera.position.z = 50;
-    // camera.target = new THREE.Vector3( 0, 0, 0 );
+    camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 0.1, 10000);
+    camera.position.z = 100;
+    camera.target = new THREE.Vector3( 0, 0, 0 );
     scene.add( camera );
-
     //move the camera around
     controls = new THREE.OrbitControls( camera );
     controls.minDistance = 100;
     controls.maxDistance = 2000;
-
     //light
     var amlight = new THREE.AmbientLight( 0x888888 )
     scene.add( amlight );
@@ -32,8 +30,8 @@ $(function() {
     dirlight.position.set(10,3,5)
     scene.add( dirlight );
 
-    //star
-    starmaterial = new THREE.ShaderMaterial({
+    //gasplanet
+    planetmaterial = new THREE.ShaderMaterial({
       uniforms: {
         tExplosion: {
           type: "t",
@@ -44,12 +42,12 @@ $(function() {
           value: 0.0
         }
       },
-      vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
-      fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
+      vertexShader: $.getScript("/script/js/planets/_gasvertex.js"),
+      fragmentShader: $.getScript("/script/js/planets/_gasfragment.js"),
     });
     var geometry = new THREE.IcosahedronGeometry( 20, 5 );
-    var star = new THREE.Mesh( geometry, starmaterial );
-    scene.add(star);
+    var gasplanet = new THREE.Mesh( geometry, planetmaterial );
+    scene.add(gasplanet);
 
     container.appendChild( renderer.domElement );
     animate();
@@ -57,7 +55,7 @@ $(function() {
 
   function animate() {
     requestAnimationFrame(animate);
-    starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
+    planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
     controls.update();
     renderer.render( scene, camera );
   }

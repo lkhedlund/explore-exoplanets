@@ -7,9 +7,9 @@ $(function() {
 
   // Set up planets/sun textures
   var texloader = new THREE.TextureLoader();
-  var explocolor = texloader.load('/static/images/star.png');
-  var texture = texloader.load('/static/images/plutomap2k.jpg');
-  var bump = texloader.load('/static/images/plutobump2k.jpg');
+  var explocolor = texloader.load('../images/star.png');
+  var texture = texloader.load('../images/plutomap2k.jpg');
+  var bump = texloader.load('../images/plutobump2k.jpg');
 
   // Set up tools for hover and click events
   var raycaster = new THREE.Raycaster();
@@ -161,4 +161,4 @@ $(function() {
     raycaster.setFromCamera(mouse, camera);
     intersects = raycaster.intersectObjects(scene.children, true);
   };
-});     
+});

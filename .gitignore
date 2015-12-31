@@ -65,3 +65,6 @@ target/
 
 # Development Backbone
 backbone.js
+
+# Node Modules
+node_modules/

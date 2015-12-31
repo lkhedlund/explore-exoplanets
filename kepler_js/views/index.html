@@ -12,17 +12,19 @@
     <title>Kepler</title>
   </head>
   <body>
-  <script src="../public/js/skybox.js"></script>
-<!--
-    <header>
-      <div class="container">
-        <h1 class="logo">Explore the Exoplanets</h1>
-      </div>
-    </header> -->
-
+  <!-- <script src="../public/js/skybox.js"></script>
     <div class="container">
       <script src="../public/js/starmap/starmap.js"></script>
-    </div>
+    </div> -->
+    <script>
+    $(function() {
+      $.getJSON("../data.min.json", function(data) {
+        $.each(data, function(key,value) {
+          console.log(value.fields);
+        });
+      });
+    });
+    </script>
     <!-- <div id="music_player">
       <iframe style="border: 0; width: 100%; height: 42px;" src="http://bandcamp.com/EmbeddedPlayer/album=944775128/size=small/bgcol=ffffff/linkcol=0687f5/track=1681101988/transparent=true/" seamless><a href="http://benprunty.bandcamp.com/album/ftl">FTL by Ben Prunty</a></iframe>
     </div> -->

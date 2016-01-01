@@ -32,8 +32,11 @@ def planet(request, planet_id):
 def star(request, star_id):
     star = Star.objects.get(pk=star_id)
     planets = star.planets.all()
+    name = planets.first
     return render(request, 'stars/star.html', {
-        'star': star
+        'star': star,
+        'planets': planets,
+        'name': name
     })
 
 # Testing Planets

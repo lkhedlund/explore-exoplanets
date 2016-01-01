@@ -42,29 +42,20 @@ div.jumbo {
 
 #space_container {
   position: absolute;
-  margin: 10px;
-  padding: 10px;
-  left: -100px;
+  /*margin: 10px;*/
+  /*padding: 10px;*/
+  left: -200px;
   height: 700px;
-  width: 700px;
-/*  background-color: blue;*/
+  width: 100%;
   z-index: 2;
-}
-
-#amount {
-  background-color: black;
-}
-
-#music_player {
-  position: fixed;
-  bottom: 0;
-  right: 0;
 }
 
 .sidebar {
   position: fixed;
   margin: 10px;
+  margin-top: 50px;
   padding: 10px;
+  width: 25%;
   right: 0px;
   color: #faebd7;
   z-index: 3;
@@ -91,3 +82,18 @@ div.jumbo {
   cursor: pointer;
   box-sizing: border-box; 
 }
+
+#amount {
+  background-color: black;
+}
+
+tbody > tr:hover {
+  color: yellow;
+  background-color: red;
+}
+
+/*#music_player {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}*/

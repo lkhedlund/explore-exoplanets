@@ -27,19 +27,16 @@
         camera.position.z = 50;
         // camera.target = new THREE.Vector3( 0, 0, 0 );
         scene.add( camera );
-
         //move the camera around
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 100;
         controls.maxDistance = 2000;
-
         //light
         var amlight = new THREE.AmbientLight( 0x888888 )
         scene.add( amlight );
         var dirlight = new THREE.DirectionalLight( 0xcccccc, 1 )
         dirlight.position.set(10,3,5)
         scene.add( dirlight );
-
         //star
         starmaterial = new THREE.ShaderMaterial({
           uniforms: {
@@ -62,6 +59,14 @@
         container.appendChild( renderer.domElement );
         animate();
       }
+
+      window.addEventListener('resize', function() {
+        width = window.innerWidth,
+        height = window.innerHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      });
 
       function animate() {
         requestAnimationFrame(animate);

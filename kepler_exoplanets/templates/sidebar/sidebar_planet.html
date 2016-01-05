@@ -1,31 +1,58 @@
 <div class='sidebar'>
-  <h5>{{ planet.kepler_name }}</h5>
+  <h3>{{ planet.kepler_name }}</h3>
   <div>
-    <h6><em>What do we know?</em></h6>
-    Kepler ID: {{ planet.kepler_id }}<br>
-    Surface Temperature: {{ planet.surface_temp }}K<br>
     Is this planet in the habitable zone? 
     {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
         YES!
     {% else %}
         No
     {% endif %}<br>
-    Planet Radius: {{ planet.planet_radius }} Earth radii<br>
     How many transits have been observed? {{ planet.transits_observed }}<br>
-    Distance from star to planet: {{ planet.semimajor_axis }}<br>
-    How long is one "year"? {{ planet.orbital_period }} days<br>
   </div>
 
-  <!-- TOGGLE SWITCH FOR EARTH -->
+  <!-- STATS TABLE TO COMPARE EXOPLANET WITH EARTH -->
   <div>
-    <label for='flip-1'>Compare with Earth</label>
-    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
-      <option value='off'>Off</option>
-      <option value='on'>On</option>
-    </select>
+
+    <table>
+      <thead>
+        <tr>
+          <th colspan='3'>Compare with Earth:</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>{{ planet.kepler_name }}</th>
+          <th>Earth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Surface Temp</td>
+          <td>{{ celsius }}&deg; C</td>
+          <td>14&deg; C</td>
+        </tr>
+        <tr>
+          <td>Radius</td>
+          <td>{{ planet.planet_radius }} Earth Radii</td>
+          <td>1 Earth Radius</td>
+        </tr>
+        <tr>
+          <td>Distance to Star</td>
+          <td>{{ planet.semimajor_axis }} AU</td>
+          <td>1 AU to Sun</td>
+        </tr>
+        <tr>
+          <td>Length of Year</td>
+          <td>{{ orbital_period }} days</td>
+          <td>365 days</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class='button'>Return To Stellar System</div>
+  <div class='button'>
+    Return To Stellar System
+  </div>
+
 </div>
 
 <script>

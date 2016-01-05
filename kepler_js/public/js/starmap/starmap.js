@@ -1,4 +1,4 @@
-$(function() {
+var starmap = function(keplerData) {
   var controls, camera, scene, renderer, container, intersects;
 
   // Set up canvas dimensions
@@ -10,12 +10,12 @@ $(function() {
   var mouse = new THREE.Vector2(), INTERSECTED;
 
   // Create the starmap
-  start();
+  start(keplerData);
 
-  function start(){
+  function start(keplerData){
     //Scene creation
     scene = new THREE.Scene();
-    container = document.getElementById( 'space_container' );
+    container = document.getElementById('space_container');
 
     // PerspectiveCamera creation and Set up. Parameters
     // 1. FOV – We’re using 45 degrees for our field of view.
@@ -54,10 +54,6 @@ $(function() {
     // Add 300 spheres to the scene. Random size, random positioning
     var geometry, material, star;
 
-    {% for star in stars %}
-      createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}});
-    {% endfor %}
-
     function createStar (temp, ra, declination, ly) {
       geometry = new THREE.SphereGeometry(1, 15, 15);
       material = new THREE.MeshBasicMaterial({color: star_color(temp), wireframe:false});
@@ -65,6 +61,12 @@ $(function() {
       scene.add(star);
       star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
     }
+
+    // Load star data from JSON file
+    for (var i = 0; i < keplerData.length; i++) {
+      var star = keplerData[i]["fields"];
+      createStar(star.stellar_temp, star.right_ascension, star.declination, star.light_years_dist);
+    };
 
     animate();
   }
@@ -176,4 +178,4 @@ $(function() {
     camera.position.set(0, 0, dist.value);
   });
 
-});
+};

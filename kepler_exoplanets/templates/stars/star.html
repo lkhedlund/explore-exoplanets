@@ -12,6 +12,7 @@
       var fov = 25;
       var texloader = new THREE.TextureLoader();
       var explocolor = texloader.load('/static/images/star.png');
+      var glow = texloader.load( '/static/images/glow.png' );
       var start = Date.now();
 
       init();
@@ -53,9 +54,16 @@
           fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
         });
         var geometry = new THREE.IcosahedronGeometry( 20, 5 );
-         var star = new THREE.Mesh( geometry, starmaterial );
-         star.position.set(0,0,0)
+        var star = new THREE.Mesh( geometry, starmaterial );
+        star.position.set(0,0,0)
         scene.add(star);
+
+        var spriteMaterial = new THREE.SpriteMaterial({ 
+            map: glow,transparent: false, blending: THREE.AdditiveBlending
+        });
+          sprite = new THREE.Sprite( spriteMaterial );
+          sprite.scale.set(8, 8, 8);
+          star.add(sprite);        
 
         container.appendChild( renderer.domElement );
         animate();

@@ -118,3 +118,121 @@ div.jumbo {
 #app > *:nth-child(2) {
   opacity: 0;
 }
+
+/* FORMATTING FOR THE LOADING PAGE */
+
+/* LOADING CONTAINER */
+.loading {
+  font-family: sans-serif;
+  color: white;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  -webkit-transition: 2s ease-in-out;
+  transition: all 2s ease-in-out;
+}
+
+.loading-text {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  font-size: 25px;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.ufo {
+  position: absolute;
+  background-image: url('../images/ufo.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  height: 384px;
+  width: 195px;
+  margin: auto;
+  top: 40%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.ufo.light {
+  background-image: url('../images/ufoLight.png');
+  opacity: 0;
+  -webkit-animation: 4s ease-in-out infinite normal running;
+  animation: 4s ease-in-out infinite normal running;
+  -webkit-animation-name: beam;
+  animation-name: beam;
+}
+
+@keyframes beam {
+  30% { opacity: 0; }
+  40% { opacity: 1; }
+  80% { opacity: 1; }
+  90% { opacity: 0; }
+}
+
+.faces {
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 15px;
+  right: -130px;
+  opacity: 0;
+  height: 60px;
+  width: 60px;
+  -webkit-animation: 4s ease-in-out infinite normal running;
+  animation: 4s ease-in-out infinite normal running;
+  -webkit-animation-name: abducted;
+  animation-name: abducted;
+}
+
+.faces.jenn {
+  background-image: url('../images/jenn.png');
+}
+
+.faces.lars {
+  background-image: url('../images/lars.png');
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+
+.faces.anita {
+  background-image: url('../images/anita.png');
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+}
+
+.faces.fabien {
+  background-image: url('../images/fabien.png');
+  -webkit-animation-delay: 3s;
+  animation-delay: 3s;
+}
+
+@keyframes abducted {
+  0% {
+    opacity: 0;
+    right: -130px;
+    bottom: 15px;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+    right: 70px;
+    bottom: 15px;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  90% {
+    right: 70px;
+    bottom: 200px;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+

@@ -7,9 +7,10 @@
 
     $(function() {
       var controls, camera, scene, renderer, container, intersects;
-
+      var texloader = new THREE.TextureLoader();
+      var glow = texloader.load( '../static/images/glow.png' );
       // Set up canvas dimensions
-      var width = window.innerWidth;
+      var width = 1000;
       var height = window.innerHeight;
 
       // Set up tools for hover and click events
@@ -29,8 +30,8 @@
         // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
         // 3. Near – This is the distance at which the camera will start rendering scene objects.
         // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
-        camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 10000);
-        camera.position.set(0, 0, 2500);
+        camera = new THREE.PerspectiveCamera(75, width/height, 50, 10000);
+        camera.position.set(0, 0, 2600);
         scene.add(camera);
 
         // Mouse controls - Zoom only for skybox and starmap
@@ -39,8 +40,7 @@
         controls.maxDistance = 2600;
         controls.enableRotate = false;
         controls.enablePan = false;
-        skybox_controls.minDistance = 200;
-        skybox_controls.maxDistance = 2600;
+        skybox_controls.minDistance = 1000;
         skybox_controls.enableRotate = false;
         skybox_controls.enablePan = false;
 
@@ -66,11 +66,21 @@
         {% endfor %}
 
         function createStar (temp, ra, declination, ly) {
+          color = star_color(temp);
           geometry = new THREE.SphereGeometry(1, 15, 15);
-          material = new THREE.MeshBasicMaterial({color: star_color(temp), wireframe:false});
+          material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
           star = new THREE.Mesh(geometry, material);
           scene.add(star);
           star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
+        
+          // Star glow (using sprites)
+          var spriteMaterial = new THREE.SpriteMaterial({ 
+            map: glow, 
+            color: color, transparent: false, blending: THREE.AdditiveBlending
+          });
+          sprite = new THREE.Sprite( spriteMaterial );
+          sprite.scale.set(8, 8, 8);
+          star.add(sprite);        
         }
 
         animate();
@@ -109,7 +119,6 @@
       function onDocumentMouseClick() {
         event.preventDefault();
         grabPlanets();
-        console.log(camera.position.z);
         if (intersects.length > 0) {
           clickedPlanet = intersects[0].object;
           x = clickedPlanet.position.x;
@@ -130,11 +139,13 @@
       });
 
       // Deactivate trackball controlls when interacting with the panel
-      $('.container').on('mousedown', function() {
-        controls.enabled = true;
+      $('.sidebar').on('mouseenter', function() {
+        controls.enabled = false;
+        skybox_controls.enabled = false;
       });
-      $('.container').on('mouseup', function() {
+      $('.sidebar').on('mouseleave', function() {
         controls.enabled = true;
+        skybox_controls.enabled = true;
       });
 
       // Stars are colored based on their temperature
@@ -170,11 +181,12 @@
         intersects = raycaster.intersectObjects(scene.children, true);
       };
 
+
       // Button on sidebar to reset camera
       $('#camera-reset').on('click', function() {
-        camera.position.set(0, 0, 500);
-        document.querySelector('#star-slider').value = 500
-        document.querySelector('#dist').value = 500
+        camera.position.set(0, 0, controls.maxDistance);
+        document.querySelector('#star-slider').value = controls.maxDistance;
+        document.querySelector('#dist').value = controls.maxDistance;
       });
 
       // Slider on sidebar to move forwards/backwards

@@ -25,8 +25,12 @@ def stellar_system(request, system_id):
 def planet(request, planet_id):
     planet = Planet.objects.get(pk=planet_id)
     star_id = planet.star.pk
+    celsius = planet.surface_temp - 273
+    orbital_period = round(planet.orbital_period)
     return render(request, 'planets/planet.html', {
-        'planet': planet
+        'planet': planet, 
+        'celsius': celsius, 
+        'orbital_period': orbital_period
     })
 
 def star(request, star_id):
@@ -47,7 +51,7 @@ def bluegas_planet(request):
     return render(request, 'planets/_gasblueplanet.html')
 
 def habitable_planet(request):
-    return render(request, 'planets/_habitable.html')
+    return render(request, 'planets/_habitableplanet.html')
 
 def rocky_planet(request):
     return render(request, 'planets/_rockyplanet.html')

@@ -3,11 +3,6 @@ body {
   z-index: 1;
 }
 
-canvas {
-  width: 100%;
-  height: 100%;
-}
-
 header {
   background-color: #2B2B2B;
   height: 35px;
@@ -39,8 +34,6 @@ div.jumbo {
 
 #space_container {
   position: absolute;
-  /*margin: 10px;*/
-  /*padding: 10px;*/
   left: -200px;
   height: 700px;
   width: 100%;
@@ -50,14 +43,14 @@ div.jumbo {
 .sidebar {
   position: fixed;
   margin: 10px;
-  margin-top: 50px;
+  margin-top: 30px;
   padding: 10px;
-  width: 25%;
+  width: 27%;
   right: 0px;
   color: #faebd7;
   z-index: 3;
   background-color: black;
-  opacity: 0.8;
+  background: transparent;
 }
 
 .toggleStyle {

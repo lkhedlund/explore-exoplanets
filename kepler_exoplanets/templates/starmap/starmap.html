@@ -7,7 +7,8 @@
 
     $(function() {
       var controls, camera, scene, renderer, container, intersects;
-
+      var texloader = new THREE.TextureLoader();
+      var glow = texloader.load( '../static/images/glow.png' );
       // Set up canvas dimensions
       var width = 1000;
       var height = window.innerHeight;
@@ -65,11 +66,21 @@
         {% endfor %}
 
         function createStar (temp, ra, declination, ly) {
+          color = star_color(temp);
           geometry = new THREE.SphereGeometry(1, 15, 15);
-          material = new THREE.MeshBasicMaterial({color: star_color(temp), wireframe:false});
+          material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
           star = new THREE.Mesh(geometry, material);
           scene.add(star);
           star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
+        
+          // Star glow (using sprites)
+          var spriteMaterial = new THREE.SpriteMaterial({ 
+            map: glow, 
+            color: color, transparent: false, blending: THREE.AdditiveBlending
+          });
+          sprite = new THREE.Sprite( spriteMaterial );
+          sprite.scale.set(8, 8, 8);
+          star.add(sprite);        
         }
 
         animate();
@@ -169,6 +180,7 @@
         raycaster.setFromCamera(mouse, camera);
         intersects = raycaster.intersectObjects(scene.children, true);
       };
+
 
       // Button on sidebar to reset camera
       $('#camera-reset').on('click', function() {

@@ -4,19 +4,23 @@
 {% include 'sidebar/sidebar_stellarsystem.html' %}
 {% include "partials/_starfragment.html" %} 
 {% include "partials/_starvertex.html" %}
+{% include 'partials/_gasfragment.html' %}
+{% include 'partials/_gasvertex.html' %}
 
   <div id="space_container"></div> 
     <script type="text/javascript">
       $(function() {
-        var control, camera, scene, renderer, container, intersects;
+        var controls, camera, scene, renderer, container, intersects;
+        circles = [];
 
         // Set up canvas dimensions
-        var width = window.innerWidth;
-        var height = window.innerHeight - 45;
+        var width = 1000;
+        var height = window.innerHeight;
 
         // Set up planets/sun textures
         var texloader = new THREE.TextureLoader();
         var explocolor = texloader.load('/static/images/star.png');
+        var gascolor = texloader.load('/static/images/redgas.png');
         var texture = texloader.load('/static/images/plutomap2k.jpg');
         var bump = texloader.load('/static/images/plutobump2k.jpg');
 
@@ -36,9 +40,15 @@
           // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
           // 3. Near – This is the distance at which the camera will start rendering scene objects.
           // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
-          camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 3000);
-          camera.position.set(0, - 50, 75);
+          camera = new THREE.PerspectiveCamera(75, width/height, 50, 1000);
+          camera.position.set(0, 0, 100);
           scene.add(camera);
+
+          // Set up camera controls (using Orbit)
+          controls = new THREE.OrbitControls( camera );
+          controls.rotateSpeed = 1;
+          controls.minDistance = 100;
+          controls.maxDistance = 500;
 
           // Create the WebGL renderer and append it to the DOM bia the body element
           renderer = new THREE.WebGLRenderer({alpha: true});
@@ -63,97 +73,132 @@
             vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
             fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
           });
-          var star = new THREE.Mesh(geometry, starmaterial);
+          star = new THREE.Mesh(geometry, starmaterial);
           scene.add( star );
           pointLight = new THREE.PointLight( 0xffffff );
           scene.add( pointLight );
           pointLight.add( star );
 
-          // create and add three planets to the stellar system
+          // Create and add three planets to the stellar system
           geometry = new THREE.SphereGeometry(3.08, 15, 15);
           var material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
-          var planet1 = new THREE.Mesh(geometry, material);
+          planet1 = new THREE.Mesh(geometry, material);
           scene.add(planet1);
           planet1.position.set(0, 18, 0);
 
-          geometry = new THREE.SphereGeometry(3.06, 15, 15);
-          material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
-          var planet2 = new THREE.Mesh(geometry, material);
+          planetmaterial = new THREE.ShaderMaterial({
+            uniforms: { 
+              tExplosion: {
+                type: "t", 
+                value: gascolor
+              },
+              time: { // float initialized to 0
+                type: "f", 
+                value: 0.0 
+              }
+            },
+          vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
+          fragmentShader: document.getElementById( 'gas-fragmentShader' ).textContent
+          });
+          geometry = new THREE.IcosahedronGeometry( 3.16, 5 );
+          planet2 = new THREE.Mesh( geometry, planetmaterial );
           scene.add(planet2);
           planet2.position.set(0, 30, 0);
 
-          geometry = new THREE.SphereGeometry(3.41, 15, 15);
-          material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 1  });
-          var planet3 = new THREE.Mesh(geometry, material);
+          material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 0.02 });
+          geometry = new THREE.SphereGeometry( 3.4, 15, 15 );
+          planet3 = new THREE.Mesh( geometry, material );
           scene.add(planet3);
           planet3.position.set(0, 50, 0);
-
-          var t = 0;
-          var y1 = planet1.position.y;
-          var y2 = planet2.position.y;
-          var y3 = planet3.position.y;
-          var x = planet1.position.x;
-
-          function render() {
-            var launch = Date.now();
-            requestAnimationFrame(render);
-            starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
-            t += 0.01;
-            star.rotation.z += 0.005;
-            planet1.rotation.z += 0.03;
-            planet2.rotation.z += 0.04;
-            planet3.rotation.z += 0.05;
-
-            planet1.position.y = y1 * Math.cos(t) + x * Math.sin(t);
-            planet1.position.x = x * Math.cos(t) - y1 * Math.sin(t);
-
-            planet2.position.y = y2 * Math.cos(t * 0.5) + x * Math.sin(t * 0.5);
-            planet2.position.x = x * Math.cos(t * 0.5) - y2 * Math.sin(t * 0.5);
-
-            planet3.position.y = y3 * Math.cos(t * 1.2) + x * Math.sin(t * 1.2);
-            planet3.position.x = x * Math.cos(t * 1.2) - y3 * Math.sin(t * 1.2);
             
-            var material = new THREE.MeshBasicMaterial({
-              color: 0x0000ff,
-              wireframe: true
-            });
+          t = 0;
+          y1 = planet1.position.y;
+          y2 = planet2.position.y;
+          y3 = planet3.position.y;
+          x = planet1.position.x;
+          launch = Date.now();
 
-            var segments = 64;
-            material = new THREE.LineBasicMaterial( { color: 0xF0C400 } ),
+          var material = new THREE.MeshBasicMaterial({
+            color: 0x0000ff,
+            wireframe: true
+          });
 
-            geometry = new THREE.CircleGeometry( 18, segments );
-            geometry.vertices.shift();
-            var circle = new THREE.Line(geometry, material);
-            scene.add(circle);
+          var segments = 64;
+          material = new THREE.LineBasicMaterial( { color: 0xF0C400 } );
 
-            geometry = new THREE.CircleGeometry( 30, segments );
-            geometry.vertices.shift();
-            var circle = new THREE.Line(geometry, material);
-            scene.add(circle);
+          geometry = new THREE.CircleGeometry( 18, segments );
+          geometry.vertices.shift();
+          var circle = new THREE.Line(geometry, material);
+          circles.push(circle);
+          scene.add(circle);
 
-            geometry = new THREE.CircleGeometry( 50, segments );
-            geometry.vertices.shift();
-            var circle = new THREE.Line(geometry, material);
-            scene.add(circle);
+          geometry = new THREE.CircleGeometry( 30, segments );
+          geometry.vertices.shift();
+          circle = new THREE.Line(geometry, material);
+          circles.push(circle);
+          scene.add(circle);
 
-            controls = new THREE.OrbitControls( camera );
+          geometry = new THREE.CircleGeometry( 50, segments );
+          geometry.vertices.shift();
+          circle = new THREE.Line(geometry, material);
+          circles.push(circle);
+          scene.add(circle);
+          animate();
+    
+        }
 
-            renderer.render(scene, camera);
-          }
+        function animate() {
+          requestAnimationFrame(animate);
+          starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
+          t += 0.01;
+          star.rotation.z += 0.005;
+          planet1.rotation.z += 0.03;
+          planet2.rotation.z += 0.04;
+          planet3.rotation.z += 0.05;
 
-          render();
+          planet1.position.y = y1 * Math.cos(t) + x * Math.sin(t);
+          planet1.position.x = x * Math.cos(t) - y1 * Math.sin(t);
+
+          planet2.position.y = y2 * Math.cos(t * 0.5) + x * Math.sin(t * 0.5);
+          planet2.position.x = x * Math.cos(t * 0.5) - y2 * Math.sin(t * 0.5);
+
+          planet3.position.y = y3 * Math.cos(t * 1.2) + x * Math.sin(t * 1.2);
+          planet3.position.x = x * Math.cos(t * 1.2) - y3 * Math.sin(t * 1.2);
+
+          renderer.render(scene, camera);
+          controls.update();
+
         }
 
         // Make the planets clickable (for now, it alerts the coordinates)
-        document.addEventListener('click', onDocumentMouseClick, false);
+        document.addEventListener('dblclick', onDocumentMouseClick, false);
         function onDocumentMouseClick() {
           event.preventDefault();
           grabPlanets();
-
           if (intersects.length > 0) {
             alert(intersects[0].object);
           }
+          if (intersects.length == 0) {
+            console.log(camera.position);
+            if (camera.position.z == 75) { camera.position.set(0, 75, 0); }
+            else if (Math.round(camera.position.y) == 75) { camera.position.set(0, -60, 60); }
+            else { camera.position.set(0, 0, 75); }
+          }
+
         }
+
+        // Deactivate orbit controls when interacting with the panel
+        $('.sidebar').on('mouseenter', function() {
+          controls.enabled = false;
+          skybox_controls.enabled = false;
+          circles.map(function(circle){circle.visible = false});
+        });
+
+        $('.sidebar').on('mouseleave', function() {
+          controls.enabled = true;
+          skybox_controls.enabled = true;
+          circles.map(function(circle){circle.visible = true});
+        });
 
         // Register the targeted planet with click events
         function grabPlanets() {

@@ -1,4 +1,5 @@
-  var camera, scene, renderer, stats;
+  var camera, scene, renderer;
+  var fov = 25;
   var texloader = new THREE.TextureLoader();
 
   var sky_bk = texloader.load( '/static/images/skybox/bluenebulaBK.png' );
@@ -18,19 +19,20 @@
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     //field_of_view, aspect_ratio, near_clip, far_clip
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 20000);
-    camera.position.set(0, 100, 200);
+    camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 50, 10000);
+    camera.position.set(0, 0, 3000);
+    // camera.target = new THREE.Vector3( -30, 0, 0 );
     camera.lookAt(scene.position);
     scene.add( camera );
 
     // helps keep track of skybox side when testing
-    var axes = new THREE.AxisHelper(100);
-    scene.add(axes);
+    // var axes = new THREE.AxisHelper(100);
+    // scene.add(axes);
 
     // camera movement
     skybox_controls = new THREE.OrbitControls( camera );
-      skybox_controls.minDistance = 100;
-      skybox_controls.maxDistance = 1000;
+      skybox_controls.minDistance = 3000;
+      skybox_controls.maxDistance = 4000;
 
     //box sides
     var materialArray = [];

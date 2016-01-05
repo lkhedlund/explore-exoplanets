@@ -9,6 +9,7 @@
       var container, stats;
       var camera, scene, renderer, controls;
       var texloader = new THREE.TextureLoader();
+      var fov = 25;
       var texture = texloader.load('/static/images/plutomap2k.jpg');
       var bump = texloader.load('/static/images/plutobump2k.jpg');
 
@@ -18,15 +19,16 @@
         //set up scene and camera
         container = document.getElementById( 'space_container' );
         scene = new THREE.Scene();
-        renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 10000);
-        camera.position.z = 1;
+        renderer = new THREE.WebGLRenderer({alpha: true});
+        renderer.setClearColor( 0xffffff, 0);
+        renderer.setSize(1000, window.innerHeight);
+        camera = new THREE.PerspectiveCamera(fov, 1000/ window.innerHeight, 50, 10000);
+        camera.position.z = 100;
         scene.add( camera );
         //control camera
         controls = new THREE.OrbitControls( camera );
-        controls.minDistance = 1;
-        controls.maxDistance = 2000;
+        controls.minDistance = 100;
+        controls.maxDistance = 400;
         //light
         var amlight = new THREE.AmbientLight( 0x888888 )
         scene.add( amlight );
@@ -35,7 +37,7 @@
         scene.add( dirlight );
         //rockyplanet
         var material = new THREE.MeshPhongMaterial({ map: texture, bumpMap: bump, bumpScale: 0.02 });
-        var geometry = new THREE.SphereGeometry( 0.5, 32, 32 );
+        var geometry = new THREE.SphereGeometry( 20, 32, 32 );
         var rockyplanet = new THREE.Mesh( geometry, material );
         scene.add(rockyplanet);
     
@@ -45,7 +47,7 @@
       
       function animate() {
         requestAnimationFrame(animate);
-        controls.update;
+        controls.update();
         renderer.render( scene, camera );
       }
     });

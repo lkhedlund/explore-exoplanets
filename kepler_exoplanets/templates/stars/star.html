@@ -59,10 +59,12 @@
         scene.add(star);
 
         var spriteMaterial = new THREE.SpriteMaterial({ 
-            map: glow,transparent: false, blending: THREE.AdditiveBlending
+            map: glow,
+            color: 0xFF6600,
+            transparent: false, blending: THREE.AdditiveBlending
         });
           sprite = new THREE.Sprite( spriteMaterial );
-          sprite.scale.set(8, 8, 8);
+          sprite.scale.set(70, 70, 70);
           star.add(sprite);        
 
         container.appendChild( renderer.domElement );

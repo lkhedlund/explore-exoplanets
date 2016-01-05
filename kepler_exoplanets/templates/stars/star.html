@@ -22,15 +22,15 @@
         scene = new THREE.Scene();
         renderer = new THREE.WebGLRenderer({alpha: true});
         renderer.setClearColor( 0xffffff, 0);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 50, 10000);
-        camera.position.z = 50;
-        // camera.target = new THREE.Vector3( 0, 0, 0 );
+        renderer.setSize(1000, window.innerHeight);
+        camera = new THREE.PerspectiveCamera(fov, 1000/ window.innerHeight, 50, 10000);
+        camera.position.set(0, 0, 100);
+        camera.target = new THREE.Vector3( -30, 0, 0 );
         scene.add( camera );
         //move the camera around
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 100;
-        controls.maxDistance = 2000;
+        controls.maxDistance = 400;
         //light
         var amlight = new THREE.AmbientLight( 0x888888 )
         scene.add( amlight );
@@ -53,7 +53,8 @@
           fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
         });
         var geometry = new THREE.IcosahedronGeometry( 20, 5 );
-        var star = new THREE.Mesh( geometry, starmaterial );
+         var star = new THREE.Mesh( geometry, starmaterial );
+         star.position.set(0,0,0)
         scene.add(star);
 
         container.appendChild( renderer.domElement );

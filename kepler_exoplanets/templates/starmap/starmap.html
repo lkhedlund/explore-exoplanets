@@ -9,7 +9,7 @@
       var controls, camera, scene, renderer, container, intersects;
 
       // Set up canvas dimensions
-      var width = window.innerWidth;
+      var width = 1000;
       var height = window.innerHeight;
 
       // Set up tools for hover and click events
@@ -29,7 +29,7 @@
         // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
         // 3. Near – This is the distance at which the camera will start rendering scene objects.
         // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
-        camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 10000);
+        camera = new THREE.PerspectiveCamera(75, width/height, 50, 10000);
         camera.position.set(0, 0, 2600);
         scene.add(camera);
 
@@ -39,8 +39,7 @@
         controls.maxDistance = 2600;
         controls.enableRotate = false;
         controls.enablePan = false;
-        skybox_controls.minDistance = 200;
-        skybox_controls.maxDistance = 2600;
+        skybox_controls.minDistance = 1000;
         skybox_controls.enableRotate = false;
         skybox_controls.enablePan = false;
 

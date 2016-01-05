@@ -51,7 +51,7 @@ def bluegas_planet(request):
     return render(request, 'planets/_gasblueplanet.html')
 
 def habitable_planet(request):
-    return render(request, 'planets/_habitable.html')
+    return render(request, 'planets/_habitableplanet.html')
 
 def rocky_planet(request):
     return render(request, 'planets/_rockyplanet.html')

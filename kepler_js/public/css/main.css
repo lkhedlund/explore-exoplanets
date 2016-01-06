@@ -110,7 +110,7 @@ div.jumbo {
 /* FORMATTING FOR THE LOADING PAGE */
 
 /* LOADING CONTAINER */
-.loading {
+.loading.no-js {
   font-family: sans-serif;
   color: white;
   position: fixed;
@@ -150,8 +150,8 @@ div.jumbo {
 .ufo.light {
   background-image: url('../images/ufoLight.png');
   opacity: 0;
-  -webkit-animation: 4s ease-in-out infinite normal running;
-  animation: 4s ease-in-out infinite normal running;
+  -webkit-animation: 2s ease-in-out infinite normal running;
+  animation: 2s ease-in-out infinite normal running;
   -webkit-animation-name: beam;
   animation-name: beam;
 }
@@ -171,8 +171,8 @@ div.jumbo {
   opacity: 0;
   height: 60px;
   width: 60px;
-  -webkit-animation: 4s ease-in-out infinite normal running;
-  animation: 4s ease-in-out infinite normal running;
+  -webkit-animation: 8s ease-in-out infinite normal run;
+  animation: 8s ease-in-out infinite normal;
   -webkit-animation-name: abducted;
   animation-name: abducted;
 }
@@ -183,20 +183,20 @@ div.jumbo {
 
 .faces.lars {
   background-image: url('../images/lars.png');
-  -webkit-animation-delay: 1s;
-  animation-delay: 1s;
-}
-
-.faces.anita {
-  background-image: url('../images/anita.png');
   -webkit-animation-delay: 2s;
   animation-delay: 2s;
 }
 
+.faces.anita {
+  background-image: url('../images/anita.png');
+  -webkit-animation-delay: 4s;
+  animation-delay: 4s;
+}
+
 .faces.fabien {
   background-image: url('../images/fabien.png');
-  -webkit-animation-delay: 3s;
-  animation-delay: 3s;
+  -webkit-animation-delay: 6s;
+  animation-delay: 6s;
 }
 
 @keyframes abducted {
@@ -205,17 +205,17 @@ div.jumbo {
     right: -130px;
     bottom: 15px;
   }
-  20% {
+  5% {
     opacity: 1;
   }
-  50% {
+  12% {
     opacity: 0.5;
     right: 70px;
     bottom: 15px;
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
-  90% {
+  23% {
     right: 70px;
     bottom: 200px;
     -webkit-transform: rotate(360deg);

@@ -11,7 +11,7 @@
       var camera, scene, renderer, controls;
       var fov = 25;
       var texloader = new THREE.TextureLoader();
-      var explocolor = texloader.load('/static/images/redgas.png');
+      var redexplocolor = texloader.load('/static/images/redgas.png');
       var start = Date.now()
 
       init();
@@ -42,7 +42,7 @@
           uniforms: {
             tExplosion: {
               type: "t",
-              value: explocolor
+              value: redexplocolor
             },
             time: { // float initialized to 0
               type: "f",
@@ -58,13 +58,14 @@
 
         container.appendChild( renderer.domElement );
         animate();
-      }
 
-      function animate() {
-        requestAnimationFrame(animate);
-        planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
-        controls.update();
-        renderer.render( scene, camera );
+        function animate() {
+          requestAnimationFrame(animate);
+          planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
+          gasplanet.rotateY(2/1000)
+          controls.update();
+          renderer.render( scene, camera );
+        }
       }
     });
 

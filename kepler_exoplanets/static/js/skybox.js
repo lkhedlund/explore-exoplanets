@@ -42,7 +42,7 @@
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_dn }));
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_rt }));
       materialArray.push(new THREE.MeshBasicMaterial( { map: sky_lf }));
-      
+
     for (var i = 0; i < 6; i++){
        materialArray[i].side = THREE.BackSide;
     }

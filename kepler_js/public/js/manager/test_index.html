@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="../../css/main.css" />
+</head>
+<body>
+<script id="index-html" type="text/html">
+  <div class="page page-index">
+    <h1>Index page</h1>
+    <button id="go-to-starmap">Go to star map</button>
+  </div>
+</script>
+<script id="starmap-html" type="text/html">
+  <div class="page page-starmap">
+    <h1>Star map</h1>
+    <button id="go-to-index">Go to index</button>
+  </div>
+</script>
+<script src="manager.js"></script>
+<script src="indexPage.js"></script>
+<script src="starmapPage.js"></script>
+<script>
+  window.StateManager.init();
+</script>
+</body>
+</html>

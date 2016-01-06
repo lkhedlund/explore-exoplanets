@@ -1,4 +1,6 @@
-.error{
+/*Starmap*/
+
+.starmap {
 	opacity: 0;
 	transition: 0.6s;
 	pointer-events: none;
@@ -8,10 +10,25 @@
 	width: 100%;
 }
 
-.error.visible{
+.starmap.visible {
 	opacity: 1;
 }
 
-.error h3{
+/*Error Page*/
+.error {
+	opacity: 0;
+	transition: 0.6s;
+	pointer-events: none;
+	position: absolute;
+	left: 0;
+	top: 100px;
+	width: 100%;
+}
+
+.error.visible {
+	opacity: 1;
+}
+
+.error h3 {
 	font-size: 40px;
 }

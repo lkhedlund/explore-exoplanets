@@ -19,8 +19,12 @@
 
     <div id="space_container">
 
-      <div class="starmap page"></div>
-      <div class="system page"></div>
+      <div class="starmap page">
+        <script src="public/js/starmap/starmap.js"></script>
+      </div>
+      <div class="system page">
+
+      </div>
       <div class="planet page"></div>
       <div class="star page"></div>
 
@@ -42,13 +46,6 @@
       <div class="loading-text">LOADING...</div>
     </div> -->
 
-    <script src="public/js/starmap/starmap.js"></script>
-    <!-- <script>
-    $(function() {
-      $.getJSON("data.min.json", function(data) {
-        starmap(data);
-      });
-    });
-    </script> -->
+    <script src="public/js/state_manager.js"></script>
   </body>
 </html>

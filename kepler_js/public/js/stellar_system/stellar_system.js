@@ -10,8 +10,8 @@ $(function() {
   var texloader = new THREE.TextureLoader();
   var explocolor = texloader.load('/static/images/star.png');
   var gascolor = texloader.load('/static/images/redgas.png');
-  var texture = texloader.load('/static/images/plutomap2k.jpg');
-  var bump = texloader.load('/static/images/plutobump2k.jpg');
+  var texture = texloader.load('/static/images/rocky.jpg');
+  var bump = texloader.load('/static/images/rockybump.jpg');
 
   // Set up tools for hover and click events
   var raycaster = new THREE.Raycaster();

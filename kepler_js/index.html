@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Load CSS -->
     <link rel="stylesheet" href="public/css/normalize.css">
     <link rel="stylesheet" href="public/css/skeleton.css">
     <link rel="stylesheet" href="public/css/main.css">
     <link rel="stylesheet" href="public/css/manager.css">
-
-
+    <!-- Load libraries -->
     <script src="public/js/jquery-2.1.4.min.js"></script>
     <script src="public/js/handlebars.js"></script>
     <script src="public/js/three.min.js"></script>
     <script src="public/js/OrbitControls.js"></script>
     <script src="public/js/skybox.js"></script>
-
     <title>Kepler</title>
   </head>
   <body>
@@ -23,10 +22,14 @@
         <script src="public/js/starmap/starmap.js"></script>
       </div>
       <div class="system page">
-
+        <script src="public/js/system/system.js"></script>
       </div>
-      <div class="planet page"></div>
-      <div class="star page"></div>
+      <div class="planet page">
+        <script src="public/js/planets/rocky.js"></script>
+      </div>
+      <div class="star page">
+        <script src="public/js/stars/star.js"></script>
+      </div>
 
       <div class="error page">
         <h3>No aliens here. Try again!</h3>

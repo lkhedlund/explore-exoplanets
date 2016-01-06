@@ -1,11 +1,11 @@
-var planet = function planet() {
+var planet = function() {
   console.log("Load within planet...")
   var container;
   var camera, scene, renderer, controls;
   var group;
   var texloader = new THREE.TextureLoader();
-  var texture = texloader.load('../../images/rocky.jpg');
-  var bump = texloader.load('../../images/plutobump2k.jpg');
+  var texture = texloader.load('public/images/rocky.jpg');
+  var bump = texloader.load('public/images/plutobump2k.jpg');
 
   init();
 
@@ -51,4 +51,4 @@ var planet = function planet() {
     controls.update;
     renderer.render( scene, camera );
   }
-});
+};

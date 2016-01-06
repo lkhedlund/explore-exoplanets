@@ -3,7 +3,7 @@ $(function() {
   var camera, scene, renderer, controls;
   var fov = 30;
   var texloader = new THREE.TextureLoader();
-  var explocolor = texloader.load('../../images/redgas.png');
+  var explocolor = texloader.load('public/images/redgas.png');
   var start = Date.now()
 
   init();
@@ -42,8 +42,8 @@ $(function() {
           value: 0.0
         }
       },
-      vertexShader: $.getScript("/script/js/planets/_gasvertex.js"),
-      fragmentShader: $.getScript("/script/js/planets/_gasfragment.js"),
+      vertexShader: $.getScript("public/js/partials/_gasvertex.js"),
+      fragmentShader: $.getScript("public/js/partials/_gasfragment.js"),
     });
     var geometry = new THREE.IcosahedronGeometry( 20, 5 );
     var gasplanet = new THREE.Mesh( geometry, planetmaterial );

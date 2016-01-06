@@ -1,5 +1,4 @@
 /*Starmap*/
-
 .starmap {
 	opacity: 0;
 	transition: 0.6s;
@@ -11,6 +10,21 @@
 }
 
 .starmap.visible {
+	opacity: 1;
+}
+
+/*Stellar System*/
+.system {
+	opacity: 0;
+	transition: 0.6s;
+	pointer-events: none;
+	position: absolute;
+	left: 0;
+	top: 100px;
+	width: 100%;
+}
+
+.system.visible {
 	opacity: 1;
 }
 

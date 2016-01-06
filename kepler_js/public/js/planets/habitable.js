@@ -2,8 +2,8 @@ $(function() {
   var container, stats;
   var camera, scene, renderer, controls;
   var texloader = new THREE.TextureLoader();
-  var texture = texloader.load('../../images/plutomap2k.jpg');
-  var bump = texloader.load('../../images/plutobump2k.jpg');
+  var texture = texloader.load('public/images/plutomap2k.jpg');
+  var bump = texloader.load('public/images/plutobump2k.jpg');
 
   init();
 

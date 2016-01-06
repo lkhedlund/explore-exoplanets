@@ -1,9 +1,9 @@
-$(function() {
+var star = function() {
   var container, stats;
   var camera, scene, renderer, controls;
   var fov = 25;
   var texloader = new THREE.TextureLoader();
-  var explocolor = texloader.load('../images/star.png');
+  var explocolor = texloader.load('public/images/star.png');
   var start = Date.now();
 
   init();
@@ -44,8 +44,8 @@ $(function() {
           value: 0.0
         }
       },
-      vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
-      fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
+      vertexShader: $.getScript("public/js/partials/_starvertex.js"),
+      fragmentShader: $.getScript("public/js/partials/_starfragment.js"),
     });
     var geometry = new THREE.IcosahedronGeometry( 20, 5 );
     var star = new THREE.Mesh( geometry, starmaterial );
@@ -61,4 +61,4 @@ $(function() {
     controls.update();
     renderer.render( scene, camera );
   }
-});
+};

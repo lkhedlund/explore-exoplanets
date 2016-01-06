@@ -1,4 +1,4 @@
-$(function() {
+var system = function() {
   var control, camera, scene, renderer, container, intersects;
 
   // Set up canvas dimensions
@@ -7,9 +7,9 @@ $(function() {
 
   // Set up planets/sun textures
   var texloader = new THREE.TextureLoader();
-  var explocolor = texloader.load('../images/star.png');
-  var texture = texloader.load('../images/plutomap2k.jpg');
-  var bump = texloader.load('../images/plutobump2k.jpg');
+  var explocolor = texloader.load('public/images/star.png');
+  var texture = texloader.load('public/images/plutomap2k.jpg');
+  var bump = texloader.load('public/images/plutobump2k.jpg');
 
   // Set up tools for hover and click events
   var raycaster = new THREE.Raycaster();
@@ -58,8 +58,8 @@ $(function() {
         }
       },
 
-      vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
-      fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
+      vertexShader: $.getScript("public/js/partials/_starvertex.js"),
+      fragmentShader: $.getScript("public/js/partials/_starfragment.js"),
     });
     var star = new THREE.Mesh(geometry, starmaterial);
     scene.add(star);
@@ -161,4 +161,4 @@ $(function() {
     raycaster.setFromCamera(mouse, camera);
     intersects = raycaster.intersectObjects(scene.children, true);
   };
-});
+};

@@ -20,9 +20,35 @@ $(function () {
 
     var map = {
       // Homepage: route ''
-      '':function() {
+      '': function() {
         renderStarmapPage(keplerData);
       },
+
+      '#system': function() {
+        // Grab the id after the '#system' keyword
+        // pk = url.split("#system/")[1].trim();
+
+        //NOTE: PK set to 1 for testing
+        pk = 1;
+        renderSystemPage(pk,keplerData);
+      },
+      '#planet': function() {
+        // Grab the id after the '#system' keyword
+        // pk = url.split("#system/")[1].trim();
+
+        //NOTE: PK set to 1 for testing
+        pk = 1;
+        renderPlanetPage(pk,keplerData);
+      },
+      '#star': function() {
+        // Grab the id after the '#system' keyword
+        // pk = url.split("#system/")[1].trim();
+
+        //NOTE: PK set to 1 for testing
+        pk = 1;
+        renderStarPage(pk,keplerData);
+      },
+
     };
 
     if (map[temp]) {
@@ -37,6 +63,24 @@ $(function () {
     page.addClass('visible');
     starmap(data);
   };
+
+  function renderPlanetPage(pk, data) {
+    var page = $('.planet');
+    page.addClass('visible');
+    planet();
+  }
+
+  function renderStarPage(pk, data) {
+    var page = $('.star');
+    page.addClass('visible');
+    star();
+  }
+
+  function renderSystemPage(pk, data) {
+    var page = $('.system');
+    page.addClass('visible');
+    system();
+  }
 
   function renderErrorPage() {
     var page = $('.error');

@@ -1,9 +1,8 @@
-$(function() {
+var bluegas = function() {
   var container;
   var camera, scene, renderer, controls;
   var fov = 25;
   var start = Date.now()
-
   init();
 
   function init(){
@@ -34,25 +33,25 @@ $(function() {
 
     //gasplanet
     planetmaterial = new THREE.ShaderMaterial({
-      uniforms: { 
+      uniforms: {
         tExplosion: {
-          type: "t", 
+          type: "t",
           value: Textures.blueexplocolor
         },
         time: { // float initialized to 0
-          type: "f", 
-          value: 0.0 
+          type: "f",
+          value: 0.0
         }
       },
-      vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
-      fragmentShader: document.getElementById( 'gas-fragmentShader' ).textContent
+      vertexShader: $.getScript("public/js/partials/_gasvertex.js"),
+      fragmentShader: $.getScript("public/js/partials/_gasfragment.js"),
     });
 
     var geometry = new THREE.IcosahedronGeometry( 20, 5 );
     var gasplanet = new THREE.Mesh( geometry, planetmaterial );
     scene.add(gasplanet);
 
-    
+
     container.appendChild( renderer.domElement );
     animate();
 
@@ -64,4 +63,4 @@ $(function() {
       renderer.render( scene, camera );
     }
   }
-});
+};

@@ -1,4 +1,4 @@
-$(function() {
+var star = function() {
   var container, stats;
   var camera, scene, renderer, controls;
   var fov = 25;
@@ -39,22 +39,22 @@ $(function() {
           value: 0.0
         }
       },
-      vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
-      fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
+      vertexShader: $.getScript("public/js/partials/_starvertex.js"),
+      fragmentShader: $.getScript("public/js/partials/_starfragment.js"),
     });
     var geometry = new THREE.IcosahedronGeometry( 20, 5 );
     var star = new THREE.Mesh( geometry, starmaterial );
     star.position.set(0,0,0)
     scene.add(star);
 
-    var spriteMaterial = new THREE.SpriteMaterial({ 
+    var spriteMaterial = new THREE.SpriteMaterial({
         map: Textures.glow,
         color: 0xFF6600,
         transparent: false, blending: THREE.AdditiveBlending
     });
       sprite = new THREE.Sprite( spriteMaterial );
       sprite.scale.set(70, 70, 70);
-      star.add(sprite);        
+      star.add(sprite);
 
     container.appendChild( renderer.domElement );
     animate();
@@ -74,4 +74,4 @@ $(function() {
     controls.update();
     renderer.render( scene, camera );
   }
-});
+};

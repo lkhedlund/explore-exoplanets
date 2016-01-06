@@ -1,4 +1,4 @@
-$(function() {
+var habitable = function() {
   var container;
   var camera, scene, renderer, controls;
   var fov = 25;
@@ -41,4 +41,4 @@ $(function() {
       renderer.render( scene, camera );
     }
   }
-});
+};

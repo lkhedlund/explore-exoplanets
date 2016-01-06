@@ -1,4 +1,4 @@
-$(function() {
+var system = function() {
   var controls, camera, scene, renderer, container, intersects;
   circles = [];
 
@@ -9,7 +9,7 @@ $(function() {
   // Set up tools for hover and click events
   var raycaster = new THREE.Raycaster();
   var mouse = new THREE.Vector2(), INTERSECTED;
-  
+
   start();
 
   function start(){
@@ -49,7 +49,7 @@ $(function() {
     for (planet where planet.star = star.pk in planets) {
       selectPlanet(planet);
     }
-      
+
 
   //   t = 0;
   //   y1 = planet1.position.y;
@@ -87,19 +87,19 @@ $(function() {
   function addStar(star) {
     var geometry = new THREE.IcosahedronGeometry( star.stellar_radius * 10, 5 );
     starmaterial = new THREE.ShaderMaterial({
-      uniforms: { 
+      uniforms: {
         tExplosion: {
-          type: "t", 
+          type: "t",
           value: Textures.sunexplocolor
         },
         time: { // float initialized to 0
-          type: "f", 
-          value: 0.0 
+          type: "f",
+          value: 0.0
         }
       },
 
-      vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
-      fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
+      vertexShader: $.getScript("public/js/partials/_starvertex.js"),
+      fragmentShader: $.getScript("public/js/partials/_starfragment.js"),
     });
     star = new THREE.Mesh( geometry, starmaterial );
     scene.add( star );
@@ -120,8 +120,8 @@ $(function() {
       if (planet.surface_temp > 273 && planet.surface_temp < 373) {
         addHabitable(planet);
       }
-      else { 
-        addRocky(planet); 
+      else {
+        addRocky(planet);
       }
     }
   }
@@ -129,14 +129,14 @@ $(function() {
   // add Red Gas Planet
   function addRed(planet) {
     redMaterial = new THREE.ShaderMaterial({
-      uniforms: { 
+      uniforms: {
         tExplosion: {
-          type: "t", 
+          type: "t",
           value: Textures.redexplocolor
         },
         time: {
-          type: "f", 
-          value: 0.0 
+          type: "f",
+          value: 0.0
         }
       },
     vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
@@ -152,14 +152,14 @@ $(function() {
   // add Blue Gas Planet
   function addBlue(planet) {
     blueMaterial = new THREE.ShaderMaterial({
-      uniforms: { 
+      uniforms: {
         tExplosion: {
-          type: "t", 
+          type: "t",
           value: Textures.blueexplocolor
         },
         time: {
-          type: "f", 
-          value: 0.0 
+          type: "f",
+          value: 0.0
         }
       },
     vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
@@ -242,4 +242,4 @@ $(function() {
     raycaster.setFromCamera(mouse, camera);
     intersects = raycaster.intersectObjects(scene.children, true);
   };
-});
+};

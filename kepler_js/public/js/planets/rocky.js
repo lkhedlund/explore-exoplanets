@@ -1,4 +1,4 @@
-$(function() {
+var planet = function() {
   var container;
   var camera, scene, renderer, controls;
   var fov = 25;
@@ -45,4 +45,4 @@ $(function() {
       renderer.render( scene, camera );
     }
   }
-});
+};

@@ -10,8 +10,6 @@
       var container, stats;
       var camera, scene, renderer, controls;
       var fov = 25;
-      var texloader = new THREE.TextureLoader();
-      var blueexplocolor = texloader.load('/static/images/bluegas.png');
       var start = Date.now()
 
       init();
@@ -47,7 +45,7 @@
           uniforms: { 
             tExplosion: {
               type: "t", 
-              value: blueexplocolor
+              value: Textures.blueexplocolor
             },
             time: { // float initialized to 0
               type: "f", 

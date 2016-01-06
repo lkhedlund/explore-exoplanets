@@ -2,8 +2,6 @@ $(function() {
   var container, stats;
   var camera, scene, renderer, controls;
   var fov = 25;
-  var texloader = new THREE.TextureLoader();
-  var redexplocolor = texloader.load('/public/images/redgas.png');
   var start = Date.now()
 
   init();
@@ -34,7 +32,7 @@ $(function() {
       uniforms: {
         tExplosion: {
           type: "t",
-          value: redexplocolor
+          value: Textures.redexplocolor
         },
         time: { // float initialized to 0
           type: "f",

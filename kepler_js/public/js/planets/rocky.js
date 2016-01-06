@@ -1,13 +1,7 @@
-var planet = function planet() {
-  console.log("Load within planet...")
 $(function() {
   var container;
   var camera, scene, renderer, controls;
   var fov = 25;
-  var texloader = new THREE.TextureLoader();
-  var rockytexture = texloader.load('/static/images/rocky.jpg');
-  var rockybump = texloader.load('/static/images/rockybump.jpg');
-
   init();
 
   function init(){
@@ -35,7 +29,7 @@ $(function() {
     scene.add( dirlight );
 
     //rockyplanet
-    var material = new THREE.MeshPhongMaterial({ map: rockytexture, bumpMap: rockybump, bumpScale: 0.70 });
+    var material = new THREE.MeshPhongMaterial({ map: Texture.rockytexture, bumpMap: Texture.rockybump, bumpScale: 0.70 });
     var geometry = new THREE.SphereGeometry( 20, 32, 32 );
     var rockyplanet = new THREE.Mesh( geometry, material );
     scene.add(rockyplanet);

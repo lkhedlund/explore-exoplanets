@@ -10,8 +10,8 @@
       var container, stats;
       var camera, scene, renderer, controls;
       var fov = 25;
-      var texloader = new THREE.TextureLoader();
-      var redexplocolor = texloader.load('/static/images/redgas.png');
+      // var texloader = new THREE.TextureLoader();
+      // var redexplocolor = texloader.load('/static/images/redgas.png');
       var start = Date.now()
 
       init();
@@ -42,7 +42,7 @@
           uniforms: {
             tExplosion: {
               type: "t",
-              value: redexplocolor
+              value: Textures.redexplocolor
             },
             time: { // float initialized to 0
               type: "f",

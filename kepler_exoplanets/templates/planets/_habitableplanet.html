@@ -6,12 +6,9 @@
   <script type="text/javascript">
 
     $(function() {
-      var container, stats;
+      var container;
       var camera, scene, renderer, controls;
-      var texloader = new THREE.TextureLoader();
       var fov = 25;
-      var habitabletexture = texloader.load('/static/images/habitableplanet.png');
-      var habitablebump = texloader.load('/static/images/habitableplanetbump.png');
 
       init();
 
@@ -36,7 +33,7 @@
         dirlight.position.set(10,3,5)
         scene.add( dirlight );
         //rockyplanet
-        var material = new THREE.MeshPhongMaterial({ map: habitabletexture, bumpMap: habitablebump, bumpScale: 0.50 });
+        var material = new THREE.MeshPhongMaterial({ map: Textures.habitabletexture, bumpMap: Textures.habitablebump, bumpScale: 0.50 });
         var geometry = new THREE.SphereGeometry( 20, 32, 32 );
         var habitableplanet = new THREE.Mesh( geometry, material );
         scene.add(habitableplanet);

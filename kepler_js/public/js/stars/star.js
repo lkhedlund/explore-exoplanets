@@ -2,9 +2,6 @@ $(function() {
   var container, stats;
   var camera, scene, renderer, controls;
   var fov = 25;
-  var texloader = new THREE.TextureLoader();
-  var explocolor = texloader.load('/public/images/star.png');
-  var glow = texloader.load( '/public/images/glow.png' );
   var start = Date.now();
 
   init();
@@ -35,7 +32,7 @@ $(function() {
       uniforms: {
         tExplosion: {
           type: "t",
-          value: explocolor
+          value: Textures.sunexplocolor
         },
         time: { // float initialized to 0
           type: "f",
@@ -51,7 +48,7 @@ $(function() {
     scene.add(star);
 
     var spriteMaterial = new THREE.SpriteMaterial({ 
-        map: glow,
+        map: Textures.glow,
         color: 0xFF6600,
         transparent: false, blending: THREE.AdditiveBlending
     });

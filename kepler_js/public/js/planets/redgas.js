@@ -1,7 +1,9 @@
 $(function() {
-  var container, stats;
+  var container;
   var camera, scene, renderer, controls;
   var fov = 25;
+  // var texloader = new THREE.TextureLoader();
+  // var redexplocolor = texloader.load('/static/images/redgas.png');
   var start = Date.now()
 
   init();

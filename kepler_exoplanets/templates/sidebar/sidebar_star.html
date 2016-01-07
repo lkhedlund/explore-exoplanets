@@ -1,7 +1,5 @@
-<!-- FIXME: star name is currently a planet name. Take out last character -->
-
 <div class='sidebar'>
-  <h3>{{ name }}</h3>
+  <h3 class='starname'></h3>
   <div>
     Star name: {{ star.star_designation }}<br>
     Coordinates in sky:<br>
@@ -9,6 +7,7 @@
     &nbsp; &raquo; &nbsp; Declination {{ star.declination }}&#176;<br>
     Number of planets: {{ planets|length }} <br>
 
+    <!-- STATS TABLE -->
     <table>
       <thead>
         <tr>
@@ -16,7 +15,7 @@
         </tr>
         <tr>
           <th></th>
-          <th>{{ name }}</th>
+          <th class='starname'></th>
           <th>Sun</th>
         </tr>
       </thead>
@@ -40,15 +39,16 @@
     </table>
   </div>
 
-  <div class='button'>
-    Return To Stellar System
-  </div>
+  <!-- BUTTON TO RETURN TO SYSTEM -->
+  <a href="{% url 'stellar_system' star.pk %}">
+    <div class='button'>Return To System</div>
+  </a>
 </div>
 
 <script>
-
-  $('.button').on('click', function() {
-    alert('You clicked the button');
+  $(function() {
+    name = "{{ name }}";
+    name = name.slice(0, -2);
+    $('.starname').text(name);
   });
-
 </script>

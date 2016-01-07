@@ -1,11 +1,12 @@
 $(function() {
-  var container;
+  var container, winResize;
   var camera, scene, renderer, controls;
   var fov = 25;
   var start = Date.now();
 
   // Set up canvas dimensions
-  var width = 1500;
+  var windowwidth = window.innerWidth;
+  var width = windowwidth * 0.66667;
   var height = window.innerHeight;
 
   init();
@@ -21,6 +22,8 @@ $(function() {
     camera.position.z = 100;
     camera.target = new THREE.Vector3( 0, 0, 0 );
     scene.add( camera );
+    //resizes canvas when window is 
+    winResize   = new THREEx.WindowResize(renderer, camera);
     //move the camera around
     controls = new THREE.OrbitControls( camera );
     controls.minDistance = 100;

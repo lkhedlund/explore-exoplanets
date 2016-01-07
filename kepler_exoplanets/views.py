@@ -35,6 +35,7 @@ def planet(request, planet_id):
     orbital_period = 15 if planet.orbital_period is None else planet.orbital_period
     return render(request, 'planets/planet.html', {
         'planet': planet, 
+        'star_id': star_id,
         'celsius': celsius, 
         'orbital_period': orbital_period
     })

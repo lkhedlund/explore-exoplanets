@@ -12,7 +12,6 @@
 
   <!-- STATS TABLE TO COMPARE EXOPLANET WITH EARTH -->
   <div>
-
     <table>
       <thead>
         <tr>
@@ -49,16 +48,8 @@
     </table>
   </div>
 
-  <div class='button'>
-    Return To Stellar System
-  </div>
-
+  <!-- BUTTON TO RETURN TO SYSTEM -->
+  <a href="{% url 'stellar_system' star_id %}">
+    <div class='button'>Return To System</div>
+  </a>
 </div>
-
-<script>
-
-  $('.button').on('click', function() {
-    alert('You clicked the button');
-  });
-
-</script>

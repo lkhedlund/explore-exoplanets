@@ -33,9 +33,9 @@ div.jumbo {
 }
 
 #space_container {
-  position: absolute;
-  left: -200px;
-  height: 700px;
+  position: fixed;
+  left: 0px;
+  height: 1000px;
   width: 100%;
   z-index: 2;
 }

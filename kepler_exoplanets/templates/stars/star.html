@@ -20,8 +20,8 @@
         scene = new THREE.Scene();
         renderer = new THREE.WebGLRenderer({alpha: true});
         renderer.setClearColor( 0xffffff, 0);
-        renderer.setSize(1000, window.innerHeight);
-        camera = new THREE.PerspectiveCamera(fov, 1000/ window.innerHeight, 50, 10000);
+        renderer.setSize(1500, window.innerHeight);
+        camera = new THREE.PerspectiveCamera(fov, 1500/ window.innerHeight, 50, 10000);
         camera.position.set(0, 0, 100);
         camera.target = new THREE.Vector3( -30, 0, 0 );
         scene.add( camera );

@@ -12,3 +12,7 @@ var Textures = (function() {
   }
   return api;
 })();
+
+var Planet = (function() {
+
+})();  

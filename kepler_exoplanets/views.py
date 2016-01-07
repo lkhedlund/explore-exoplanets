@@ -26,7 +26,7 @@ def planet(request, planet_id):
     planet = Planet.objects.get(pk=planet_id)
     star_id = planet.star.pk
     celsius = planet.surface_temp - 273
-    orbital_period = round(planet.orbital_period)
+    orbital_period = 15 if planet.orbital_period is None else planet.orbital_period
     return render(request, 'planets/planet.html', {
         'planet': planet, 
         'celsius': celsius, 

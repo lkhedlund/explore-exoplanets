@@ -1,9 +1,14 @@
 <div class='sidebar'>
-  <h5>Kepler-104 System</h5>
+  <h5>{{ planets.first }} System</h5>
   <div>
-    # planets in system: <br>
-    # gas planets: <br>
-    # rocky planets: <br>
+    Total planets in this star system: {{ planets|length }}<br>
+    {% if habitable %}
+      Rocky planets: {{rocky|length }}<br>
+      &nbsp; &raquo; &nbsp; <b>{{ habitable|length }} is habitable!</b>
+    {% else %}
+      Rocky planets: {{rocky|length }} 
+    {% endif %}<br>
+    Gas planets: {{ gas|length }}<br>
   </div>
   
   <!-- TOGGLE SWITCH FOR LABELS -->
@@ -39,16 +44,11 @@
     <input type='range' name='slider-1' id='slider-1' value='60' min='0' max='100' step='10'>
   </div>
 
-  <div class='button'>
-    Return To Starmap
-  </div>
-
+  <!-- BUTTON TO RETURN TO STARMAP -->
+  <a href="{% url 'starmap' %}">
+    <div class='button'>Return To Starmap</div>
+  </a>
 </div>
 
 <script>
-
-  $('.button').on('click', function() {
-    alert('You clicked the button');
-  });
-
 </script>

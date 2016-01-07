@@ -31,7 +31,7 @@ $(function() {
     scene.add( dirlight );
     //habitableplanet
     var material = new THREE.MeshPhongMaterial({ map: Textures.habitabletexture, bumpMap: Textures.habitablebump, bumpScale: 0.50 });
-    var geometry = new THREE.SphereGeometry( 20, 32, 32 );
+    var geometry = new THREE.SphereGeometry( 10, 32, 32 );
     var habitableplanet = new THREE.Mesh( geometry, material );
     scene.add(habitableplanet);
 

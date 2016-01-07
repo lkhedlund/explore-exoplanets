@@ -52,7 +52,7 @@ $(function() {
       fragmentShader: document.getElementById( 'gas-fragmentShader' ).textContent
     });
 
-    var geometry = new THREE.IcosahedronGeometry( 20, 5 );
+    var geometry = new THREE.IcosahedronGeometry( 15, 5 );
     var bluegasplanet = new THREE.Mesh( geometry, planetmaterial );
     scene.add(bluegasplanet);
 

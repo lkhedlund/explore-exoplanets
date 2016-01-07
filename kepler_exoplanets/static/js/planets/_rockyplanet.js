@@ -35,7 +35,7 @@ $(function() {
 
     //rockyplanet
     var material = new THREE.MeshPhongMaterial({ map: Textures.rockytexture, bumpMap: Textures.rockybump, bumpScale: 0.70 });
-    var geometry = new THREE.SphereGeometry( 20, 32, 32 );
+    var geometry = new THREE.SphereGeometry( 10, 32, 32 );
     var rockyplanet = new THREE.Mesh( geometry, material );
     scene.add(rockyplanet);
 

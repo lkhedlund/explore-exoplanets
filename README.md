@@ -7,9 +7,9 @@ You may be wondering why there are two apps here. The answer? We are ambitious. 
 
 ## Versions
 
-The Django version is [located here](/tree/master/kepler_exoplanets).
+The Django version is [located here](https://github.com/lkhedlund/explore-exoplanets/tree/master/kepler_exoplanets).
 
-The single page version is [located here](/tree/master/kepler_js).
+The single page version is [located here](https://github.com/lkhedlund/explore-exoplanets/tree/master/kepler_js).
 
 ## Which should I choose?
 

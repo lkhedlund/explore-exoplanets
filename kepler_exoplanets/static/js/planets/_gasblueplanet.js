@@ -5,7 +5,7 @@ $(function() {
   var start = Date.now();
 
   // Set up canvas dimensions
-  var width = 1500;
+  var width = 700;
   var height = window.innerHeight;
 
   init();

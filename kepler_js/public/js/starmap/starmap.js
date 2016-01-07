@@ -4,7 +4,7 @@ var starmap = function(keplerData) {
 
   // Load stars glow texture
   var texloader = new THREE.TextureLoader();
-  var glow = texloader.load( '../static/images/glow.png' );
+  var glow = texloader.load( 'public/images/glow.png' );
 
   // Set up canvas dimensions
   var width = 1000;
@@ -14,7 +14,7 @@ var starmap = function(keplerData) {
   var raycaster = new THREE.Raycaster();
   var mouse = new THREE.Vector2(), INTERSECTED;
 
-  // Create the starmap   
+  // Create the starmap
   start();
 
   function start(){
@@ -58,9 +58,11 @@ var starmap = function(keplerData) {
     // Add all the stars to the scene.
     var geometry, material, star;
 
-    {% for star in stars %}
-      createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}});
-    {% endfor %}
+    // Load star data from JSON file
+    for (var i = 0; i < keplerData.length; i++) {
+      var star = keplerData[i]["fields"];
+      createStar(star.stellar_temp, star.right_ascension, star.declination, star.light_years_dist);
+    };
 
     function createStar (temp, ra, declination, ly) {
       color = star_color(temp);
@@ -69,15 +71,15 @@ var starmap = function(keplerData) {
       star = new THREE.Mesh(geometry, material);
       scene.add(star);
       star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
-    
+
       // Star glow (using sprites)
-      var spriteMaterial = new THREE.SpriteMaterial({ 
-        map: glow, 
+      var spriteMaterial = new THREE.SpriteMaterial({
+        map: glow,
         color: color, transparent: false, blending: THREE.AdditiveBlending
       });
       sprite = new THREE.Sprite( spriteMaterial );
       sprite.scale.set(8, 8, 8);
-      star.add(sprite);        
+      star.add(sprite);
     }
 
     animate();
@@ -188,4 +190,4 @@ var starmap = function(keplerData) {
   $('#star-slider').on('click', function() {
     camera.position.set(0, 0, dist.value);
   });
-});
+};

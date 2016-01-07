@@ -1,6 +1,7 @@
 $(function () {
   // Global Variable
   var keplerData = [];
+  var currentScript = [];
   // On page load
   $.getJSON("data.min.json", function(data) {
     keplerData = data;

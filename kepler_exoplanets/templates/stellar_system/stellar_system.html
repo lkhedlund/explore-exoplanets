@@ -10,11 +10,12 @@
   <div id="space_container"></div> 
     <script type="text/javascript">
       $(function() {
-        var controls, camera, scene, renderer, container, intersects;
+        var controls, camera, scene, renderer, container, intersects,winResize;
   circles = [];
 
   // Set up canvas dimensions
-  var width = 1500;
+  var windowwidth = window.innerWidth;
+  var width = windowwidth * 0.66667;
   var height = window.innerHeight;
 
   // Set up planets/sun textures
@@ -34,9 +35,11 @@
     //Scene creation
     scene = new THREE.Scene();
     container = document.getElementById( 'space_container' );
+    //resizes canvas when window is
+    winResize = new THREEx.WindowResize(renderer, camera);
 
     // PerspectiveCamera creation and Set up. Parameters
-    // 1. FOV – We’re using 45 degrees for our field of view.
+    // 1. FOV – We’re using 60 degrees for our field of view.
     // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
     // 3. Near – This is the distance at which the camera will start rendering scene objects.
     // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.

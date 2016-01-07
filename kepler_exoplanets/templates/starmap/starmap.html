@@ -6,11 +6,12 @@
     <script>
 
     $(function() {
-      var controls, camera, scene, renderer, container, intersects;
+      var controls, camera, scene, renderer, container, intersects, winresize;
       var texloader = new THREE.TextureLoader();
       var glow = texloader.load( '../static/images/glow.png' );
       // Set up canvas dimensions
-      var width = 1500;
+      var windowwidth = window.innerWidth;
+      var width = windowwidth * 0.66667;
       var height = window.innerHeight;
 
       // Set up tools for hover and click events
@@ -24,6 +25,8 @@
         //Scene creation
         scene = new THREE.Scene();
         container = document.getElementById( 'space_container' );
+        //resizes canvas when window is
+        winResize = new THREEx.WindowResize(renderer, camera);
 
         // PerspectiveCamera creation and Set up. Parameters
         // 1. FOV – We’re using 45 degrees for our field of view.
@@ -128,15 +131,7 @@
         }
 
       }
-
-      // Create an event listener that resizes the renderer with the browser window.
-      window.addEventListener('resize', function() {
-        width = window.innerWidth,
-        height = window.innerHeight;
-        renderer.setSize(width, height);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-      });
+      
 
       // Deactivate trackball controlls when interacting with the panel
       $('.sidebar').on('mouseenter', function() {

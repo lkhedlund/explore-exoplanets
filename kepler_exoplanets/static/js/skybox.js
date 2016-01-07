@@ -1,4 +1,4 @@
-  var camera, scene, renderer;
+  var camera, scene, renderer,winresize;
   var fov = 25;
   var texloader = new THREE.TextureLoader();
 
@@ -53,6 +53,15 @@
 
     document.body.appendChild( renderer.domElement );
     animate();
+
+    //
+    window.addEventListener('resize', function() {
+      width = window.innerWidth,
+      height = window.innerHeight;
+      renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    });
   }
 
   function animate() {

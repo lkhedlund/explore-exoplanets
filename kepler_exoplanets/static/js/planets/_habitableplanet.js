@@ -4,7 +4,8 @@ $(function() {
   var fov = 25;
 
   // Set up canvas dimensions
-  var width = 1500;
+  var windowwidth = window.innerWidth;
+  var width = windowwidth * 0.66667;
   var height = window.innerHeight;
 
   init();

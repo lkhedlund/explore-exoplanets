@@ -1,4 +1,4 @@
-$(function() {
+var redgas = function() {
   var container;
   var camera, scene, renderer, controls;
   var fov = 25;
@@ -41,8 +41,8 @@ $(function() {
           value: 0.0
         }
       },
-      vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
-      fragmentShader: document.getElementById( 'gas-fragmentShader' ).textContent
+      vertexShader: $.getScript("public/js/partials/_gasvertex.js"),
+      fragmentShader: $.getScript("public/js/partials/_gasfragment.js"),
     });
     var geometry = new THREE.IcosahedronGeometry( 20, 5 );
     var gasplanet = new THREE.Mesh( geometry, planetmaterial );
@@ -59,4 +59,4 @@ $(function() {
       renderer.render( scene, camera );
     }
   }
-});
+};

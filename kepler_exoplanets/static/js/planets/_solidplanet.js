@@ -32,8 +32,8 @@ var solidPlanet = function(radius, textureType, textureBump, textureScale) {
     //habitableplanet
     var material = new THREE.MeshPhongMaterial({
       //NOTE: Previously Textures.habitabletexture and Textures.habitablebump
-      map: Textures.textureType,
-      bumpMap: Textures.textureBump,
+      map: textureType,
+      bumpMap: textureBump,
       bumpScale: textureScale });
     var geometry = new THREE.SphereGeometry( 10, 32, 32 );
     var solid_planet = new THREE.Mesh( geometry, material );
@@ -45,7 +45,7 @@ var solidPlanet = function(radius, textureType, textureBump, textureScale) {
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
-      habitableplanet.rotateY(2/1000);
+      solid_planet.rotateY(2/1000);
       //resizes canvas when window is
       winResize = new THREEx.WindowResize(renderer, camera);
       renderer.render( scene, camera );

@@ -39,7 +39,7 @@ var gasPlanet = function(radius, textureColour) {
         tExplosion: {
           type: "t",
           //NOTE: Previously Textures.blueexplocolor or Textures.redexplocolor
-          value: Textures.textureColour
+          value: textureColour
         time: { // float initialized to 0
           type: "f",
           value: 0.0
@@ -60,7 +60,7 @@ var gasPlanet = function(radius, textureColour) {
     function animate() {
       requestAnimationFrame(animate);
       planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
-      bluegasplanet.rotateY(2/1000);
+      gas_planet.rotateY(2/1000);
       controls.update();
       //resizes canvas when window is
       winResize = new THREEx.WindowResize(renderer, camera);

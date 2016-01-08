@@ -1,6 +1,9 @@
 <div class='sidebar'>
   <h3>Welcome To Kepler!</h3>
   <div>
+    <p id='infoBox'>Kepler is a NASA satellite whose mission is to discover exoplanets - planets which orbit stars other than our own. The discoveries made bring us one step closer to discovering life out in the universe. Come explore with us...</p>
+  </div>
+  <div>
     Stars observed with exoplanets: {{ stars|length }}<br>
     Planets discovered by Kepler: {{ planets|length }}<br>
     {% if habitable %}
@@ -12,29 +15,21 @@
 
   <!-- DROPDOWN MENU FOR FILTERING OPTIONS -->
   <div>
-    <label for='select-choice-min' class='select'>Stars of Interest</label>
+    <label for='select-choice-min' class='select' style='margin-top: 20px'>Stars of Interest</label>
     <select class='toggleStyle' name='select-choice-min' id='select-choice-min' data-mini='true'>
        <option>Show All (default)</option>
        <option>Stars with 5+ planets</option>
        <option>Stars with habitable planets</option>
        <option>White Stars (hotter)</option>
        <option>Red Stars (cooler)</option>
-    </select>
-  </div>
-
-  <!-- ON/OFF TOGGLE FOR LABELS -->
-  <div>
-    <label for='flip-1'>Labels</label>
-    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
-      <option value='off'>Off</option>
-      <option value='on'>On</option>
+       <option>Anything else we can think of</option>
     </select>
   </div>
 
   <!-- SLIDER FOR MOVEMENT -->
   <div>
     <label for='star-slider'>Distance from Earth (light years)</label>
-    <div id='star-slider'></div>
+    <div id='star-slider' style='margin: 10px 100px 30px 0px'></div>
 <!--     <input oninput='outputUpdate(value)'></div>
     <output for='star-slider' id='dist'>500</output> -->
   </div>

@@ -48,8 +48,7 @@
 
         // Set up camera controls (using Orbit)
         controls = new THREE.OrbitControls( camera );
-        controls.rotateSpeed = 1;
-        controls.minDistance = 0;
+        controls.minDistance = 100;
         controls.maxDistance = 500;
 
         // Create the WebGL renderer and append it to the DOM bia the body element

@@ -1,8 +1,7 @@
 {% extends "main/base.html" %}
-  {% block content %}
-  {% include 'sidebar/sidebar_starmap.html' %}
+{% block content %}
+{% include 'sidebar/sidebar_starmap.html' %}
   <div id="space_container"></div>
-
     <script>
 
     $(function() {
@@ -65,6 +64,7 @@
         {% endfor %}
 
         animate();
+
       }
 
       function animate() {

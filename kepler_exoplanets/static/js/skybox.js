@@ -1,4 +1,4 @@
-  var skybox_camera, scene, renderer,winresize;
+  var skybox_camera, scene, renderer,skybox, skybox_controls;
   var fov = 25;
   var texloader = new THREE.TextureLoader();
 
@@ -29,9 +29,9 @@
     // scene.add(axes);
 
     // camera movement
-      skybox_controls = new THREE.OrbitControls( skybox_camera );
-      skybox_controls.minDistance = 3000;
-      skybox_controls.maxDistance = 4000;
+    skybox_controls = new THREE.OrbitControls( skybox_camera );
+    skybox_controls.minDistance = 3000;
+    skybox_controls.maxDistance = 4000;
 
     //box sides
     var materialArray = [];
@@ -53,7 +53,6 @@
     document.body.appendChild( renderer.domElement );
     animate();
 
-    //
     window.addEventListener('resize', function() {
       width = window.innerWidth;
       height = window.innerHeight;
@@ -67,5 +66,8 @@
       skybox.rotateY(-0.5/1000);
       renderer.render( scene, skybox_camera );
     }
+    window.skybox_camera = skybox_camera;
+    window.skybox = skybox;
+    window.skybox_controls = skybox_controls;
   }
 });

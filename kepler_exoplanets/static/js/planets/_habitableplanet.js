@@ -2,7 +2,6 @@ $(function() {
   var container,winResize;
   var camera, scene, renderer, controls;
   var fov = 25;
-
   // Set up canvas dimensions
   var windowwidth = window.innerWidth;
   var width = windowwidth * 0.66667;

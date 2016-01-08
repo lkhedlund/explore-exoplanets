@@ -20,7 +20,8 @@
 
         var planets = [],
             initialY = [],
-            speed = [];
+            speed = [],
+            paths = [];
 
     
         // Set up canvas dimensions
@@ -67,7 +68,8 @@
       
         // Create and add planets to the stellar system
         {% for planet in planets %}
-            selectPlanet({{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }});
+            var url = "{% url 'planet' planet.pk %}";
+            selectPlanet({{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
             initialY.push({{ planet.semimajor_axis }});
             speed.push({{ planet.orbital_period }})
         {% endfor %} 
@@ -112,24 +114,24 @@
         };
 
         // select which type of planet to add
-        function selectPlanet(size, temp, distance) {
+        function selectPlanet(size, temp, distance, url) {
           distance = distance * 2;
           if  (temp > 273 && temp < 373) {
-            addHabitable(size, distance);
+            addHabitable(size, distance, url);
            }
           else if (size > 4) {
-            addRed(size, distance);
+            addRed(size, distance, url);
           }
           else if (size > 2) {
-            addBlue(size, distance);
+            addBlue(size, distance, url);
           }
           else {
-              addRocky(size, distance);
+              addRocky(size, distance, url);
             }
         };
 
         // add Red Gas Planet
-        function addRed(size, distance) {
+        function addRed(size, distance, path) {
           redMaterial = new THREE.ShaderMaterial({
             uniforms: {
               tExplosion: {
@@ -147,13 +149,14 @@
           geometry = new THREE.IcosahedronGeometry( size, 5 );
           planet = new THREE.Mesh( geometry, redMaterial );
           scene.add(planet);
+          paths[planet.id] = path;
           planets.push(planet);
           planet.position.set(0, distance * 100, 0);
           addCircle(distance * 100);
         }
 
         // add Blue Gas Planet
-        function addBlue(size, distance) {
+        function addBlue(size, distance, path) {
           blueMaterial = new THREE.ShaderMaterial({
             uniforms: {
               tExplosion: {
@@ -171,28 +174,31 @@
           geometry = new THREE.IcosahedronGeometry( size, 5 );
           planet = new THREE.Mesh( geometry, blueMaterial );
           scene.add(planet);
+          paths[planet.id] = path;
           planets.push(planet);
           planet.position.set(0, distance * 100, 0);
           addCircle(distance * 100)
         }
 
         // add rocky planet
-        function addRocky(size, distance) {
+        function addRocky(size, distance, path) {
           geometry = new THREE.SphereGeometry(size, 15, 15);
           rockyMaterial = new THREE.MeshPhongMaterial({ map: Textures.rockytexture, bumpMap: Textures.rockybump, bumpScale: 1  });
           planet = new THREE.Mesh(geometry, rockyMaterial);
           scene.add(planet);
+          paths[planet.id] = path;
           planets.push(planet);
           planet.position.set(0, distance * 100, 0);
           addCircle(distance * 100)
         }
 
         // add habitable planet
-        function addHabitable(size, distance) {
+        function addHabitable(size, distance, path) {
           geometry = new THREE.SphereGeometry(size, 15, 15);
           habitableMaterial = new THREE.MeshPhongMaterial({ map: Textures.habitabletexture, bumpMap: Textures.habitablebump, bumpScale: 1  });
           planet = new THREE.Mesh(geometry, habitableMaterial);
           scene.add(planet);
+          paths[planet.id] = path;
           planets.push(planet);
           planet.position.set(0, distance * 100, 0);
           addCircle(distance * 100)
@@ -215,17 +221,20 @@
         }
 
         // Make the planets clickable (for now, it alerts the coordinates)
-        document.addEventListener('dblclick', onDocumentMouseClick, false);
+        document.addEventListener('click', onDocumentMouseClick, false);
         function onDocumentMouseClick() {
           event.preventDefault();
           grabPlanets();
           if (intersects.length > 0) {
-            alert(intersects[0].object);
-          }
-          if (intersects.length == 0) {
-            if (camera.position.z == 75) { camera.position.set(0, 75, 0); }
-            else if (Math.round(camera.position.y) == 75) { camera.position.set(0, -60, 60); }
-            else { camera.position.set(0, 0, 75); }
+            clickedPlanet = intersects[0].object;
+            console.log(clickedPlanet.id);
+            if (clickedPlanet.id == 6) {
+              window.location = "{% url 'star' star.pk %}";
+            }
+            else if (clickedPlanet.id % 2 == 1)
+            {
+              window.location = paths[clickedPlanet.id];
+            }
           }
         }
 

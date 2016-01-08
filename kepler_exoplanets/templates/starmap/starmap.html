@@ -7,8 +7,6 @@
 
     $(function() {
       var controls, camera, scene, renderer, container, intersects, winResize;
-      var texloader = new THREE.TextureLoader();
-      var glow = texloader.load( '../static/images/glow.png' );
       // Set up canvas dimensions
       var windowwidth = window.innerWidth;
       var width = windowwidth * 0.66667;
@@ -55,8 +53,6 @@
         // renderer.setClearColor( 0x000000, 0 );
         container.appendChild(renderer.domElement);
         renderer.render(scene,camera);
-        //resizes canvas when window is
-        // winResize = new THREEx.WindowResize(renderer, camera);
 
         // Add 300 spheres to the scene. Random size, random positioning
         var geometry, material, star;
@@ -81,21 +77,21 @@
       }
 
       function createStar (temp, ra, declination, ly, path) {
-          color = star_color(temp);
-          geometry = new THREE.SphereGeometry(1, 15, 15);
-          material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
-          star = new THREE.Mesh(geometry, material);
-          scene.add(star);
-          star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
-          stars[star.id - 1] = path;
-          // Star glow (using sprites)
-          var spriteMaterial = new THREE.SpriteMaterial({
-            map: glow,
-            color: color, transparent: false, blending: THREE.AdditiveBlending
-          });
-          sprite = new THREE.Sprite( spriteMaterial );
-          sprite.scale.set(8, 8, 8);
-          star.add(sprite);
+        color = star_color(temp);
+        geometry = new THREE.SphereGeometry(1, 15, 15);
+        material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
+        star = new THREE.Mesh(geometry, material);
+        scene.add(star);
+        star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
+        stars[star.id - 1] = path;
+        // Star glow (using sprites)
+        var spriteMaterial = new THREE.SpriteMaterial({
+          map: Textures.glow,
+          color: color, transparent: false, blending: THREE.AdditiveBlending
+        });
+        sprite = new THREE.Sprite( spriteMaterial );
+        sprite.scale.set(8, 8, 8);
+        star.add(sprite);
       }
 
       // EVENT LISTENERS
@@ -170,7 +166,6 @@
         raycaster.setFromCamera(mouse, camera);
         intersects = raycaster.intersectObjects(scene.children, true);
       };
-
 
       // Button on sidebar to reset camera
       $('#camera-reset').on('click', function() {

@@ -18,7 +18,7 @@ $(function() {
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setClearColor( 0xffffff, 0);
     renderer.setSize(width, height);
-    camera = new THREE.PerspectiveCamera( fov, width/ height, 50, 10000 );
+    camera = new THREE.PerspectiveCamera(fov, width/ height, 50, 10000 );
     camera.position.z = 100;
     scene.add( camera );
     //move the camera around

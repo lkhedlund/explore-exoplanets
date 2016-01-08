@@ -17,12 +17,14 @@ def starmap(request):
 def stellar_system(request, system_id):
     star = get_object_or_404(Star, pk=system_id)
     planets = star.planets.all()
+    name = planets.first
     gas = planets.filter(planet_radius__gt=2)
     rocky = planets.filter(planet_radius__lte=2)
     habitable = rocky.filter(surface_temp__gte=273, surface_temp__lt=373)
     return render(request, 'stellar_system/stellar_system.html', {
         'star': star,
         'planets': planets, 
+        'name': name,
         'gas': gas,
         'rocky': rocky, 
         'habitable': habitable

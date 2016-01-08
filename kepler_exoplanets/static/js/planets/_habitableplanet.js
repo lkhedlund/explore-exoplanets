@@ -1,5 +1,5 @@
 $(function() {
-  var container;
+  var container,winResize;
   var camera, scene, renderer, controls;
   var fov = 25;
 
@@ -43,6 +43,8 @@ $(function() {
       requestAnimationFrame(animate);
       controls.update();
       habitableplanet.rotateY(2/1000);
+      //resizes canvas when window is
+      winResize = new THREEx.WindowResize(renderer, camera);
       renderer.render( scene, camera );
     }
   }

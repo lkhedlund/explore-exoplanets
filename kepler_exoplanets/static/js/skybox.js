@@ -1,4 +1,4 @@
-  var camera, scene, renderer,winresize;
+  var skybox_camera, scene, renderer,winresize;
   var fov = 25;
   var texloader = new THREE.TextureLoader();
 
@@ -19,17 +19,17 @@
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     //field_of_view, aspect_ratio, near_clip, far_clip
-    camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 50, 10000);
-    camera.position.set(0, 0, 3000);
-    camera.lookAt(scene.position);
-    scene.add( camera );
+    skybox_camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 50, 10000);
+    skybox_camera.position.set(0, 0, 3000);
+    skybox_camera.lookAt(scene.position);
+    scene.add( skybox_camera );
 
     // helps keep track of skybox side when testing
     // var axes = new THREE.AxisHelper(100);
     // scene.add(axes);
 
     // camera movement
-    skybox_controls = new THREE.OrbitControls( camera );
+      skybox_controls = new THREE.OrbitControls( skybox_camera );
       skybox_controls.minDistance = 3000;
       skybox_controls.maxDistance = 4000;
 
@@ -58,13 +58,13 @@
       width = window.innerWidth;
       height = window.innerHeight;
       renderer.setSize(width, height);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
+      skybox_camera.aspect = width / height;
+      skybox_camera.updateProjectionMatrix();
     });
-  }
 
-  function animate() {
-    requestAnimationFrame(animate);
-    renderer.render( scene, camera );
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render( scene, skybox_camera );
+    }
   }
 });

@@ -18,11 +18,9 @@ $(function() {
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setClearColor( 0xffffff, 0);
     renderer.setSize(width, height);
-    camera = new THREE.PerspectiveCamera( fov, width/ height, 50, 10000 );
+    camera = new THREE.PerspectiveCamera(fov, width/ height, 50, 10000 );
     camera.position.z = 100;
     scene.add( camera );
-    //resizes canvas when window is
-    winResize   = new THREEx.WindowResize( renderer, camera );
     //move the camera around
     controls = new THREE.OrbitControls( camera );
     controls.minDistance = 100;
@@ -64,6 +62,8 @@ $(function() {
       planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
       bluegasplanet.rotateY(2/1000);
       controls.update();
+      //resizes canvas when window is
+      winResize = new THREEx.WindowResize(renderer, camera);
       renderer.render( scene, camera );
     }
   }

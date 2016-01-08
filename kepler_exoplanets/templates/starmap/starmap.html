@@ -85,6 +85,8 @@
           document.getElementById('infoBox').innerHTML = infobox;
         }
 
+        $("#dist").text(Math.round(3000 - camera.position.z) + " LY");
+        $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
         winResize = new THREEx.WindowResize(renderer, camera);
         renderer.render(scene,camera);
       }
@@ -135,11 +137,11 @@
       }
 
       // Deactivate trackball controlls when interacting with the panel
-      $('.sidebar').on('mouseenter', function() {
+      $('#sidebar').on('mouseenter', function() {
         controls.enabled = false;
         skybox_controls.enabled = false;
       });
-      $('.sidebar').on('mouseleave', function() {
+      $('#sidebar').on('mouseleave', function() {
         controls.enabled = true;
         skybox_controls.enabled = true;
       });
@@ -175,11 +177,11 @@
       // Slider on sidebar to move forwards/backwards
       $( "#star-slider" ).slider({
         animate: true,
-        max: 3000,
+        max: 2800,
+        min: 400,
         value: 500,
         slide: function( mousemove, dist) {
           camera.position.set(0, 0, 3000 - dist.value);
-          $("#dist").text($("#star-slider").val());
         }
       });
 

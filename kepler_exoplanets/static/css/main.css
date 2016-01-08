@@ -61,6 +61,11 @@ div.jumbo {
   background: transparent;
 }
 
+#dist {
+  float: right;
+  font-size: 20px;
+}
+
 #infoBox {
   text-align: justify;
   font-size: 1em;

@@ -19,7 +19,7 @@
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2(), INTERSECTED;
 
-      // Create the starmap   
+      // Create the starmap
       start();
 
       function start(){
@@ -57,7 +57,7 @@
 
         // Create the WebGL renderer and append it to the DOM bia the body element
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(width, height); 
+        renderer.setSize(width, height);
         // renderer.setClearColor( 0x000000, 0 );
         container.appendChild(renderer.domElement);
         renderer.render(scene,camera);
@@ -90,15 +90,15 @@
           star = new THREE.Mesh(geometry, material);
           scene.add(star);
           star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
-          stars[star.id] = path;
+          stars[star.id - 1] = path;
           // Star glow (using sprites)
-          var spriteMaterial = new THREE.SpriteMaterial({ 
-            map: glow, 
+          var spriteMaterial = new THREE.SpriteMaterial({
+            map: glow,
             color: color, transparent: false, blending: THREE.AdditiveBlending
           });
           sprite = new THREE.Sprite( spriteMaterial );
           sprite.scale.set(8, 8, 8);
-          star.add(sprite);        
+          star.add(sprite);
       }
 
       // EVENT LISTENERS
@@ -126,7 +126,7 @@
         grabPlanets();
         if (intersects.length > 0) {
           clickedPlanet = intersects[0].object;
-          console.log(stars[clickedPlanet.id -1]);
+          console.log(stars[clickedPlanet.id]);
         }
 
       }

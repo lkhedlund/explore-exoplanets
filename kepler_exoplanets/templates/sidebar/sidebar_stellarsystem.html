@@ -1,5 +1,5 @@
 <div class='sidebar'>
-  <h5>{{ planets.first }} System</h5>
+  <h3 class='starname'></h3>
   <div>
     Total planets in this star system: {{ planets|length }}<br>
     {% if habitable %}
@@ -10,42 +10,6 @@
     {% endif %}<br>
     Gas planets: {{ gas|length }}<br>
   </div>
-  
-  <!-- TOGGLE SWITCH FOR LABELS -->
-  <div>
-    <label for='flip-1'>Labels</label>
-    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='flipswitch'>
-      <option value='off'>Off</option>
-      <option value='on'>On</option>
-    </select>
-  </div>
-
-  <!-- TOGGLE SWITCH FOR GRIDLINES -->
-  <div>
-    <label for='flip-1'>Orbit Gridlines</label>
-    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='flipswitch'>
-      <option value='on'>On</option>
-      <option value='off'>Off</option>
-    </select>
-  </div>
-
-  <!-- TOGGLE SWITCH FOR EARTH -->
-  <div>
-    <label for='flip-1'>Compare with Earth</label>
-    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
-      <option value='off'>Off</option>
-      <option value='on'>On</option>
-    </select>
-  </div>
-
-  <!-- TOGGLE SWITCH FOR 2D/3D -->
-  <div>
-    <label for='flip-1'>Viewing Angle</label>
-    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
-      <option value='off'>3D</option>
-      <option value='on'>2D</option>
-    </select>
-  </div>
 
   <!-- SLIDER FOR ORBIT SPEED -->
   <div>
@@ -53,8 +17,52 @@
     <input type='range' name='slider-1' id='slider-1' value='60' min='0' max='100' step='10'>
   </div>
 
+  <!-- TOGGLE SWITCH FOR 2D/3D -->
+  <div>
+    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
+      <option value='off'>3D</option>
+      <option value='on'>2D</option>
+    </select>
+    <label for='flip-1' style='display: inline;'>Viewing Angle</label>
+  </div>
+
+  <!-- TOGGLE SWITCH FOR EARTH -->
+  <div>
+    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
+      <option value='off'>Off</option>
+      <option value='on'>On</option>
+    </select>
+    <label for='flip-1' style='display: inline;'>Compare with Earth</label>
+  </div>
+  
+  <!-- TOGGLE SWITCH FOR GRIDLINES -->
+  <div>
+    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='flipswitch'>
+      <option value='on'>On</option>
+      <option value='off'>Off</option>
+    </select>
+    <label for='flip-1' style='display: inline;'>Orbit Gridlines</label>
+  </div>
+
+  <!-- TOGGLE SWITCH FOR LABELS -->
+  <div>
+    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='flipswitch'>
+      <option value='off'>Off</option>
+      <option value='on'>On</option>
+    </select>
+    <label for='flip-1' style='display: inline;'>Labels</label>
+  </div>
+
   <!-- BUTTON TO RETURN TO STARMAP -->
   <a href="{% url 'starmap' %}">
     <div class='button'>Return To Starmap</div>
   </a>
 </div>
+
+<script>
+  $(function() {
+    name = "{{ name }}";
+    name = name.slice(0, -2);
+    $('.starname').text(name);
+  });
+</script>

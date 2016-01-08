@@ -1,7 +1,6 @@
 <div class='sidebar'>
-  <h5>Welcome To Kepler!</h5>
+  <h3>Welcome To Kepler!</h3>
   <div>
-    <h6>You are looking at:</h6>
     Stars observed with exoplanets: {{ stars|length }}<br>
     Planets discovered by Kepler: {{ planets|length }}<br>
     {% if habitable %}
@@ -13,11 +12,13 @@
 
   <!-- DROPDOWN MENU FOR FILTERING OPTIONS -->
   <div>
-    <label for='select-choice-min' class='select'>Filter Planets</label>
+    <label for='select-choice-min' class='select'>Stars of Interest</label>
     <select class='toggleStyle' name='select-choice-min' id='select-choice-min' data-mini='true'>
-       <option value='standard'>Show All (default)</option>
-       <option value='rush'>Habitable</option>
-       <option value='express'>Circumbinary</option>
+       <option>Show All (default)</option>
+       <option>Stars with 5+ planets</option>
+       <option>Stars with habitable planets</option>
+       <option>White Stars (hotter)</option>
+       <option>Red Stars (cooler)</option>
     </select>
   </div>
 
@@ -33,8 +34,9 @@
   <!-- SLIDER FOR MOVEMENT -->
   <div>
     <label for='star-slider'>Distance from Earth (light years)</label>
-    <input type='range' id='star-slider' value='500' min='0' max='3000' step='1' oninput='outputUpdate(value)'>
-    <output for='star-slider' id='dist'>500</output>
+    <div id='star-slider'></div>
+<!--     <input oninput='outputUpdate(value)'></div>
+    <output for='star-slider' id='dist'>500</output> -->
   </div>
 
   <div class='button' id='camera-reset'>

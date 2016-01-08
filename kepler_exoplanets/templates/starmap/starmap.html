@@ -170,13 +170,19 @@
       // Button on sidebar to reset camera
       $('#camera-reset').on('click', function() {
         camera.position.set(0, 0, controls.maxDistance);
-        document.querySelector('#star-slider').value = controls.maxDistance;
-        document.querySelector('#dist').value = controls.maxDistance;
+        document.querySelector('#star-slider').value = 0;
+        document.querySelector('#dist').value = 0;
       });
 
       // Slider on sidebar to move forwards/backwards
-      $('#star-slider').on('click', function() {
-        camera.position.set(0, 0, dist.value);
+      $( "#star-slider" ).slider({
+        animate: true,
+        max: 3000,
+        value: 500,
+        slide: function( mousemove, dist) {
+          camera.position.set(0, 0, 3000 - dist.value);
+          $("#dist").text($("#star-slider").val());
+        }
       });
 
     });

@@ -6,12 +6,17 @@ def index(request):
 
 def starmap(request):
     stars = Star.objects.all().order_by('pk')
+    # Check for stars with habitable planets
+    habitable = []
+    for star in stars:
+        has_habitable = star.planets.all().filter(surface_temp__gte=273, surface_temp__lt=373)
+        if has_habitable.count() > 0:
+            habitable.append(star)
     planets = Planet.objects.all().order_by('pk')
-    habitable = planets.filter(surface_temp__gte=273, surface_temp__lt=373)
     return render(request, 'starmap/starmap.html', {
         'stars': stars,
         'planets': planets,
-        'habitable': habitable
+        'habitable': habitable,
     })
 
 def stellar_system(request, system_id):

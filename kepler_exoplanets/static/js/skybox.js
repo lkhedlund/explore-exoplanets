@@ -21,7 +21,6 @@
     //field_of_view, aspect_ratio, near_clip, far_clip
     camera = new THREE.PerspectiveCamera(fov, window.innerWidth/ window.innerHeight, 50, 10000);
     camera.position.set(0, 0, 3000);
-    // camera.target = new THREE.Vector3( -30, 0, 0 );
     camera.lookAt(scene.position);
     scene.add( camera );
 
@@ -56,7 +55,7 @@
 
     //
     window.addEventListener('resize', function() {
-      width = window.innerWidth,
+      width = window.innerWidth;
       height = window.innerHeight;
       renderer.setSize(width, height);
       camera.aspect = width / height;

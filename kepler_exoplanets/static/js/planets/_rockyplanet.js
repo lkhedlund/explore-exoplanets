@@ -23,19 +23,16 @@ $(function() {
     scene.add( camera );
     //resizes canvas when window is
     winResize   = new THREEx.WindowResize(renderer, camera);
-
     // control camera
     controls = new THREE.OrbitControls( camera );
     controls.minDistance = 100;
     controls.maxDistance = 400;
-
     //light
     var amlight = new THREE.AmbientLight( 0x888888 )
     scene.add( amlight );
     var dirlight = new THREE.DirectionalLight( 0xcccccc, 1 )
     dirlight.position.set(10,3,5)
     scene.add( dirlight );
-
     //rockyplanet
     var material = new THREE.MeshPhongMaterial({ map: Textures.rockytexture, bumpMap: Textures.rockybump, bumpScale: 0.70 });
     var geometry = new THREE.SphereGeometry( 10, 32, 32 );

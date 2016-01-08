@@ -20,10 +20,9 @@ $(function() {
     renderer.setSize(width, height);
     camera = new THREE.PerspectiveCamera(fov, width/ height, 50, 10000);
     camera.position.z = 100;
-    camera.target = new THREE.Vector3( 0, 0, 0 );
     scene.add( camera );
     //resizes canvas when window is 
-    winResize   = new THREEx.WindowResize(renderer, camera);
+    winResize = new THREEx.WindowResize(renderer, camera);
     //move the camera around
     controls = new THREE.OrbitControls( camera );
     controls.minDistance = 100;

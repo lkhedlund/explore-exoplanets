@@ -14,6 +14,7 @@
       var width = windowwidth * 0.66667;
       var height = window.innerHeight;
 
+      var stars = {};
       // Set up tools for hover and click events
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2(), INTERSECTED;
@@ -65,26 +66,9 @@
         var geometry, material, star;
 
         {% for star in stars %}
-          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}});
+          var url = "{% url 'stellar_system' star.pk %}";
+          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
         {% endfor %}
-
-        function createStar (temp, ra, declination, ly) {
-          color = star_color(temp);
-          geometry = new THREE.SphereGeometry(1, 15, 15);
-          material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
-          star = new THREE.Mesh(geometry, material);
-          scene.add(star);
-          star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
-        
-          // Star glow (using sprites)
-          var spriteMaterial = new THREE.SpriteMaterial({ 
-            map: glow, 
-            color: color, transparent: false, blending: THREE.AdditiveBlending
-          });
-          sprite = new THREE.Sprite( spriteMaterial );
-          sprite.scale.set(8, 8, 8);
-          star.add(sprite);        
-        }
 
         animate();
       }
@@ -97,6 +81,24 @@
 
       function render() {
         renderer.render(scene,camera);
+      }
+
+      function createStar (temp, ra, declination, ly, path) {
+          color = star_color(temp);
+          geometry = new THREE.SphereGeometry(1, 15, 15);
+          material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
+          star = new THREE.Mesh(geometry, material);
+          scene.add(star);
+          star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
+          stars[star.id] = path;
+          // Star glow (using sprites)
+          var spriteMaterial = new THREE.SpriteMaterial({ 
+            map: glow, 
+            color: color, transparent: false, blending: THREE.AdditiveBlending
+          });
+          sprite = new THREE.Sprite( spriteMaterial );
+          sprite.scale.set(8, 8, 8);
+          star.add(sprite);        
       }
 
       // EVENT LISTENERS
@@ -124,14 +126,10 @@
         grabPlanets();
         if (intersects.length > 0) {
           clickedPlanet = intersects[0].object;
-          x = clickedPlanet.position.x;
-          y = clickedPlanet.position.y;
-          z = clickedPlanet.position.z;
-          alert('Star coordinates:' + '\nx: ' + x.toFixed(2) + '\ny: ' + y.toFixed(2) + '\nz: ' + z.toFixed(2));
+          console.log(stars[clickedPlanet.id -1]);
         }
 
       }
-      
 
       // Deactivate trackball controlls when interacting with the panel
       $('.sidebar').on('mouseenter', function() {

@@ -1,28 +1,30 @@
-var bluegas = function() {
-  var container;
+$(function() {
+  var container, winResize;
   var camera, scene, renderer, controls;
   var fov = 25;
-  var start = Date.now()
+  var start = Date.now();
+
+  // Set up canvas dimensions
+  var windowwidth = window.innerWidth;
+  var width = windowwidth * 0.66667;
+  var height = window.innerHeight;
+
   init();
 
   function init(){
     //set up scene and camera
     container = document.getElementById( 'space_container' );
     scene = new THREE.Scene();
-    group = new THREE.Group();
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setClearColor( 0xffffff, 0);
-    renderer.setSize(1000, window.innerHeight);
-    camera = new THREE.PerspectiveCamera(fov, 1000/ window.innerHeight, 50, 10000);
+    renderer.setSize(width, height);
+    camera = new THREE.PerspectiveCamera( fov, width/ height, 50, 10000 );
     camera.position.z = 100;
-    camera.target = new THREE.Vector3( 0, 0, 0 );
     scene.add( camera );
-
     //move the camera around
     controls = new THREE.OrbitControls( camera );
     controls.minDistance = 100;
     controls.maxDistance = 400;
-
     //light
     var amlight = new THREE.AmbientLight( 0x888888 )
     scene.add( amlight );
@@ -32,35 +34,37 @@ var bluegas = function() {
     scene.add( dirlight );
 
     //gasplanet
-    planetmaterial = new THREE.ShaderMaterial({
-      uniforms: {
+    var planetmaterial = new THREE.ShaderMaterial({
+      uniforms: { 
         tExplosion: {
-          type: "t",
+          type: "t", 
           value: Textures.blueexplocolor
         },
         time: { // float initialized to 0
-          type: "f",
-          value: 0.0
+          type: "f", 
+          value: 0.0 
         }
       },
-      vertexShader: $.getScript("public/js/partials/_gasvertex.js"),
-      fragmentShader: $.getScript("public/js/partials/_gasfragment.js"),
+      vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
+      fragmentShader: document.getElementById( 'gas-fragmentShader' ).textContent
     });
 
-    var geometry = new THREE.IcosahedronGeometry( 20, 5 );
-    var gasplanet = new THREE.Mesh( geometry, planetmaterial );
-    scene.add(gasplanet);
+    var geometry = new THREE.IcosahedronGeometry( 15, 5 );
+    var bluegasplanet = new THREE.Mesh( geometry, planetmaterial );
+    scene.add(bluegasplanet);
 
-
+    
     container.appendChild( renderer.domElement );
     animate();
 
     function animate() {
       requestAnimationFrame(animate);
       planetmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - start );
-      gasplanet.rotateY(2/1000)
+      bluegasplanet.rotateY(2/1000);
       controls.update();
+      //resizes canvas when window is
+      winResize = new THREEx.WindowResize(renderer, camera);
       renderer.render( scene, camera );
     }
   }
-};
+});

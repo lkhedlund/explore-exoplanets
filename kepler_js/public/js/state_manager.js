@@ -1,7 +1,7 @@
 $(function () {
   // Global Variable
   var keplerData = [];
-  var currentScript = [];
+
   // On page load
   $.getJSON("data.min.json", function(data) {
     keplerData = data;
@@ -26,10 +26,7 @@ $(function () {
 
       '#system': function() {
         // Grab the id after the '#system' keyword
-        // pk = url.split("#system/")[1].trim();
-
-        //NOTE: PK set to 1 for testing
-        pk = 1;
+        pk = url.split("#system/")[1].trim();
         renderSystemPage(pk,keplerData);
       },
       '#planet': function() {
@@ -64,23 +61,33 @@ $(function () {
     starmap(data);
   };
 
-  function renderPlanetPage(pk, data) {
-    var page = $('.planet');
-    page.addClass('visible');
-    planet();
-  }
-
-  function renderStarPage(pk, data) {
-    var page = $('.star');
-    page.addClass('visible');
-    star();
-  }
-
   function renderSystemPage(pk, data) {
     var page = $('.system');
+    // Find the star at the chosen index
+    if (data.length) {
+      // Loop through each item in the JSON data and find the star
+      data.forEach(function(item) {
+        // If both a star and with a pk
+        if ((item.model === "kepler_exoplanets.star") && (item.pk == pk)) {
+          // render the system with the necessary fields
+          system(item.fields);
+        }
+      });
+    };
     page.addClass('visible');
-    system();
   }
+
+  // function renderPlanetPage(pk, data) {
+  //   var page = $('.planet');
+  //   page.addClass('visible');
+  //   planet();
+  // }
+  //
+  // function renderStarPage(pk, data) {
+  //   var page = $('.star');
+  //   page.addClass('visible');
+  //   star();
+  // }
 
   function renderErrorPage() {
     var page = $('.error');

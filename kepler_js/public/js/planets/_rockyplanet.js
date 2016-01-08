@@ -1,7 +1,12 @@
-var habitable = function() {
-  var container;
+$(function() {
+  var container,winResize;
   var camera, scene, renderer, controls;
   var fov = 25;
+
+  // Set up canvas dimensions
+  var windowwidth = window.innerWidth;
+  var width = windowwidth * 0.66667;
+  var height = window.innerHeight;
 
   init();
 
@@ -9,13 +14,14 @@ var habitable = function() {
     //set up scene and camera
     container = document.getElementById( 'space_container' );
     scene = new THREE.Scene();
+    group = new THREE.Group();
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setClearColor( 0xffffff, 0);
-    renderer.setSize(1000, window.innerHeight);
-    camera = new THREE.PerspectiveCamera(fov, 1000/ window.innerHeight, 50, 10000);
+    renderer.setSize(width, height);
+    camera = new THREE.PerspectiveCamera(fov, width/ height, 50, 10000);
     camera.position.z = 100;
     scene.add( camera );
-    //control camera
+    // control camera
     controls = new THREE.OrbitControls( camera );
     controls.minDistance = 100;
     controls.maxDistance = 400;
@@ -26,10 +32,11 @@ var habitable = function() {
     dirlight.position.set(10,3,5)
     scene.add( dirlight );
     //rockyplanet
-    var material = new THREE.MeshPhongMaterial({ map: Textures.habitabletexture, bumpMap: Textures.habitablebump, bumpScale: 0.50 });
-    var geometry = new THREE.SphereGeometry( 20, 32, 32 );
-    var habitableplanet = new THREE.Mesh( geometry, material );
-    scene.add(habitableplanet);
+    var material = new THREE.MeshPhongMaterial({ map: Textures.rockytexture, bumpMap: Textures.rockybump, bumpScale: 0.70 });
+    var geometry = new THREE.SphereGeometry( 10, 32, 32 );
+    var rockyplanet = new THREE.Mesh( geometry, material );
+    scene.add(rockyplanet);
+
 
     container.appendChild( renderer.domElement );
     animate();
@@ -37,8 +44,10 @@ var habitable = function() {
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
-      habitableplanet.rotateY(2/1000);
+      rockyplanet.rotateY(2/1000);
+      //resizes canvas when window is
+      winResize = new THREEx.WindowResize(renderer, camera);
       renderer.render( scene, camera );
     }
   }
-};
+});

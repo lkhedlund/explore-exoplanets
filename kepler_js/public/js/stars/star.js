@@ -2,6 +2,11 @@ var star = function() {
   var container, stats;
   var camera, scene, renderer, controls;
   var fov = 25;
+<<<<<<< HEAD
+=======
+  var texloader = new THREE.TextureLoader();
+  var explocolor = texloader.load('public/images/star.png');
+>>>>>>> 50d2ff1a4cf932c26275540e4bdb5956a1e417b5
   var start = Date.now();
 
   init();

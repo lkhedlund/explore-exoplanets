@@ -11,6 +11,8 @@
       var width = windowwidth * 0.66667;
       var height = window.innerHeight;
 
+      var infobox = document.getElementById('infoBox').innerHTML;
+
       var stars = {};
       // Set up tools for hover and click events
       var raycaster = new THREE.Raycaster();
@@ -58,7 +60,7 @@
 
         {% for star in stars %}
           var url = "{% url 'stellar_system' star.pk %}";
-          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
+          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
         {% endfor %}
 
         animate();
@@ -72,18 +74,32 @@
       }
 
       function render() {
+        // find intersections
+        raycaster.setFromCamera( mouse, camera );
+        var selection = raycaster.intersectObjects( scene.children );
+        if ( selection.length > 0 ) {
+          var hoverPlanet = selection[0].object;
+          document.getElementById('infoBox').innerHTML = stars[hoverPlanet.id];
+        } 
+        else {
+          document.getElementById('infoBox').innerHTML = infobox;
+        }
+
+        $("#dist").text(Math.round(3000 - camera.position.z) + " LY");
+        $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
         winResize = new THREEx.WindowResize(renderer, camera);
         renderer.render(scene,camera);
       }
 
-      function createStar (temp, ra, declination, ly, path) {
+      function createStar (temp, ra, declination, ly, path, name) {
         color = star_color(temp);
         geometry = new THREE.SphereGeometry(1, 15, 15);
         material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
         star = new THREE.Mesh(geometry, material);
         scene.add(star);
         star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
-        stars[star.id - 1] = path;
+        stars[star.id + 1] = path;
+        stars[star.id] = name;
         // Star glow (using sprites)
         var spriteMaterial = new THREE.SpriteMaterial({
           map: Textures.glow,
@@ -96,40 +112,36 @@
 
       // EVENT LISTENERS
       // Planets turn blue on mouseover (It will make them brighter)
-      document.addEventListener('mousemove', onDocumentMouseMove, false);
-      function onDocumentMouseMove() {
+      document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+      function onDocumentMouseMove( event ) {
         event.preventDefault();
-        grabPlanets();
-        if (intersects.length > 0) {
-          // stars.forEach(function(element){element.material.color.setHex(star_color())});
-          var hoverPlanet = intersects[0].object;
-          if (hoverPlanet.scale.x < 2) {
-            hoverPlanet.scale.x += 1;
-            hoverPlanet.scale.y += 1;
-            hoverPlanet.scale.z += 1;
-            render();
-          }
+        var offset = {
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
         }
+        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
       }
 
       // Make the planets clickable
       document.addEventListener('click', onDocumentMouseClick, false);
       function onDocumentMouseClick() {
         event.preventDefault();
-        grabPlanets();
-        if (intersects.length > 0) {
-          clickedPlanet = intersects[0].object;
+        raycaster.setFromCamera(mouse, camera);
+        var selection = raycaster.intersectObjects(scene.children, true);
+        if (selection.length > 0) {
+          clickedPlanet = selection[0].object;
           window.location = stars[clickedPlanet.id];
         }
-
       }
 
       // Deactivate trackball controlls when interacting with the panel
-      $('.sidebar').on('mouseenter', function() {
+      $('#sidebar').on('mouseenter', function() {
         controls.enabled = false;
         skybox_controls.enabled = false;
       });
-      $('.sidebar').on('mouseleave', function() {
+      $('#sidebar').on('mouseleave', function() {
         controls.enabled = true;
         skybox_controls.enabled = true;
       });
@@ -155,18 +167,6 @@
         }
       }
 
-      // Register the targeted planet with click events
-      function grabPlanets() {
-        var offset = {
-          x: document.getElementsByTagName("canvas")[0].offsetLeft,
-          y: document.getElementsByTagName("canvas")[0].offsetTop,
-        }
-        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
-        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
-        raycaster.setFromCamera(mouse, camera);
-        intersects = raycaster.intersectObjects(scene.children, true);
-      };
-
       // Button on sidebar to reset camera
       $('#camera-reset').on('click', function() {
         camera.position.set(0, 0, controls.maxDistance);
@@ -177,11 +177,11 @@
       // Slider on sidebar to move forwards/backwards
       $( "#star-slider" ).slider({
         animate: true,
-        max: 3000,
+        max: 2800,
+        min: 400,
         value: 500,
         slide: function( mousemove, dist) {
           camera.position.set(0, 0, 3000 - dist.value);
-          $("#dist").text($("#star-slider").val());
         }
       });
 

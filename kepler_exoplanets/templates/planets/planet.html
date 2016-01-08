@@ -4,30 +4,23 @@
 {% include 'partials/_gasfragment.html' %}
 {% include 'partials/_gasvertex.html' %}
   <div id="space_container"></div>
+  <script src='/static/js/planets/_gasplanet.js'></script>
+  <script src='/static/js/planets/_solidplanet.js'></script>
   <script type="text/javascript">
-
     $(function() {
-      //this function includes all necessary js files for the application
-      function include(file){
-        var script  = document.createElement('script');
-        script.src  = file;
-        script.type = 'text/javascript';
-        script.defer = true;
-        document.getElementsByTagName('head').item(0).appendChild(script);
-      }
-      //which planet to render based on data
+      var radius = {{planet.planet_radius}};
       {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
-        console.log('I am a habitableplanet planet');
-        include('/static/js/planets/_habitableplanet.js')
+        //Habitable Planet
+        solidPlanet(radius, Textures.habitabletexture, Textures.habitablebump, 0.50);
       {% elif planet.planet_radius < 4 and planet.planet_radius >= 2 %}
-        console.log('I am a blue gas planet');
-        include('/static/js/planets/_gasblueplanet.js');
+        // Blue Gas Planet
+        gasPlanet(radius, Textures.blueexplocolor);
       {% elif planet.planet_radius > 4 %}
-        console.log('I am a red gas planet');
-        include('/static/js/planets/_gasredplanet.js');
+        // Red Gas Planet
+        gasPlanet(radius, Textures.redexplocolor);
       {% else %}
-        console.log('I am a rocky planet');
-        include('/static/js/planets/_rockyplanet.js');
+        // Rocky Planet
+        solidPlanet(radius, Textures.rockytexture, Textures.rockybump, 0.70);
       {% endif %}
     });
   </script>

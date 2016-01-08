@@ -6,7 +6,7 @@
     <script>
 
     $(function() {
-      var controls, camera, scene, renderer, container, intersects, winresize;
+      var controls, camera, scene, renderer, container, intersects, winResize;
       var texloader = new THREE.TextureLoader();
       var glow = texloader.load( '../static/images/glow.png' );
       // Set up canvas dimensions
@@ -25,15 +25,8 @@
         //Scene creation
         scene = new THREE.Scene();
         container = document.getElementById( 'space_container' );
-        //resizes canvas when window is
-        winResize = new THREEx.WindowResize(renderer, camera);
-
-        // PerspectiveCamera creation and Set up. Parameters
-        // 1. FOV – We’re using 45 degrees for our field of view.
-        // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
-        // 3. Near – This is the distance at which the camera will start rendering scene objects.
-        // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
-        camera = new THREE.PerspectiveCamera(75, width/height, 50, 10000);
+        // PerspectiveCamera creation and Set up
+        camera = new THREE.PerspectiveCamera(75, width/height, 50, 1000);
         camera.position.set(0, 0, 2600);
         scene.add(camera);
 
@@ -41,9 +34,10 @@
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 200;
         controls.maxDistance = 2600;
-        controls.enableRotate = false;
+        controls.enableRotate = false; 
         controls.enablePan = false;
-        skybox_controls.minDistance = 1000;
+
+        skybox_camera.position.set(0, 0, 4000);
         skybox_controls.enableRotate = false;
         skybox_controls.enablePan = false;
 
@@ -60,6 +54,8 @@
         // renderer.setClearColor( 0x000000, 0 );
         container.appendChild(renderer.domElement);
         renderer.render(scene,camera);
+        //resizes canvas when window is
+        // winResize = new THREEx.WindowResize(renderer, camera);
 
         // Add 300 spheres to the scene. Random size, random positioning
         var geometry, material, star;
@@ -96,6 +92,7 @@
       }
 
       function render() {
+        winResize = new THREEx.WindowResize(renderer, camera);
         renderer.render(scene,camera);
       }
 

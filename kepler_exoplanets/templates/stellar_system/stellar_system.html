@@ -13,6 +13,7 @@
         var controls, camera, scene, renderer, container, intersects, winResize;
 
         var t = 0;
+        var s = 1;
         // Orbits circles
         var circleSegments = 64;
         var circleMaterial = new THREE.LineBasicMaterial( { color: 0xF0C400 } );
@@ -62,8 +63,8 @@
         // Create and add planets to the stellar system
         {% for planet in planets %}
             var url = "{% url 'planet' planet.pk %}";
-            selectPlanet({{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
-            initialY.push({{ planet.semimajor_axis }});
+            selectPlanet({{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }} * 2.5, url);
+            initialY.push({{ planet.semimajor_axis }} * 2.5);
             speed.push({{ planet.orbital_period }})
         {% endfor %}
 
@@ -75,7 +76,7 @@
         function animate(){
           requestAnimationFrame(animate);
           starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
-          t += 0.0005;
+          t += (0.0005 * s);
           star.rotation.z += 0.005;
           planets.forEach(rotatePlanet);
           //resizes canvas when window is
@@ -245,6 +246,17 @@
           circles.map(function(circle){circle.visible = true});
         });
 
+        $( "#slider-1" ).slider({
+          animate: true,
+          max: 1000,
+          min: 0,
+          value: 100,
+          slide: function( mousemove, speed) {
+            s = speed.value / 100;
+            console.log(s);
+        }
+      });
+
         // Register the targeted planet with click events
         function grabPlanets() {
           var offset = {
@@ -257,5 +269,6 @@
           intersects = raycaster.intersectObjects(scene.children, true);
         };
       });
+
     </script>
   {% endblock %}

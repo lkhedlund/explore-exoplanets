@@ -40,29 +40,47 @@ div.jumbo {
   border-radius: 6px;
 }
 
+.button {
+  color: white;
+}
+
+.button:hover {
+  color: #00ecff;
+}
+
 #space_container {
   position: fixed;
   left: 0px;
-  height: 1000px;
+  height: 100%;
   width: 100%;
   z-index: 2;
 }
 
 .sidebar {
+  text-align: center;
   position: fixed;
   margin: 10px;
   margin-top: 30px;
   padding: 10px;
   width: 27%;
-  right: 0px;
+  right: 10px;
   color: #faebd7;
   z-index: 3;
-  background-color: black;
-  background: transparent;
+  border-radius: 2%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+table.center {
+  margin-left:auto; 
+  margin-right:auto;
+}
+
+.stats {
+  text-align: center;
 }
 
 #infoBox {
-  text-align: justify;
+  text-align: center;
   font-size: 1em;
   font-style: italic;
   border: 1px solid #faebd7;
@@ -94,8 +112,7 @@ div.jumbo {
 }
 
 tbody > tr:hover {
-  color: yellow;
-  background-color: red;
+  color: #00ecff;
 }
 
 /* FORMATTING FOR THE UFO PAGE */

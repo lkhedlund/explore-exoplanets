@@ -2,12 +2,12 @@
 
 {% block content %}
 {% include 'sidebar/sidebar_stellarsystem.html' %}
-{% include "partials/_starfragment.html" %} 
+{% include "partials/_starfragment.html" %}
 {% include "partials/_starvertex.html" %}
 {% include 'partials/_gasfragment.html' %}
 {% include 'partials/_gasvertex.html' %}
 
-  <div id="space_container"></div> 
+  <div id="space_container"></div>
     <script type="text/javascript">
       $(function() {
         var controls, camera, scene, renderer, container, intersects, winResize;
@@ -23,7 +23,7 @@
             speed = [],
             paths = [];
 
-    
+
         // Set up canvas dimensions
         var windowwidth = window.innerWidth;
         var width = windowwidth * 0.66667;
@@ -60,14 +60,14 @@
 
         // Create and add the star to the stellar system
         addStar({{ star.stellar_radius }});
-      
+
         // Create and add planets to the stellar system
         {% for planet in planets %}
             var url = "{% url 'planet' planet.pk %}";
             selectPlanet({{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
             initialY.push({{ planet.semimajor_axis }});
             speed.push({{ planet.orbital_period }})
-        {% endfor %} 
+        {% endfor %}
 
           launch = Date.now();
           animate();
@@ -123,8 +123,8 @@
             addBlue(size, distance, url);
           }
           else {
-              addRocky(size, distance, url);
-            }
+            addRocky(size, distance, url);
+          }
         };
 
         // add Red Gas Planet
@@ -212,7 +212,7 @@
 
         // planets rotation
         function rotatePlanet(planet, index) {
-          planet.rotation.z += 0.05;          
+          planet.rotation.z += 0.05;
           planet.position.y = initialY[index] * 200 * Math.cos(t * speed[index]) + 0 * Math.sin(t * speed[index]);
           planet.position.x = 0 * Math.cos(t * speed[index]) - initialY[index] * 200 * Math.sin(t * speed[index]);
         }
@@ -260,6 +260,6 @@
           raycaster.setFromCamera(mouse, camera);
           intersects = raycaster.intersectObjects(scene.children, true);
         };
-      });      
+      });
     </script>
   {% endblock %}

@@ -22,8 +22,6 @@
             initialY = [],
             speed = [],
             paths = [];
-
-
         // Set up canvas dimensions
         var windowwidth = window.innerWidth;
         var width = windowwidth * 0.66667;
@@ -72,9 +70,9 @@
           launch = Date.now();
           animate();
 
-        };
+        }
 
-        function animate() {
+        function animate(){
           requestAnimationFrame(animate);
           starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
           t += 0.0005;
@@ -84,7 +82,7 @@
           winResize = new THREEx.WindowResize(renderer, camera);
           renderer.render(scene, camera);
           controls.update();
-        };
+        }
 
         // add the star
         function addStar(size) {
@@ -108,7 +106,7 @@
           pointLight = new THREE.PointLight( 0xffffff );
           scene.add( pointLight );
           pointLight.add( star );
-        };
+        }
 
         // select which type of planet to add
         function selectPlanet(size, temp, distance, url) {
@@ -126,7 +124,6 @@
             addRocky(size, distance, url);
           }
         };
-
         // add Red Gas Planet
         function addRed(size, distance, path) {
           redMaterial = new THREE.ShaderMaterial({

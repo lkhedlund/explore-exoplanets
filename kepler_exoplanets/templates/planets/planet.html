@@ -5,25 +5,20 @@
 {% include 'partials/_gasvertex.html' %}
   <div id="space_container"></div>
   <script type="text/javascript">
-
     $(function() {
-      //this function includes all necessary js files for the application
-      function include(file){
-        var script  = document.createElement('script');
-        script.src  = file;
-        script.type = 'text/javascript';
-        script.defer = true;
-        document.getElementsByTagName('head').item(0).appendChild(script);
-      }
-      //which planet to render based on data
+      var radius = {{planet.planet_radius}};
       {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
-        include('/static/js/planets/_habitableplanet.js')
+        $.getScript('/static/js/planets/_solidplanet.js');
+        solidPlanet(radius, habitabletexture, habitablebump, 0.50);
       {% elif planet.planet_radius < 4 and planet.planet_radius >= 2 %}
-        include('/static/js/planets/_gasblueplanet.js');
+        $.getScript('/static/js/planets/_gasplanet.js');
+        gasPlanet(radius, blueexplocolor);
       {% elif planet.planet_radius > 4 %}
-        include('/static/js/planets/_gasredplanet.js');
+        $.getScript('/static/js/planets/_gasplanet.js');
+        gasPlanet(radius, redexplocolor);
       {% else %}
-        include('/static/js/planets/_rockyplanet.js');
+        $.getScript('/static/js/planets/_solidplanet.js');
+        solidPlanet(radius, rockytexture, rockybump, 0.70);
       {% endif %}
     });
   </script>

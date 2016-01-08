@@ -33,14 +33,15 @@ var gasPlanet = function(radius, textureColour) {
     dirlight.position.set(10,3,5)
     scene.add( dirlight );
 
-    //gasplanet
+    //NOTE: Previously Textures.blueexplocolor or Textures.redexplocolor
     var planetmaterial = new THREE.ShaderMaterial({
       uniforms: {
         tExplosion: {
           type: "t",
-          //NOTE: Previously Textures.blueexplocolor or Textures.redexplocolor
           value: textureColour
-        time: { // float initialized to 0
+        },
+        // float initialized to 0
+        time: {
           type: "f",
           value: 0.0
         }

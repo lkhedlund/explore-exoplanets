@@ -10,12 +10,16 @@
     $(function() {
       var radius = {{planet.planet_radius}};
       {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
+        //Habitable Planet
         solidPlanet(radius, Textures.habitabletexture, Textures.habitablebump, 0.50);
       {% elif planet.planet_radius < 4 and planet.planet_radius >= 2 %}
+        // Blue Gas Planet
         gasPlanet(radius, Textures.blueexplocolor);
       {% elif planet.planet_radius > 4 %}
+        // Red Gas Planet
         gasPlanet(radius, Textures.redexplocolor);
       {% else %}
+        // Rocky Planet
         solidPlanet(radius, Textures.rockytexture, Textures.rockybump, 0.70);
       {% endif %}
     });

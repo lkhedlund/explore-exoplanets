@@ -119,14 +119,14 @@
         }
       }
 
-      // Make the planets clickable (for now, it alerts the coordinates)
+      // Make the planets clickable
       document.addEventListener('click', onDocumentMouseClick, false);
       function onDocumentMouseClick() {
         event.preventDefault();
         grabPlanets();
         if (intersects.length > 0) {
           clickedPlanet = intersects[0].object;
-          console.log(stars[clickedPlanet.id]);
+          window.location = stars[clickedPlanet.id];
         }
 
       }

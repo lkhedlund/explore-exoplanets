@@ -17,12 +17,11 @@
   <div>
     <label for='select-choice-min' class='select' style='margin-top: 20px'>Stars of Interest</label>
     <select class='toggleStyle' name='select-choice-min' id='select-choice-min' data-mini='true'>
-       <option>Show All (default)</option>
-       <option>Stars with 5+ planets</option>
-       <option>Stars with habitable planets</option>
-       <option>White Stars (hotter)</option>
-       <option>Red Stars (cooler)</option>
-       <option>Anything else we can think of</option>
+       <option value="default">Show All (default)</option>
+       <option value="five_plus">Stars with 5+ planets</option>
+       <option value="habitable">Stars with habitable planets</option>
+       <option value="hotter">Hotter Stars (>= 5000)</option>
+       <option value="cooler">Cooler Stars (< 5000)</option>
     </select>
   </div>
 

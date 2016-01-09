@@ -128,7 +128,7 @@
         star = new THREE.Mesh(geometry, material);
         scene.add(star);
         star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
-        stars[star.id + 1] = path;
+        stars[star.id - 1] = path;
         stars[star.id] = name;
         // Star glow (using sprites)
         var spriteMaterial = new THREE.SpriteMaterial({

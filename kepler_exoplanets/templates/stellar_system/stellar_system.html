@@ -62,9 +62,25 @@
         // Create and add planets to the stellar system
         {% for planet in planets %}
             var url = "{% url 'planet' planet.pk %}";
-            selectPlanet({{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }} * 2.5, url);
+            // Planet sizes have a minimun of 1 and a maximum of 5
+            {% if planet.planet_radius < 1 %}
+              planetRadius = 1
+            {% elif planet.planet_radius > 5 %}
+              planetRadius = 5
+            {% else %}
+              planetRadius = {{ planet.planet_radius }}
+            {% endif %}
+
+            selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }} * 2.5, url);
             initialY.push({{ planet.semimajor_axis }} * 2.5);
-            speed.push({{ planet.orbital_period }})
+
+            {% if planet.orbital_period == null %}
+              orbperiod = 15
+            {% else %}
+              orbperiod = {{ planet.orbital_period }}
+            {% endif %}
+            speed.push(orbperiod);
+            console.log(speed);
         {% endfor %}
 
           launch = Date.now();
@@ -103,7 +119,7 @@
           });
           star = new THREE.Mesh( geometry, starmaterial );
           scene.add( star );
-          pointLight = new THREE.PointLight( 0xffffff );
+          pointLight = new THREE.PointLight( 0xffffff, 2 );
           scene.add( pointLight );
           pointLight.add( star );
         }

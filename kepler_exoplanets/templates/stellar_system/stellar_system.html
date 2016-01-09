@@ -59,6 +59,7 @@
         // Create and add the star to the stellar system
         addStar({{ star.stellar_radius }});
 
+        var largest_orbit = 0;
         // Create and add planets to the stellar system
         {% for planet in planets %}
             var url = "{% url 'planet' planet.pk %}";
@@ -71,6 +72,10 @@
               planetRadius = {{ planet.planet_radius }}
             {% endif %}
 
+            // {% if planet.semimajor_axis > largest_orbit %}
+            //   largest_orbit = {{ planet.semimajor_axis }}
+            // {% endif %}
+
             selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }} * 2.5, url);
             initialY.push({{ planet.semimajor_axis }} * 2.5);
 
@@ -80,9 +85,8 @@
               orbperiod = {{ planet.orbital_period }}
             {% endif %}
             speed.push(orbperiod);
-            console.log(speed);
         {% endfor %}
-
+          console.log(largest_orbit);
           launch = Date.now();
           animate();
 
@@ -270,7 +274,13 @@
         $('#flip-view').on('change', function(){
           if ($('#flip-view').val() == '3d') {
             camera.position.set(0, -75, 75);
-          } else {
+          } 
+
+          else if ($('#flip-view').val() == 'transit') {
+            camera.position.set(0, 100, 0);
+          } 
+
+          else {
             camera.position.set(0, 0, 100);
           };
         });

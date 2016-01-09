@@ -42,7 +42,7 @@
         winResize = new THREEx.WindowResize(renderer, camera);
         // PerspectiveCamera creation and Set up
         camera = new THREE.PerspectiveCamera(75, width/height, 1, 1000);
-        camera.position.set(0, 0, 100);
+        camera.position.set(0, -75, 75);
         scene.add(camera);
 
         // Set up camera controls (using Orbit)

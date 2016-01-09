@@ -61,7 +61,7 @@
           clearScene();
           {% for star in stars %}
             var url = "{% url 'stellar_system' star.pk %}";
-            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
           {% endfor %}
         });
 
@@ -69,7 +69,7 @@
           clearScene();
           {% for star in habitable %}
             var url = "{% url 'stellar_system' star.pk %}";
-            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
           {% endfor %}
         });
 
@@ -77,13 +77,13 @@
           clearScene();
           {% for star in five_plus %}
             var url = "{% url 'stellar_system' star.pk %}";
-            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
           {% endfor %}
         });
 
         {% for star in stars %}
           var url = "{% url 'stellar_system' star.pk %}";
-          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
         {% endfor %}
 
         animate();
@@ -105,15 +105,16 @@
 
       function render() {
         // find intersections
-        raycaster.setFromCamera( mouse, camera );
-        var selection = raycaster.intersectObjects( scene.children );
-        if ( selection.length > 0 ) {
-          var hoverPlanet = selection[0].object;
-          document.getElementById('infoBox').innerHTML = stars[hoverPlanet.id];
-        }
-        else {
-          document.getElementById('infoBox').innerHTML = infobox;
-        }
+
+        // raycaster.setFromCamera( mouse, camera );
+        // var selection = raycaster.intersectObjects( scene.children );
+        // if ( selection.length > 0 ) {
+        //   var hoverPlanet = selection[0].object;
+        //   document.getElementById('infoBox').innerHTML = stars[hoverPlanet.id];
+        // }
+        // else {
+        //   document.getElementById('infoBox').innerHTML = infobox;
+        // }
 
         $("#dist").text(Math.round(3000 - camera.position.z) + " light years");
         $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
@@ -121,7 +122,7 @@
         renderer.render(scene,camera);
       }
 
-      function createStar (temp, ra, declination, ly, path, name) {
+      function createStar (temp, ra, declination, ly, path) {
         color = star_color(temp);
         geometry = new THREE.SphereGeometry(1, 15, 15);
         material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
@@ -129,7 +130,6 @@
         scene.add(star);
         star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
         stars[star.id - 1] = path;
-        stars[star.id] = name;
         // Star glow (using sprites)
         var spriteMaterial = new THREE.SpriteMaterial({
           map: Textures.glow,

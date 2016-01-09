@@ -103,7 +103,7 @@
           });
           star = new THREE.Mesh( geometry, starmaterial );
           scene.add( star );
-          pointLight = new THREE.PointLight( 0xffffff );
+          pointLight = new THREE.PointLight( 0xffffff, 2 );
           scene.add( pointLight );
           pointLight.add( star );
         }

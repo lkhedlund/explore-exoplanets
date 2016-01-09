@@ -11,6 +11,8 @@
     <script type="text/javascript">
       $(function() {
         var controls, camera, scene, renderer, container, intersects, winResize;
+        var orbperiod;
+        var planetRadius;
 
         var t = 0;
         // Orbits circles
@@ -62,9 +64,25 @@
         // Create and add planets to the stellar system
         {% for planet in planets %}
             var url = "{% url 'planet' planet.pk %}";
-            selectPlanet({{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
+            {% if planet.planet_radius < 1 %}
+              planetRadius = 1
+            {% elif planet.planet_radius > 5 %}
+              planetRadius = 5
+            {% else %}
+              planetRadius = planet.planet_radius
+            {% endif %}
+
+            selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
             initialY.push({{ planet.semimajor_axis }});
-            speed.push({{ planet.orbital_period }})
+            selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
+            initialY.push({{ planet.semimajor_axis }});
+
+            {% if planet.orbital_period = None %}
+              orbperiod = 15
+            {% else %}
+             orbperiod = planet.orbital_period 
+            {% endif %}
+            speed.push({{ orbperiod }})
         {% endfor %}
 
           launch = Date.now();
@@ -234,7 +252,7 @@
 
         // Deactivate orbit controls when interacting with the panel
         // Show/hide orbit circles
-        $('.sidebar').on('mouseenter', function() {
+        $('.sidebar').on('mouseover', function() {
           controls.enabled = false;
           skybox_controls.enabled = false;
           circles.map(function(circle){circle.visible = false});

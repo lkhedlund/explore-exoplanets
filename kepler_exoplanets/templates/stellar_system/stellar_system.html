@@ -236,13 +236,27 @@
         $('.sidebar').on('mouseenter', function() {
           controls.enabled = false;
           skybox_controls.enabled = false;
-          circles.map(function(circle){circle.visible = false});
         });
 
         $('.sidebar').on('mouseleave', function() {
           controls.enabled = true;
           skybox_controls.enabled = true;
-          circles.map(function(circle){circle.visible = true});
+        });
+
+        $('#flip-orbit').on('change', function(){
+          if ($('#flip-orbit').val() == 'off') {
+            circles.map(function(circle){circle.visible = false});
+          } else {
+            circles.map(function(circle){circle.visible = true});
+          };
+        });
+
+        $('#flip-view').on('change', function(){
+          if ($('#flip-view').val() == '3d') {
+            camera.position.set(0, -75, 75);
+          } else {
+            camera.position.set(0, 0, 100);
+          };
         });
 
         $( "#slider-1" ).slider({

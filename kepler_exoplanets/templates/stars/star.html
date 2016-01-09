@@ -26,16 +26,16 @@
         renderer.setClearColor( 0xffffff, 0);
         renderer.setSize(width, height);
         camera = new THREE.PerspectiveCamera(fov, width/height, 50, 10000);
-        camera.position.z = 100;       
+        camera.position.z = 120;       
         scene.add( camera );
         //resizes canvas when window is
         winResize = new THREEx.WindowResize(renderer, camera);
         //move the camera around
         controls = new THREE.OrbitControls( camera );
-        controls.minDistance = 100;
+        controls.minDistance = 120;
         controls.maxDistance = 400;
         //light
-        var amlight = new THREE.AmbientLight( 0x888888 )
+        var amlight = new THREE.AmbientLight( 0x888888  )
         scene.add( amlight );
         var dirlight = new THREE.DirectionalLight( 0xcccccc, 1 )
         dirlight.position.set(10,3,5)

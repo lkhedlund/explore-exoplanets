@@ -106,15 +106,14 @@
       function render() {
         // find intersections
 
-        // raycaster.setFromCamera( mouse, camera );
-        // var selection = raycaster.intersectObjects( scene.children );
-        // if ( selection.length > 0 ) {
-        //   var hoverPlanet = selection[0].object;
-        //   document.getElementById('infoBox').innerHTML = stars[hoverPlanet.id];
-        // }
-        // else {
-        //   document.getElementById('infoBox').innerHTML = infobox;
-        // }
+        raycaster.setFromCamera( mouse, camera );
+        var selection = raycaster.intersectObjects( scene.children );
+        if ( selection.length > 0 ) {
+          $('canvas').css('cursor', 'pointer');
+        }
+        else {
+          $('canvas').css('cursor', 'auto');
+        }
 
         $("#dist").text(Math.round(3000 - camera.position.z) + " light years");
         $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });

@@ -93,6 +93,15 @@
           t += (0.0005 * s);
           star.rotation.z += 0.005;
           planets.forEach(rotatePlanet);
+
+          grabPlanets();
+          if ( intersects.length > 0 ) {
+            $('canvas').css('cursor', 'pointer');
+          }
+          else {
+            $('canvas').css('cursor', 'auto');
+          }
+
           //resizes canvas when window is
           winResize = new THREEx.WindowResize(renderer, camera);
           renderer.render(scene, camera);
@@ -295,16 +304,20 @@
 
         // Register the targeted planet with click events
         function grabPlanets() {
-          var offset = {
-            x: document.getElementsByTagName("canvas")[0].offsetLeft,
-            y: document.getElementsByTagName("canvas")[0].offsetTop,
-          }
-          mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
-          mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
           raycaster.setFromCamera(mouse, camera);
           intersects = raycaster.intersectObjects(scene.children, true);
         };
       });
+
+      function onDocumentMouseMove( event ) {
+        event.preventDefault();
+        var offset = {
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
+        }
+        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
+      }
 
     </script>
   {% endblock %}

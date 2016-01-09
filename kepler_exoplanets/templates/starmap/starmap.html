@@ -10,7 +10,7 @@
       var windowwidth = window.innerWidth;
       var width = windowwidth * 0.66667;
       var height = window.innerHeight;
-      
+
       var infobox = document.getElementById('infoBox').innerHTML;
 
       var stars = {};
@@ -56,38 +56,29 @@
         renderer.render(scene,camera);
 
         var geometry, material, star;
-        var $select = $( "#select-choice-min" );
-        $select.change( function() {
-          for( var i = scene.children.length - 1; i >= 0; i--) {
-            obj = scene.children[i];
-            scene.remove(obj);
-          }
-          if ($select.val() == "habitable") {
-            {% for star in habitable %}
-              var url = "{% url 'stellar_system' star.pk %}";
-              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
-            {% endfor %}
-          } else if ($select.val() == "five_plus") {
-            {% for star in five_plus %}
-              var url = "{% url 'stellar_system' star.pk %}";
-              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
-            {% endfor %}
-          } else if ($select.val() == "hotter") {
-            {% for star in hotter %}
-              var url = "{% url 'stellar_system' star.pk %}";
-              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
-            {% endfor %}
-          } else if ($select.val() == "cooler") {
-            {% for star in cooler %}
-              var url = "{% url 'stellar_system' star.pk %}";
-              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
-            {% endfor %}
-          } else {
-            {% for star in stars %}
-              var url = "{% url 'stellar_system' star.pk %}";
-              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
-            {% endfor %}
-          };
+
+        $('#select-default').on('click', function() {
+          clearScene();
+          {% for star in stars %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+          {% endfor %}
+        });
+
+        $('#select-habitable').on('click', function() {
+          clearScene();
+          {% for star in habitable %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+          {% endfor %}
+        });
+
+        $('#select-five_plus').on('click', function() {
+          clearScene();
+          {% for star in five_plus %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+          {% endfor %}
         });
 
         {% for star in stars %}
@@ -97,6 +88,13 @@
 
         animate();
 
+      }
+
+      function clearScene() {
+        for( var i = scene.children.length - 1; i >= 0; i--) {
+          obj = scene.children[i];
+          scene.remove(obj);
+        }
       }
 
       function animate() {

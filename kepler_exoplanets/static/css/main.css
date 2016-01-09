@@ -123,6 +123,10 @@ tbody > tr:hover {
   color: yellow;
 }
 
+#select-choice {
+  z-index: 100;
+}
+
 /* FORMATTING FOR THE UFO PAGE */
 
 .loading.no-js {

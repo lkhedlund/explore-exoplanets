@@ -8,8 +8,9 @@
 
   <div id="space_container"></div>
     <script type="text/javascript">
+
       $(function() {
-        var controls, camera, scene, renderer, container, intersects, winResize;
+        var controls, camera, scene, renderer, container, winResize;
 
         var t = 0;
         var s = 1;
@@ -35,33 +36,34 @@
         start();
 
         function start(){
-        //Scene creation
-        scene = new THREE.Scene();
-        container = document.getElementById( 'space_container' );
+          //Scene creation
+          scene = new THREE.Scene();
+          container = document.getElementById( 'space_container' );
 
-        //resizes canvas when window is
-        winResize = new THREEx.WindowResize(renderer, camera);
-        // PerspectiveCamera creation and Set up
-        camera = new THREE.PerspectiveCamera(75, width/height, 1, 1000);
-        camera.position.set(0, - cam, cam);
-        scene.add(camera);
+          //resizes canvas when window is
+          winResize = new THREEx.WindowResize(renderer, camera);
 
-        // Set up camera controls (using Orbit)
-        controls = new THREE.OrbitControls( camera );
-        controls.minDistance = 100;
-        controls.maxDistance = 500;
+          // PerspectiveCamera creation and Set up
+          camera = new THREE.PerspectiveCamera(75, width/height, 1, 1000);
+          camera.position.set(0, - cam, cam);
+          scene.add(camera);
 
-        // Create the WebGL renderer and append it to the DOM bia the body element
-        renderer = new THREE.WebGLRenderer({alpha: true});
-        renderer.setClearColor(0xffffff, 0);
-        renderer.setSize(width, height);
-        container.appendChild(renderer.domElement);
+          // Set up camera controls (using Orbit)
+          controls = new THREE.OrbitControls( camera );
+          controls.minDistance = 100;
+          controls.maxDistance = 500;
 
-        // Create and add the star to the stellar system
-        addStar({{ star.stellar_radius }});
+          // Create the WebGL renderer and append it to the DOM bia the body element
+          renderer = new THREE.WebGLRenderer({alpha: true});
+          renderer.setClearColor(0xffffff, 0);
+          renderer.setSize(width, height);
+          container.appendChild(renderer.domElement);
 
-        // Create and add planets to the stellar system
-        {% for planet in planets %}
+          // Create and add the star to the stellar system
+          addStar({{ star.stellar_radius }});
+
+          // Create and add planets to the stellar system
+          {% for planet in planets %}
             var url = "{% url 'planet' planet.pk %}";
             // Planet sizes have a minimun of 1 and a maximum of 5
             {% if planet.planet_radius < 1 %}
@@ -81,31 +83,37 @@
               orbperiod = {{ planet.orbital_period }}
             {% endif %}
             speed.push(orbperiod);
-        {% endfor %}
+          {% endfor %}
+
           launch = Date.now();
           animate();
-
+          console.log(scene.children);
         }
 
         function animate(){
           requestAnimationFrame(animate);
+          controls.update();
+          raycast();
+
           starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
           t += (0.0005 * s);
           star.rotation.z += 0.005;
           planets.forEach(rotatePlanet);
 
-          grabPlanets();
-          if ( intersects.length > 0 ) {
+          //resizes canvas when window is
+          winResize = new THREEx.WindowResize(renderer, camera);
+          renderer.render(scene, camera);
+        }
+
+        function raycast() {
+          raycaster.setFromCamera( mouse, camera );
+          selection = raycaster.intersectObjects( scene.children );
+          if ( selection.length > 0 ) {
             $('canvas').css('cursor', 'pointer');
           }
           else {
             $('canvas').css('cursor', 'auto');
           }
-
-          //resizes canvas when window is
-          winResize = new THREEx.WindowResize(renderer, camera);
-          renderer.render(scene, camera);
-          controls.update();
         }
 
         // add the star
@@ -241,9 +249,8 @@
         // Make the planets clickable (for now, it alerts the coordinates)
         document.addEventListener('click', onDocumentMouseClick, false);
         function onDocumentMouseClick() {
-          grabPlanets();
-          if (intersects.length > 0) {
-            clickedPlanet = intersects[0].object;
+          if (selection.length > 0) {
+            clickedPlanet = selection[0].object;
             if (clickedPlanet.id == 6) {
               window.location = "{% url 'star' star.pk %}";
             }
@@ -281,11 +288,9 @@
           if ($('#flip-view').val() == '3d') {
             camera.position.set(0, - cam, cam);
           } 
-
           else if ($('#flip-view').val() == 'transit') {
             camera.position.set(0, cam, 0);
           } 
-
           else {
             camera.position.set(0, 0, cam);
           };
@@ -299,18 +304,11 @@
           slide: function( mousemove, speed) {
             s = speed.value / 100;
             console.log(s);
-        }
-      });
+          }
+        });
 
-        // Register the targeted planet with click events
-        function grabPlanets() {
-          raycaster.setFromCamera(mouse, camera);
-          intersects = raycaster.intersectObjects(scene.children, true);
-        };
-      });
-
+      document.addEventListener( 'mousemove', onDocumentMouseMove, false );
       function onDocumentMouseMove( event ) {
-        event.preventDefault();
         var offset = {
           x: document.getElementsByTagName("canvas")[0].offsetLeft,
           y: document.getElementsByTagName("canvas")[0].offsetTop,
@@ -318,6 +316,6 @@
         mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
         mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
       }
-
+    });
     </script>
   {% endblock %}

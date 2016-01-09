@@ -87,7 +87,6 @@
         {% endfor %}
 
         animate();
-
       }
 
       function clearScene() {
@@ -100,25 +99,26 @@
       function animate() {
         requestAnimationFrame(animate);
         controls.update();
-        render();
+        raycast();
+
+        // Slider
+        $("#dist").text(Math.round(3000 - camera.position.z) + " light years");
+        $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
+
+        //resizes canvas when window is
+        winResize = new THREEx.WindowResize(renderer, camera);
+        renderer.render(scene,camera);
       }
 
-      function render() {
-        // find intersections
-
+      function raycast() {
         raycaster.setFromCamera( mouse, camera );
-        var selection = raycaster.intersectObjects( scene.children );
+        selection = raycaster.intersectObjects( scene.children );
         if ( selection.length > 0 ) {
           $('canvas').css('cursor', 'pointer');
         }
         else {
           $('canvas').css('cursor', 'auto');
         }
-
-        $("#dist").text(Math.round(3000 - camera.position.z) + " light years");
-        $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
-        winResize = new THREEx.WindowResize(renderer, camera);
-        renderer.render(scene,camera);
       }
 
       function createStar (temp, ra, declination, ly, path) {
@@ -157,8 +157,7 @@
       document.addEventListener('click', onDocumentMouseClick, false);
       function onDocumentMouseClick() {
         event.preventDefault();
-        raycaster.setFromCamera(mouse, camera);
-        var selection = raycaster.intersectObjects(scene.children, true);
+        selection = raycaster.intersectObjects(scene.children, true);
         if (selection.length > 0) {
           clickedPlanet = selection[0].object;
           window.location = stars[clickedPlanet.id];

@@ -235,13 +235,15 @@
           grabPlanets();
           if (intersects.length > 0) {
             clickedPlanet = intersects[0].object;
-            console.log(clickedPlanet.id);
             if (clickedPlanet.id == 6) {
               window.location = "{% url 'star' star.pk %}";
             }
             else if (clickedPlanet.id % 2 == 1)
             {
               window.location = paths[clickedPlanet.id];
+            }
+            else {
+              window.location = paths[clickedPlanet.id - 1];
             }
           }
         }

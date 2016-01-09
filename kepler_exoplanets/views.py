@@ -12,7 +12,7 @@ def starmap(request):
     for star in stars:
         planets = star.planets.all()
         # Stars with habitable planets
-        if planets.filter(surface_temp__gte=273, surface_temp__lt=373).count() > 0:
+        if planets.filter(planet_radius__lte=2, surface_temp__gte=273, surface_temp__lt=373).count() > 0:
             habitable.append(star)
         # Stars with more than 5 planets
         if planets.count() >= 5:
@@ -35,7 +35,7 @@ def stellar_system(request, system_id):
     name = planets.first
     gas = planets.filter(planet_radius__gt=2)
     rocky = planets.filter(planet_radius__lte=2)
-    habitable = rocky.filter(surface_temp__gte=273, surface_temp__lt=373)
+    habitable = rocky.filter(planet_radius__lte=2, surface_temp__gte=273, surface_temp__lt=373)
     return render(request, 'stellar_system/stellar_system.html', {
         'star': star,
         'planets': planets,

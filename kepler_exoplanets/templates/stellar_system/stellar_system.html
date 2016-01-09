@@ -13,6 +13,7 @@
 
         var t = 0;
         var s = 1;
+        var cam = {{ planets.last.semimajor_axis }} * 700;
         // Orbits circles
         var circleSegments = 64;
         var circleMaterial = new THREE.LineBasicMaterial( { color: 0xF0C400 } );
@@ -42,7 +43,7 @@
         winResize = new THREEx.WindowResize(renderer, camera);
         // PerspectiveCamera creation and Set up
         camera = new THREE.PerspectiveCamera(75, width/height, 1, 1000);
-        camera.position.set(0, -75, 75);
+        camera.position.set(0, - cam, cam);
         scene.add(camera);
 
         // Set up camera controls (using Orbit)
@@ -59,7 +60,6 @@
         // Create and add the star to the stellar system
         addStar({{ star.stellar_radius }});
 
-        var largest_orbit = 0;
         // Create and add planets to the stellar system
         {% for planet in planets %}
             var url = "{% url 'planet' planet.pk %}";
@@ -72,11 +72,7 @@
               planetRadius = {{ planet.planet_radius }}
             {% endif %}
 
-            // {% if planet.semimajor_axis > largest_orbit %}
-            //   largest_orbit = {{ planet.semimajor_axis }}
-            // {% endif %}
-
-            selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }} * 2.5, url);
+            selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
             initialY.push({{ planet.semimajor_axis }} * 2.5);
 
             {% if planet.orbital_period == null %}
@@ -86,7 +82,6 @@
             {% endif %}
             speed.push(orbperiod);
         {% endfor %}
-          console.log(largest_orbit);
           launch = Date.now();
           animate();
 
@@ -131,7 +126,7 @@
         // select which type of planet to add
         function selectPlanet(size, temp, distance, url) {
           distance = distance * 2;
-          if  (temp > 273 && temp < 373) {
+          if  (temp > 273 && temp < 373 && size < 2) {
             addHabitable(size, distance, url);
            }
           else if (size > 4) {
@@ -166,7 +161,7 @@
           paths[planet.id] = path;
           planets.push(planet);
           planet.position.set(0, distance * 100, 0);
-          addCircle(distance * 100);
+          addCircle(distance * 250);
         }
 
         // add Blue Gas Planet
@@ -191,7 +186,7 @@
           paths[planet.id] = path;
           planets.push(planet);
           planet.position.set(0, distance * 100, 0);
-          addCircle(distance * 100)
+          addCircle(distance * 250)
         }
 
         // add rocky planet
@@ -203,7 +198,7 @@
           paths[planet.id] = path;
           planets.push(planet);
           planet.position.set(0, distance * 100, 0);
-          addCircle(distance * 100)
+          addCircle(distance * 250)
         }
 
         // add habitable planet
@@ -215,7 +210,7 @@
           paths[planet.id] = path;
           planets.push(planet);
           planet.position.set(0, distance * 100, 0);
-          addCircle(distance * 100)
+          addCircle(distance * 250)
         }
 
         // add a orbit circle to the planet
@@ -273,15 +268,15 @@
 
         $('#flip-view').on('change', function(){
           if ($('#flip-view').val() == '3d') {
-            camera.position.set(0, -75, 75);
+            camera.position.set(0, - cam, cam);
           } 
 
           else if ($('#flip-view').val() == 'transit') {
-            camera.position.set(0, 100, 0);
+            camera.position.set(0, cam, 0);
           } 
 
           else {
-            camera.position.set(0, 0, 100);
+            camera.position.set(0, 0, cam);
           };
         });
 

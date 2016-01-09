@@ -31,7 +31,7 @@ def starmap(request):
 
 def stellar_system(request, system_id):
     star = get_object_or_404(Star, pk=system_id)
-    planets = star.planets.all()
+    planets = star.planets.all().order_by("semimajor_axis")
     name = planets.first
     gas = planets.filter(planet_radius__gt=2)
     rocky = planets.filter(planet_radius__lte=2)

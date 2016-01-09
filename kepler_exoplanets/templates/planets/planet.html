@@ -9,7 +9,7 @@
   <script type="text/javascript">
     $(function() {
       var radius = {{planet.planet_radius}};
-      {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
+      {% if planet.planet_radius <= 2 and planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
         //Habitable Planet
         solidPlanet(radius, Textures.habitabletexture, Textures.habitablebump, 0.50);
       {% elif planet.planet_radius < 4 and planet.planet_radius >= 2 %}

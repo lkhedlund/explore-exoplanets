@@ -1,9 +1,9 @@
 <div class='sidebar'>
   <h3>{{ planet.kepler_name }}</h3>
   <div>
-    Is this planet in the habitable zone? 
-    {% if planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
-        YES!
+    Is this planet in the habitable zone?
+    {% if planet.planet_radius <= 2 and planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
+        Yes!
     {% else %}
         No
     {% endif %}<br>

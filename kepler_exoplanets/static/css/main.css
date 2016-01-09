@@ -40,29 +40,55 @@ div.jumbo {
   border-radius: 6px;
 }
 
+.button {
+  color: white;
+  margin: 10px;
+}
+
+.button:hover {
+  color: yellow;
+  border-color: yellow;
+}
+
 #space_container {
   position: fixed;
   left: 0px;
-  height: 1000px;
+  height: 100%;
   width: 100%;
   z-index: 2;
 }
 
 .sidebar {
   position: fixed;
-  margin: 10px;
+  margin: 20px;
   margin-top: 30px;
   padding: 10px;
   width: 27%;
-  right: 0px;
+  right: 10px;
   color: #faebd7;
   z-index: 3;
-  background-color: black;
+  border-radius: 2%;
   background: transparent;
 }
 
+table.center {
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.stats {
+  text-align: center;
+}
+
+#dist {
+  float: center;
+  font-size: 1em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 500;
+}
+
 #infoBox {
-  text-align: justify;
+  text-align: center;
   font-size: 1em;
   font-style: italic;
   border: 1px solid #faebd7;
@@ -86,7 +112,7 @@ div.jumbo {
   border-radius: 4px;
   border: 1px solid #bbb;
   cursor: pointer;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 #amount {
@@ -95,7 +121,10 @@ div.jumbo {
 
 tbody > tr:hover {
   color: yellow;
-  background-color: red;
+}
+
+#select-choice {
+  z-index: 100;
 }
 
 /* FORMATTING FOR THE UFO PAGE */

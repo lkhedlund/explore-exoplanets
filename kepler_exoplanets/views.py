@@ -6,12 +6,27 @@ def index(request):
 
 def starmap(request):
     stars = Star.objects.all().order_by('pk')
+    # Check for stars with habitable planets
+    habitable = []
+    five_plus = []
+    for star in stars:
+        planets = star.planets.all()
+        # Stars with habitable planets
+        if planets.filter(surface_temp__gte=273, surface_temp__lt=373).count() > 0:
+            habitable.append(star)
+        # Stars with more than 5 planets
+        if planets.count() >= 5:
+            five_plus.append(star)
     planets = Planet.objects.all().order_by('pk')
-    habitable = planets.filter(surface_temp__gte=273, surface_temp__lt=373)
+    hotter = stars.filter(stellar_temp__gte=5000)
+    cooler = stars.filter(stellar_temp__lt=5000)
     return render(request, 'starmap/starmap.html', {
         'stars': stars,
         'planets': planets,
-        'habitable': habitable
+        'habitable': habitable,
+        'five_plus': five_plus,
+        'hotter': hotter,
+        'cooler': cooler,
     })
 
 def stellar_system(request, system_id):

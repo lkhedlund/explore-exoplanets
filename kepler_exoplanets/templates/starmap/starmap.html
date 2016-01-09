@@ -1,8 +1,7 @@
 {% extends "main/base.html" %}
-  {% block content %}
-  {% include 'sidebar/sidebar_starmap.html' %}
+{% block content %}
+{% include 'sidebar/sidebar_starmap.html' %}
   <div id="space_container"></div>
-
     <script>
 
     $(function() {
@@ -35,7 +34,7 @@
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 200;
         controls.maxDistance = 2600;
-        controls.enableRotate = false; 
+        controls.enableRotate = false;
         controls.enablePan = false;
 
         skybox_camera.position.set(0, 0, 4000);
@@ -56,8 +55,31 @@
         container.appendChild(renderer.domElement);
         renderer.render(scene,camera);
 
-        // Add 300 spheres to the scene. Random size, random positioning
         var geometry, material, star;
+
+        $('#select-default').on('click', function() {
+          clearScene();
+          {% for star in stars %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+          {% endfor %}
+        });
+
+        $('#select-habitable').on('click', function() {
+          clearScene();
+          {% for star in habitable %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+          {% endfor %}
+        });
+
+        $('#select-five_plus').on('click', function() {
+          clearScene();
+          {% for star in five_plus %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+          {% endfor %}
+        });
 
         {% for star in stars %}
           var url = "{% url 'stellar_system' star.pk %}";
@@ -65,6 +87,14 @@
         {% endfor %}
 
         animate();
+
+      }
+
+      function clearScene() {
+        for( var i = scene.children.length - 1; i >= 0; i--) {
+          obj = scene.children[i];
+          scene.remove(obj);
+        }
       }
 
       function animate() {
@@ -80,11 +110,13 @@
         if ( selection.length > 0 ) {
           var hoverPlanet = selection[0].object;
           document.getElementById('infoBox').innerHTML = stars[hoverPlanet.id];
-        } 
+        }
         else {
           document.getElementById('infoBox').innerHTML = infobox;
         }
 
+        $("#dist").text(Math.round(3000 - camera.position.z) + " light years");
+        $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
         winResize = new THREEx.WindowResize(renderer, camera);
         renderer.render(scene,camera);
       }
@@ -133,7 +165,7 @@
           window.location = stars[clickedPlanet.id];
         }
       }
-
+D
       // Deactivate trackball controls when interacting with the panel
       $('.sidebar').on('mouseenter', function() {
         controls.enabled = false;
@@ -175,11 +207,11 @@
       // Slider on sidebar to move forwards/backwards
       $( "#star-slider" ).slider({
         animate: true,
-        max: 3000,
+        max: 2800,
+        min: 400,
         value: 500,
         slide: function( mousemove, dist) {
           camera.position.set(0, 0, 3000 - dist.value);
-          $("#dist").text($("#star-slider").val());
         }
       });
 

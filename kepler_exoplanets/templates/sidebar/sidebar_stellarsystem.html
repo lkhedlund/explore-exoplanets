@@ -14,14 +14,14 @@
   <!-- SLIDER FOR ORBIT SPEED -->
   <div>
     <label for='slider-1'>Speed of Orbits</label>
-    <input type='range' name='slider-1' id='slider-1' value='60' min='0' max='100' step='10'>
+    <div id='slider-1' style='margin: 10px 100px 30px 0px'></div>
   </div>
 
   <!-- TOGGLE SWITCH FOR 2D/3D -->
   <div>
-    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='slider'>
-      <option value='off'>3D</option>
-      <option value='on'>2D</option>
+    <select class='toggleStyle' name='flip-1' id='flip-view' data-role='slider'>
+      <option value='3d'>3D</option>
+      <option value='2d'>2D</option>
     </select>
     <label for='flip-1' style='display: inline;'>Viewing Angle</label>
   </div>
@@ -37,9 +37,9 @@
   
   <!-- TOGGLE SWITCH FOR GRIDLINES -->
   <div>
-    <select class='toggleStyle' name='flip-1' id='flip-1' data-role='flipswitch'>
-      <option value='on' id='gridlinesOn'>On</option>
-      <option value='off' id='gridlinesOff'>Off</option>
+    <select class='toggleStyle' name='flip-1' id='flip-orbit' data-role='flipswitch'>
+      <option value='on'>On</option>
+      <option value='off'>Off</option>
     </select>
     <label for='flip-1' style='display: inline;'>Orbit Gridlines</label>
   </div>

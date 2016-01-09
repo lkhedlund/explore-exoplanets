@@ -10,7 +10,7 @@
       var windowwidth = window.innerWidth;
       var width = windowwidth * 0.66667;
       var height = window.innerHeight;
-
+      
       var infobox = document.getElementById('infoBox').innerHTML;
 
       var stars = {};
@@ -85,7 +85,7 @@
           document.getElementById('infoBox').innerHTML = infobox;
         }
 
-        $("#dist").text(Math.round(3000 - camera.position.z) + " LY");
+        $("#dist").text(Math.round(3000 - camera.position.z) + " light years");
         $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
         winResize = new THREEx.WindowResize(renderer, camera);
         renderer.render(scene,camera);

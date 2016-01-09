@@ -59,9 +59,27 @@
         var geometry, material, star;
         var $select = $( "#select-choice-min" );
         $select.change( function() {
+          for( var i = scene.children.length - 1; i >= 0; i--) {
+            obj = scene.children[i];
+            scene.remove(obj);
+          }
           if ($select.val() == "habitable") {
-            console.log("habitable selected");
             {% for star in habitable %}
+              var url = "{% url 'stellar_system' star.pk %}";
+              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            {% endfor %}
+          } else if ($select.val() == "five_plus") {
+            {% for star in five_plus %}
+              var url = "{% url 'stellar_system' star.pk %}";
+              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            {% endfor %}
+          } else if ($select.val() == "hotter") {
+            {% for star in hotter %}
+              var url = "{% url 'stellar_system' star.pk %}";
+              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            {% endfor %}
+          } else if ($select.val() == "cooler") {
+            {% for star in cooler %}
               var url = "{% url 'stellar_system' star.pk %}";
               createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
             {% endfor %}
@@ -72,6 +90,11 @@
             {% endfor %}
           };
         });
+
+        {% for star in stars %}
+          var url = "{% url 'stellar_system' star.pk %}";
+          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+        {% endfor %}
 
         animate();
       }

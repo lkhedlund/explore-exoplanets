@@ -34,7 +34,7 @@
         controls = new THREE.OrbitControls( camera );
         controls.minDistance = 200;
         controls.maxDistance = 2600;
-        controls.enableRotate = false; 
+        controls.enableRotate = false;
         controls.enablePan = false;
 
         skybox_camera.position.set(0, 0, 4000);
@@ -55,8 +55,40 @@
         container.appendChild(renderer.domElement);
         renderer.render(scene,camera);
 
-        // Add 300 spheres to the scene. Random size, random positioning
         var geometry, material, star;
+        var $select = $( "#select-choice-min" );
+        $select.change( function() {
+          for( var i = scene.children.length - 1; i >= 0; i--) {
+            obj = scene.children[i];
+            scene.remove(obj);
+          }
+          if ($select.val() == "habitable") {
+            {% for star in habitable %}
+              var url = "{% url 'stellar_system' star.pk %}";
+              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            {% endfor %}
+          } else if ($select.val() == "five_plus") {
+            {% for star in five_plus %}
+              var url = "{% url 'stellar_system' star.pk %}";
+              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            {% endfor %}
+          } else if ($select.val() == "hotter") {
+            {% for star in hotter %}
+              var url = "{% url 'stellar_system' star.pk %}";
+              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            {% endfor %}
+          } else if ($select.val() == "cooler") {
+            {% for star in cooler %}
+              var url = "{% url 'stellar_system' star.pk %}";
+              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            {% endfor %}
+          } else {
+            {% for star in stars %}
+              var url = "{% url 'stellar_system' star.pk %}";
+              createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url, "{{star.star_designation}}");
+            {% endfor %}
+          };
+        });
 
         {% for star in stars %}
           var url = "{% url 'stellar_system' star.pk %}";
@@ -80,7 +112,7 @@
         if ( selection.length > 0 ) {
           var hoverPlanet = selection[0].object;
           document.getElementById('infoBox').innerHTML = stars[hoverPlanet.id];
-        } 
+        }
         else {
           document.getElementById('infoBox').innerHTML = infobox;
         }

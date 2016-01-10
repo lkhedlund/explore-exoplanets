@@ -102,7 +102,7 @@
         raycast();
 
         // Slider
-        $("#dist").text(Math.round(3000 - camera.position.z) + " light years");
+        $("#dist").text("Distance from Earth is " + Math.round(3000 - camera.position.z) + " light years");
         $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
 
         //resizes canvas when window is

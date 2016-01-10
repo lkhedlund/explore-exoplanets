@@ -1,13 +1,13 @@
 <div class='sidebar'>
   <h3>{{ planet.kepler_name }}</h3>
   <div>
-    Is this planet in the habitable zone?
+
     {% if planet.planet_radius <= 2 and planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
-        Yes!
+      This planet is in the habitable zone
     {% else %}
-        No
+      This planet is not in the habitable zone
     {% endif %}<br>
-    How many transits have been observed? {{ planet.transits_observed }}<br>
+    {{ planet.transits_observed }} transits have been observed<br>
   </div>
 
   <!-- STATS TABLE TO COMPARE EXOPLANET WITH EARTH -->

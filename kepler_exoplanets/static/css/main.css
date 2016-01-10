@@ -40,14 +40,24 @@ div.jumbo {
   border-radius: 6px;
 }
 
-.button {
-  color: white;
+.button,
+button {
+  text-align: center;
+  color: #faebd7;
   margin-top: 10px;
 }
 
-.button:hover {
+.button:hover,
+button:hover {
   color: yellow;
   border-color: yellow;
+}
+
+.menubutton {
+  color: white;
+  margin-top: 10px;
+  width: 250px;
+
 }
 
 #space_container {

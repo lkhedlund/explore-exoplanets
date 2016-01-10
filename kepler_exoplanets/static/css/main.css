@@ -152,7 +152,7 @@ tbody > tr:hover {
 
 /* FORMATTING FOR THE UFO PAGE */
 
-.loading.no-js {
+.error.no-js {
   font-family: sans-serif;
   color: white;
   position: fixed;
@@ -166,7 +166,7 @@ tbody > tr:hover {
   transition: all 2s ease-in-out;
 }
 
-.loading-text {
+.error-text {
   position: absolute;
   top: 75%;
   left: 50%;

@@ -49,8 +49,8 @@ button {
 
 .button:hover,
 button:hover {
-  color: yellow;
-  border-color: yellow;
+  color: #F0C400;
+  border-color: #F0C400;
 }
 
 .menubutton {
@@ -95,12 +95,13 @@ table.center {
     text-align:left;
 }
 
-
 #dist {
-  float: right;
+  float: center;
   font-size: 1em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 500;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 #infoBox {
@@ -111,10 +112,16 @@ table.center {
   padding: 10px;
 }
 
+.sliderlabel {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .toggleStyle {
+  margin-top: 10px;
   display: inline-block;
-  height: 38px;
-  padding: 0 30px;
+  width: 85px;
+  padding: 0 10px;
   color: #faebd7;
   text-align: center;
   font-size: 11px;

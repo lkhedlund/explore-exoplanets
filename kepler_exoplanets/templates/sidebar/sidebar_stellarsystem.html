@@ -1,19 +1,16 @@
 <div class='sidebar'>
   <h3 class='starname'></h3>
   <div>
-    Total planets in this star system: {{ planets|length }}<br>
-    {% if habitable %}
-      Rocky planets: {{rocky|length }}<br>
-      &nbsp; &raquo; &nbsp; <b>{{ habitable|length }} is habitable!</b>
-    {% else %}
-      Rocky planets: {{rocky|length }}
-    {% endif %}<br>
+    There are {{ planets|length }} planets in this star system<br>
+    Rocky planets: {{totalrocky}}<br>
+    Habitable planets: {{ habitable|length }}<br>
     Gas planets: {{ gas|length }}<br>
   </div>
 
   <!-- SLIDER FOR ORBIT SPEED -->
-  <div>
-    <label for='slider-1' id='orbit'>Orbit speed 1X</label>
+
+  <div class="sliderlabel">
+    <label for='slider-1'>Speed of Orbits</label>
     <div id='slider-1'></div>
   </div>
 

@@ -36,13 +36,15 @@ def stellar_system(request, system_id):
     gas = planets.filter(planet_radius__gt=2)
     rocky = planets.filter(planet_radius__lte=2)
     habitable = rocky.filter(planet_radius__lte=2, surface_temp__gte=273, surface_temp__lt=373)
+    totalrocky = len(rocky) - len(habitable)
     return render(request, 'stellar_system/stellar_system.html', {
         'star': star,
         'planets': planets,
         'name': name,
         'gas': gas,
         'rocky': rocky,
-        'habitable': habitable
+        'habitable': habitable,
+        'totalrocky': totalrocky
     })
 
 def planet(request, planet_id):

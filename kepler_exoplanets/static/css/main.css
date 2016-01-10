@@ -42,7 +42,7 @@ div.jumbo {
 
 .button {
   color: white;
-  margin: 10px;
+  margin-top: 10px;
 }
 
 .button:hover {
@@ -59,8 +59,8 @@ div.jumbo {
 }
 
 .sidebar {
-  text-align: center;
   position: fixed;
+  text-align: center;
   margin-top: 30px;
   padding: 10px;
   width: 27%;
@@ -71,7 +71,7 @@ div.jumbo {
 }
 
 table.center {
-  margin-left:auto; 
+  margin-left:auto;
   margin-right:auto;
 }
 
@@ -80,7 +80,7 @@ table.center {
 }
 
 #dist {
-  float: center;
+  float: right;
   font-size: 1em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 500;
@@ -111,7 +111,7 @@ table.center {
   border-radius: 4px;
   border: 1px solid #bbb;
   cursor: pointer;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 #amount {
@@ -120,6 +120,10 @@ table.center {
 
 tbody > tr:hover {
   color: yellow;
+}
+
+#select-choice {
+  z-index: 100;
 }
 
 /* FORMATTING FOR THE UFO PAGE */

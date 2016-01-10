@@ -89,6 +89,13 @@ table.center {
   text-align: center;
 }
 
+.centerlist{
+    width:78%;
+    margin:0 auto;
+    text-align:left;
+}
+
+
 #dist {
   float: right;
   font-size: 1em; /* currently ems cause chrome bug misinterpreting rems on body element */

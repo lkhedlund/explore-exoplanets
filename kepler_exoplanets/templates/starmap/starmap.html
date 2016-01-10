@@ -102,7 +102,7 @@
         raycast();
 
         // Slider
-        $("#dist").text(Math.round(3000 - camera.position.z) + " light years");
+        $("#dist").text("Distance from Earth is " + Math.round(3000 - camera.position.z) + " light years");
         $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
 
         //resizes canvas when window is
@@ -141,8 +141,7 @@
 
       // EVENT LISTENERS
       // Planets turn blue on mouseover (It will make them brighter)
-      document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-      function onDocumentMouseMove( event ) {
+      $('canvas').on( 'mousemove', false, function () {
         event.preventDefault();
         var offset = {
           x: document.getElementsByTagName("canvas")[0].offsetLeft,
@@ -150,19 +149,17 @@
         }
         mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
         mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
-      }
+      });
 
       // Make the planets clickable
-      document.addEventListener('click', onDocumentMouseClick, false);
-      function onDocumentMouseClick() {
-        console.log(scene.children);
+      $('canvas').on('click', false, function () {
         event.preventDefault();
         selection = raycaster.intersectObjects(scene.children, true);
         if (selection.length > 0) {
           clickedPlanet = selection[0].object;
           window.location = stars[clickedPlanet.id];
         }
-      }
+      });
 
       // Deactivate trackball controlls when interacting with the panel
       $('#sidebar').on('mouseenter', function() {

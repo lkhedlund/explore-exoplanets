@@ -246,13 +246,9 @@
         }
 
         // Make the planets clickable (for now, it alerts the coordinates)
-        document.addEventListener('click', onDocumentMouseClick, false);
-        function onDocumentMouseClick() {
+        $('canvas').on( 'click', false, function () {
           if (selection.length > 0) {
             clickedPlanet = selection[0].object;
-            console.log(clickedPlanet.id);
-            console.log(scene.children);
-            console.log(paths);
             if (clickedPlanet.id == 7) {
               window.location = '{% url 'star' star.pk %}';
             }
@@ -264,7 +260,7 @@
               window.location = paths[clickedPlanet.id - 1];
             }
           }
-        }
+        });
 
         // Deactivate orbit controls when interacting with the panel
 
@@ -309,20 +305,18 @@
           value: 100,
           slide: function(mousemove, speed) {
             s = speed.value / 100;
-            console.log(s);
           }
         });
 
 
-      document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-      function onDocumentMouseMove( event ) {
+      $('canvas').on( 'mousemove', false, function () {
         var offset = {
-          x: document.getElementsByTagName('canvas')[0].offsetLeft,
-          y: document.getElementsByTagName('canvas')[0].offsetTop,
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
         }
         mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
         mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
-      }
+      });
     });
     </script>
   {% endblock %}

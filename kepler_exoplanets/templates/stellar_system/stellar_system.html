@@ -74,6 +74,14 @@
               planetRadius = {{ planet.planet_radius }}
             {% endif %}
 
+            {% if planet.planet_radius < 1 %}
+              planetRadius = 1
+            {% elif planet.planet_radius > 5 %}
+              planetRadius = 5
+            {% else %}
+              planetRadius = {{ planet.planet_radius }}
+            {% endif %}
+
             selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
             initialY.push({{ planet.semimajor_axis }} * 2.5);
 
@@ -249,10 +257,10 @@
         $('canvas').on( 'click', false, function () {
           if (selection.length > 0) {
             clickedPlanet = selection[0].object;
-            if (clickedPlanet.id == 7) {
+            if (clickedPlanet.id == 6) {
               window.location = '{% url 'star' star.pk %}';
             }
-            else if (clickedPlanet.id % 2 == 0)
+            else if (clickedPlanet.id % 2 == 1)
             {
               window.location = paths[clickedPlanet.id];
             }

@@ -6,8 +6,8 @@
 {% include 'partials/_gasfragment.html' %}
 {% include 'partials/_gasvertex.html' %}
 
-  <div id="space_container"></div>
-    <script type="text/javascript">
+  <div id='space_container'></div>
+    <script type='text/javascript'>
 
       $(function() {
         var controls, camera, scene, renderer, container, winResize;
@@ -64,7 +64,7 @@
 
           // Create and add planets to the stellar system
           {% for planet in planets %}
-            var url = "{% url 'planet' planet.pk %}";
+            var url = '{% url 'planet' planet.pk %}';
             // Planet sizes have a minimun of 1 and a maximum of 5
             {% if planet.planet_radius < 1 %}
               planetRadius = 1
@@ -100,7 +100,7 @@
           star.rotation.z += 0.005;
           planets.forEach(rotatePlanet);
 
-          //resizes canvas when window is
+          $('#zoom-slider' ).slider({ value: camera.position.z });
           winResize = new THREEx.WindowResize(renderer, camera);
           renderer.render(scene, camera);
         }
@@ -122,11 +122,11 @@
           starmaterial = new THREE.ShaderMaterial({
             uniforms: {
               tExplosion: {
-                type: "t",
+                type: 't',
                 value: Textures.sunexplocolor
               },
               time: { // float initialized to 0
-                type: "f",
+                type: 'f',
                 value: 0.0
               }
             },
@@ -161,11 +161,11 @@
           redMaterial = new THREE.ShaderMaterial({
             uniforms: {
               tExplosion: {
-                type: "t",
+                type: 't',
                 value: Textures.redexplocolor
               },
               time: {
-                type: "f",
+                type: 'f',
                 value: 0.0
               }
             },
@@ -186,11 +186,11 @@
           blueMaterial = new THREE.ShaderMaterial({
             uniforms: {
               tExplosion: {
-                type: "t",
+                type: 't',
                 value: Textures.blueexplocolor
               },
               time: {
-                type: "f",
+                type: 'f',
                 value: 0.0
               }
             },
@@ -252,7 +252,7 @@
           if (selection.length > 0) {
             clickedPlanet = selection[0].object;
             if (clickedPlanet.id == 6) {
-              window.location = "{% url 'star' star.pk %}";
+              window.location = '{% url 'star' star.pk %}';
             }
             else if (clickedPlanet.id % 2 == 1)
             {
@@ -265,6 +265,7 @@
         }
 
         // Deactivate orbit controls when interacting with the panel
+
         // Show/hide orbit circles
         $('.sidebar').on('mouseenter', function() {
           controls.enabled = false;
@@ -276,6 +277,7 @@
           skybox_controls.enabled = true;
         });
 
+        // Toggle gridlines
         $('#flip-orbit').on('change', function(){
           if ($('#flip-orbit').val() == 'off') {
             circles.map(function(circle){circle.visible = false});
@@ -284,6 +286,7 @@
           };
         });
 
+        // Toggle viewing angle
         $('#flip-view').on('change', function(){
           if ($('#flip-view').val() == '3d') {
             camera.position.set(0, - cam, cam);
@@ -296,22 +299,36 @@
           };
         });
 
-        $( "#slider-1" ).slider({
+        // Speed slider
+        $( '#slider-1' ).slider({
           animate: true,
           max: 1000,
           min: 0,
           value: 100,
-          slide: function( mousemove, speed) {
+          slide: function(mousemove, speed) {
             s = speed.value / 100;
             console.log(s);
           }
         });
 
+        // Zoom slider
+        $( '#zoom-slider' ).slider({
+          animate: true,
+          max: 500,
+          min: 100,
+          value: cam,
+          slide: function(mousemove, zoom) {
+            z = zoom.value/100;
+            camera.position.set(0, -z, z);
+          }
+        });
+
+
       document.addEventListener( 'mousemove', onDocumentMouseMove, false );
       function onDocumentMouseMove( event ) {
         var offset = {
-          x: document.getElementsByTagName("canvas")[0].offsetLeft,
-          y: document.getElementsByTagName("canvas")[0].offsetTop,
+          x: document.getElementsByTagName('canvas')[0].offsetLeft,
+          y: document.getElementsByTagName('canvas')[0].offsetTop,
         }
         mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
         mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;

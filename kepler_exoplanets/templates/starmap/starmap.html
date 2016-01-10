@@ -85,7 +85,6 @@
           var url = "{% url 'stellar_system' star.pk %}";
           createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
         {% endfor %}
-
         animate();
       }
 
@@ -94,6 +93,7 @@
           obj = scene.children[i];
           scene.remove(obj);
         }
+        stars = [];
       }
 
       function animate() {
@@ -129,7 +129,6 @@
         scene.add(star);
         star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
         stars[star.id - 1] = path;
-        console.log(stars);
         // Star glow (using sprites)
         var spriteMaterial = new THREE.SpriteMaterial({
           map: Textures.glow,
@@ -156,6 +155,7 @@
       // Make the planets clickable
       document.addEventListener('click', onDocumentMouseClick, false);
       function onDocumentMouseClick() {
+        console.log(scene.children);
         event.preventDefault();
         selection = raycaster.intersectObjects(scene.children, true);
         if (selection.length > 0) {

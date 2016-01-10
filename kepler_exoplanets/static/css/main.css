@@ -40,14 +40,24 @@ div.jumbo {
   border-radius: 6px;
 }
 
-.button {
-  color: white;
+.button,
+button {
+  text-align: center;
+  color: #faebd7;
   margin-top: 10px;
 }
 
-.button:hover {
+.button:hover,
+button:hover {
   color: yellow;
   border-color: yellow;
+}
+
+.menubutton {
+  color: white;
+  margin-top: 10px;
+  width: 250px;
+
 }
 
 #space_container {
@@ -60,14 +70,13 @@ div.jumbo {
 
 .sidebar {
   position: fixed;
-  margin: 20px;
-  margin-top: 30px;
+  text-align: center;
+  margin-top: 10px;
   padding: 10px;
   width: 27%;
   right: 10px;
   color: #faebd7;
   z-index: 3;
-  border-radius: 2%;
   background: transparent;
 }
 
@@ -80,8 +89,15 @@ table.center {
   text-align: center;
 }
 
+.centerlist{
+    width:78%;
+    margin:0 auto;
+    text-align:left;
+}
+
+
 #dist {
-  float: center;
+  float: right;
   font-size: 1em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 500;

@@ -1,17 +1,20 @@
 <div class='sidebar'>
-  <h5 class='starname'></h5>
+  <h3 class='starname'></h3>
   <div >
     Star name: {{ star.star_designation }}<br>
-    Coordinates in sky:<br>
-    &nbsp; &raquo; &nbsp; Right ascension {{ star.right_ascension }}&#176;<br>
-    &nbsp; &raquo; &nbsp; Declination {{ star.declination }}&#176;<br>
+    <div class= "centerlist">
+    <ul>Coordinates in sky:
+      <li>Right ascension {{ star.right_ascension }}&#176;</li>
+      <li>Declination {{ star.declination }}&#176;</li> 
+    </ul>
+    </div>
     Number of planets: {{ planets|length }} <br>
 
     <!-- STATS TABLE -->
     <table class="center">
       <thead>
         <tr>
-          <th colspan='3'>Compare with our Sun:</th>
+          <th style="text-align:center"colspan='3'>Compare with our Sun:</th>
         </tr>
         <tr>
           <th></th>

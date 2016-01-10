@@ -129,6 +129,7 @@
         scene.add(star);
         star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
         stars[star.id - 1] = path;
+        console.log(stars);
         // Star glow (using sprites)
         var spriteMaterial = new THREE.SpriteMaterial({
           map: Textures.glow,
@@ -142,7 +143,6 @@
       // EVENT LISTENERS
       // Planets turn blue on mouseover (It will make them brighter)
       document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-
       function onDocumentMouseMove( event ) {
         event.preventDefault();
         var offset = {

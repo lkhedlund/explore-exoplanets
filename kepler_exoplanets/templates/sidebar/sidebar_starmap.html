@@ -14,9 +14,9 @@
   </div>
 
   <!-- DROPDOWN MENU FOR FILTERING OPTIONS -->
-   <button class="menubutton active" id="select-default">Show All (default)</button>
-   <button class="menubutton" id="select-five_plus">Stars with 5+ planets</button>
-   <button class="menubutton" id="select-habitable">Stars with habitable planets</button>
+   <button class="active" id="select-default">Show All (default)</button>
+   <button id="select-five_plus">Stars with 5+ planets</button>
+   <button id="select-habitable">Stars with habitable planets</button>
 
   <!-- SLIDER FOR MOVEMENT -->
 
@@ -26,9 +26,9 @@
 <!--     <input oninput='outputUpdate(value)'></div>
     <output for='star-slider' id='dist'>500</output> -->
   </div>
-  <div class='button' id='camera-reset'>
+  <button id='camera-reset'>
     Reset Distance
-  </div>
+  </button>
 </div>
 
 <script>
@@ -36,8 +36,8 @@
     function outputUpdate(dist) {
       document.querySelector('#dist').value = dist;
     }
-    $('.menubutton').on('click', function(){
-      $('.menubutton').removeClass('active');
+    $('button').on('click', function(){
+      $('button').removeClass('active');
       $(this).addClass('active');
     });
   });

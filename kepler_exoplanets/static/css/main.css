@@ -12,6 +12,11 @@ body {
   min-width: 800px;
   min-height: 600px;
   overflow: hidden;
+  font-size: 1.5em;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", Helvetica, Arial, sans-serif;
+  color: #222;
 }
 
 header {
@@ -43,28 +48,72 @@ div.jumbo {
   border-radius: 6px;
 }
 
-.button,
 button {
   text-align: center;
   color: #faebd7;
   margin-top: 10px;
-  width: 200px;
+  min-width: 300px;
+  height: 38px;
+  padding: 0 30px;
+  color: #555;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
-.button:hover,
 button:hover {
   color: #F0C400;
   border-color: #F0C400;
+  outline: 0;
 }
 
-.menubutton {
-  width: 250px;
-}
-
-.menubutton.active {
+button:active {
   color: #F0C400;
   border-color: #F0C400;
 }
+
+table.center {
+  margin-left:auto;
+  margin-right:auto;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #E1E1E1;
+}
+th:first-child,
+td:first-child {
+  padding-left: 0;
+}
+th:last-child,
+td:last-child {
+  padding-right: 0;
+}
+
+select {
+  height: 38px;
+  padding: 6px 10px;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+select option {
+  background: rgb(0,0,0);
+}
+
 
 #space_container {
   position: fixed;
@@ -87,11 +136,6 @@ button:hover {
   font-size: 1em;
   font-size: 1.1vw;
   background: transparent;
-}
-
-table.center {
-  margin-left:auto;
-  margin-right:auto;
 }
 
 .stats {
@@ -159,16 +203,7 @@ table.center {
 
 /* FORMATTING FOR THE UFO PAGE */
 
-.error.no-js {
-  font-family: sans-serif;
-  color: white;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  padding: 0;
-  top: 0;
-  left: 0;
+.error {
   -webkit-transition: 2s ease-in-out;
   transition: all 2s ease-in-out;
 }
@@ -215,8 +250,6 @@ table.center {
 .faces {
   background-repeat: no-repeat;
   position: absolute;
-/*  bottom: 15px;
-  right: -130px;*/
   opacity: 0;
   height: 60px;
   width: 60px;

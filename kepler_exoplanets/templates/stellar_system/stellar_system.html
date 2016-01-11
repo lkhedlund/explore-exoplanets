@@ -15,7 +15,7 @@
         var u = 0.05;
         var t = 0;
         var s = 1;
-        var cam = {{ planets.last.semimajor_axis }} * 700;
+        var cam = {{ planets.last.semimajor_axis }} * 650;
         // Orbits circles
         var circleSegments = 64;        
         var circles = [];
@@ -64,26 +64,24 @@
           // Create and add planets to the stellar system
           {% for planet in planets %}
             var url = '{% url 'planet' planet.pk %}';
-            // Planet sizes have a minimun of 1 and a maximum of 5
-            {% if planet.planet_radius < 1 %}
+            // Planet sizes have a minimun of 2 and a maximum of 5
+            {% if planet.planet_radius < 2 %}
               planetRadius = 2
-            {% elif planet.planet_radius > 5 %}
-              planetRadius = 5
+            {% elif planet.planet_radius > 6 %}
+              planetRadius = 6
             {% else %}
               planetRadius = {{ planet.planet_radius }}
             {% endif %}
 
-            {% if planet.planet_radius < 1 %}
-              planetRadius = 1
-            {% elif planet.planet_radius > 5 %}
-              planetRadius = 5
+            {% if planet.semimajor_axis < 0.05 %}
+              semimajor_axis = 0.05
             {% else %}
-              planetRadius = {{ planet.planet_radius }}
+              semimajor_axis = {{ planet.semimajor_axis }}
             {% endif %}
+            console.log(semimajor_axis)
 
-            selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
-            initialY.push({{ planet.semimajor_axis }} * 2.5);
-
+            selectPlanet(planetRadius, {{ planet.surface_temp }}, semimajor_axis, url);
+            initialY.push(semimajor_axis * 2.5);
             {% if planet.orbital_period == null %}
               orbperiod = 15
             {% else %}
@@ -91,7 +89,6 @@
             {% endif %}
             speed.push(1 / orbperiod);
           {% endfor %}
-
           launch = Date.now();
           animate();
         }
@@ -129,6 +126,9 @@
 
         // add the star
         function addStar(size) {
+          if (size > 2.5) {
+            size = 2.5
+          }
           var geometry = new THREE.IcosahedronGeometry( size * 10, 5 );
           starmaterial = new THREE.ShaderMaterial({
             uniforms: {
@@ -280,6 +280,7 @@
         $('.sidebar').on('mouseenter', function() {
           controls.enabled = false;
           skybox_controls.enabled = false;
+                    console.log(cam);
         });
 
         $('.sidebar').on('mouseleave', function() {

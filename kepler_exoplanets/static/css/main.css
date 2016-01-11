@@ -9,6 +9,9 @@
 body {
   margin: 0;
   z-index: 1;
+  min-width: 800px;
+  min-height: 600px;
+  overflow: hidden;
 }
 
 header {
@@ -267,4 +270,16 @@ table.center {
     transform: rotate(360deg);
     opacity: 0;
   }
+}
+
+/*Loading*/
+
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('../images/spinner.gif') 50% 50% no-repeat rgb(0,0,0);
 }

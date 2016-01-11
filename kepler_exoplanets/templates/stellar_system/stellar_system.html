@@ -16,10 +16,8 @@
         var s = 1;
         var cam = {{ planets.last.semimajor_axis }} * 700;
         // Orbits circles
-        var circleSegments = 64;
-        var circleMaterial = new THREE.LineBasicMaterial( { color: 0xF0C400 } );
+        var circleSegments = 64;        
         var circles = [];
-
         var planets = [],
             initialY = [],
             speed = [],
@@ -67,7 +65,7 @@
             var url = '{% url 'planet' planet.pk %}';
             // Planet sizes have a minimun of 1 and a maximum of 5
             {% if planet.planet_radius < 1 %}
-              planetRadius = 1
+              planetRadius = 2
             {% elif planet.planet_radius > 5 %}
               planetRadius = 5
             {% else %}
@@ -116,10 +114,15 @@
           raycaster.setFromCamera( mouse, camera );
           selection = raycaster.intersectObjects( scene.children );
           if ( selection.length > 0 ) {
+            clickedPlanet = selection[0].object;
             $('canvas').css('cursor', 'pointer');
+              if (clickedPlanet.id % 2 == 0) {
+                clickedPlanet.material.setValues({linewidth: 2});
+              }
           }
           else {
             $('canvas').css('cursor', 'auto');
+            circles.map(function(circle){circle.material.setValues({linewidth: 1})});
           }
         }
 
@@ -240,8 +243,8 @@
         // add a orbit circle to the planet
         function addCircle(distance) {
           geometry = new THREE.CircleGeometry( distance, circleSegments );
-          geometry.vertices.shift();
-          circle = new THREE.Line(geometry,  circleMaterial);
+          geometry.vertices.shift();       
+          circle = new THREE.Line(geometry, new THREE.LineBasicMaterial( { color: 0xF0C400 } ));
           circles.push(circle);
           scene.add(circle);
         }

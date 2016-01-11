@@ -73,15 +73,8 @@
               planetRadius = {{ planet.planet_radius }}
             {% endif %}
 
-            {% if planet.semimajor_axis < 0.05 %}
-              semimajor_axis = 0.05
-            {% else %}
-              semimajor_axis = {{ planet.semimajor_axis }}
-            {% endif %}
-            console.log(semimajor_axis)
-
-            selectPlanet(planetRadius, {{ planet.planet_radius }}, {{ planet.surface_temp }}, semimajor_axis, url);
-            initialY.push(semimajor_axis * 2.5);
+            selectPlanet(planetRadius, {{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
+            initialY.push({{ planet.semimajor_axis }} * 2.5);
             {% if planet.orbital_period == null %}
               orbperiod = 15
             {% else %}

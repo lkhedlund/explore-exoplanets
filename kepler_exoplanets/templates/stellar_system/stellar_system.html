@@ -81,7 +81,7 @@
             {% endif %}
             console.log(semimajor_axis)
 
-            selectPlanet(planetRadius, {{ planet.surface_temp }}, semimajor_axis, url);
+            selectPlanet(planetRadius, {{ planet.planet_radius }}, {{ planet.surface_temp }}, semimajor_axis, url);
             initialY.push(semimajor_axis * 2.5);
             {% if planet.orbital_period == null %}
               orbperiod = 15
@@ -152,15 +152,15 @@
         }
 
         // select which type of planet to add
-        function selectPlanet(size, temp, distance, url) {
+        function selectPlanet(size, realsize, temp, distance, url) {
           distance = distance * 2;
-          if  (temp > 273 && temp < 373 && size < 2) {
+          if  (temp > 273 && temp < 373 && realsize < 2) {
             addHabitable(size, distance, url);
            }
-          else if (size > 4) {
+          else if (realsize > 4) {
             addRed(size, distance, url);
           }
-          else if (size > 2) {
+          else if (realsize > 2) {
             addBlue(size, distance, url);
           }
           else {
@@ -342,6 +342,7 @@
         mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
         mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
       });
+
     });
     </script>
   {% endblock %}

@@ -1,6 +1,15 @@
 <div class='sidebar'>
   <h2 class='starname'></h2>
   <div>
+    <p id='infoBox'>You just arrived to a star system.<br>
+    Wonder if you should settle there ?<br> 
+    Take your time to learn more about it<br>
+    You can use your mouse to explore<br>
+    Click on sun or planets to learn more
+    </p>
+  </div>
+
+  <div>
     There are {{ planets|length }} planets in this star system<br>
     Rocky planets: {{totalrocky}}<br>
     Habitable planets: {{ habitable|length }}<br>
@@ -10,7 +19,7 @@
   <!-- SLIDER FOR ORBIT SPEED -->
 
   <div class="sliderlabel">
-    <label for='slider-1'>Speed of Orbits</label>
+    <label id='orbit' for='slider-1'>Speed of Orbits 5 day(s)/sec</label>
     <div id='slider-1'></div>
   </div>
 

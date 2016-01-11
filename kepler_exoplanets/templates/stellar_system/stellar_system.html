@@ -12,9 +12,10 @@
       $(function() {
         var controls, camera, scene, renderer, container, winResize;
 
+        var u = 0.05;
         var t = 0;
         var s = 1;
-        var cam = {{ planets.last.semimajor_axis }} * 700;
+        var cam = {{ planets.last.semimajor_axis }} * 650;
         // Orbits circles
         var circleSegments = 64;        
         var circles = [];
@@ -64,34 +65,31 @@
           // Create and add planets to the stellar system
           {% for planet in planets %}
             var url = '{% url 'planet' planet.pk %}';
-            // Planet sizes have a minimun of 1 and a maximum of 5
-            {% if planet.planet_radius < 1 %}
+            // Planet sizes have a minimun of 2 and a maximum of 5
+            {% if planet.planet_radius < 2 %}
               planetRadius = 2
-            {% elif planet.planet_radius > 5 %}
-              planetRadius = 5
+            {% elif planet.planet_radius > 6 %}
+              planetRadius = 6
             {% else %}
               planetRadius = {{ planet.planet_radius }}
             {% endif %}
 
-            {% if planet.planet_radius < 1 %}
-              planetRadius = 1
-            {% elif planet.planet_radius > 5 %}
-              planetRadius = 5
+            {% if planet.semimajor_axis < 0.05 %}
+              semimajor_axis = 0.05
             {% else %}
-              planetRadius = {{ planet.planet_radius }}
+              semimajor_axis = {{ planet.semimajor_axis }}
             {% endif %}
+            console.log(semimajor_axis)
 
-            selectPlanet(planetRadius, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
-            initialY.push({{ planet.semimajor_axis }} * 2.5);
-
+            selectPlanet(planetRadius, {{ planet.surface_temp }}, semimajor_axis, url);
+            initialY.push(semimajor_axis * 2.5);
             {% if planet.orbital_period == null %}
               orbperiod = 15
             {% else %}
               orbperiod = {{ planet.orbital_period }}
             {% endif %}
-            speed.push(orbperiod);
+            speed.push(1 / orbperiod);
           {% endfor %}
-
           launch = Date.now();
           animate();
         }
@@ -102,8 +100,8 @@
           raycast();
 
           starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
-          t += (0.0005 * s);
-          star.rotation.z += 0.005;
+          t += (0.5 * s);
+          star.rotation.z += (u / 10);
           planets.forEach(rotatePlanet);
 
           $('#zoom-slider' ).slider({ value: camera.position.z });
@@ -128,6 +126,9 @@
 
         // add the star
         function addStar(size) {
+          if (size > 2.5) {
+            size = 2.5
+          }
           var geometry = new THREE.IcosahedronGeometry( size * 10, 5 );
           starmaterial = new THREE.ShaderMaterial({
             uniforms: {
@@ -251,7 +252,7 @@
 
         // planets rotation
         function rotatePlanet(planet, index) {
-          planet.rotation.z += 0.05;
+          planet.rotation.z += u;
           planet.position.y = initialY[index] * 200 * Math.cos(t * speed[index]) + 0 * Math.sin(t * speed[index]);
           planet.position.x = 0 * Math.cos(t * speed[index]) - initialY[index] * 200 * Math.sin(t * speed[index]);
         }
@@ -279,6 +280,7 @@
         $('.sidebar').on('mouseenter', function() {
           controls.enabled = false;
           skybox_controls.enabled = false;
+                    console.log(cam);
         });
 
         $('.sidebar').on('mouseleave', function() {
@@ -312,11 +314,22 @@
         $( '#slider-1' ).slider({
           animate: true,
           max: 1000,
-          min: 0,
+          min: 0.00023148,
           value: 100,
           slide: function(mousemove, speed) {
             s = speed.value / 100;
-            $('#orbit').text("Orbit speed " + Math.round(s) + "X")
+            if (speed.value == 0.00023148) {
+              $('#orbit').text("Speed of Orbits REAL");
+              u = 0;
+            }
+            else if (Math.round(5 * s) == 0){ 
+              $('#orbit').text("Speed of Orbits < 1 day/sec");
+              u = 0.05;
+            }
+            else {
+              $('#orbit').text("Speed of Orbits " + Math.round(5 * s) + " day(s)/sec");
+              u = 0.02;
+          }
           }
         });
 

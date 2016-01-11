@@ -322,12 +322,12 @@
               $('#orbit').text("Speed of Orbits REAL");
               u = 0;
             }
-            else if (Math.round(5 * s) == 0){
-              $('#orbit').text("Speed of Orbits 1sec < 1 day");
+            else if (Math.round(5 * s) == 0){ 
+              $('#orbit').text("Speed of Orbits < 1 day/sec");
               u = 0.05;
             }
             else {
-              $('#orbit').text("Speed of Orbits 1sec = " + Math.round(5 * s) + " days");
+              $('#orbit').text("Speed of Orbits " + Math.round(5 * s) + " day(s)/sec");
               u = 0.02;
           }
           }

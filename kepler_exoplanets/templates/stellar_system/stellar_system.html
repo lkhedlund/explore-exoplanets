@@ -319,15 +319,15 @@
           slide: function(mousemove, speed) {
             s = speed.value / 100;
             if (speed.value == 0.00023148) {
-              $('#orbit').text("Speed of Orbits REAL");
+              $('#orbit').text("Speed of Orbits in real time");
               u = 0;
             }
             else if (Math.round(5 * s) == 0){ 
-              $('#orbit').text("Speed of Orbits < 1 day/sec");
+              $('#orbit').text("Speed of Orbits is < 1 day/sec");
               u = 0.05;
             }
             else {
-              $('#orbit').text("Speed of Orbits " + Math.round(5 * s) + " day(s)/sec");
+              $('#orbit').text("Speed of Orbits is " + Math.round(5 * s) + " day(s)/sec");
               u = 0.02;
           }
           }

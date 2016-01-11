@@ -170,7 +170,7 @@
 }
 .ui-widget-content {
 	border: 1px solid #666666;
-	background: #000000 50% bottom repeat-x;
+	background: transparent 50% bottom repeat-x;
 	color: #ffffff;
 }
 .ui-widget-content a {

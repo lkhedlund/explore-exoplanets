@@ -75,7 +75,7 @@ button:hover {
   outline: 0;
 }
 
-button:active {
+button .active {
   color: #F0C400;
   border-color: #F0C400;
 }

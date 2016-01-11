@@ -1,5 +1,5 @@
 <div class='sidebar'>
-  <h3 class='starname'></h3>
+  <h2 class='starname'></h2>
   <div >
     Star name: {{ star.star_designation }}<br>
   <!--   <div class= "centerlist">
@@ -14,7 +14,7 @@
     <table class="center">
       <thead>
         <tr>
-          <th style="text-align:center"colspan='3'>Compare with our Sun</th>
+          <th style="text-align:center"colspan='3'>Comparison with our Sun</th>
         </tr>
         <tr>
           <th></th>
@@ -50,7 +50,7 @@
 
 <script>
   $(function() {
-    name = "{{ name }}";
+    var name = "{{ name }}";
     name = name.slice(0, -2);
     $('.starname').text(name);
   });

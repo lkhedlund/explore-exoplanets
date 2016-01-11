@@ -1,5 +1,5 @@
 <div class='sidebar'>
-  <h3 class='starname'></h3>
+  <h2 class='starname'></h2>
   <div>
     There are {{ planets|length }} planets in this star system<br>
     Rocky planets: {{totalrocky}}<br>
@@ -41,7 +41,7 @@
 
 <script>
   $(function() {
-    name = "{{ name }}";
+    var name = "{{ name }}";
     name = name.slice(0, -2);
     $('.starname').text(name);
   });

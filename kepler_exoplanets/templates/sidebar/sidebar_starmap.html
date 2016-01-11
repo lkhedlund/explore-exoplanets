@@ -1,5 +1,5 @@
 <div class='sidebar'>
-  <h3>Welcome To Kepler!</h3>
+  <h2>Welcome To Kepler!</h2>
   <div>
     <p id='infoBox'>Kepler is a NASA satellite whose mission is to discover exoplanets - planets which orbit stars other than our own. The discoveries made bring us one step closer to discovering life out in the universe. Come explore with us...</p>
   </div>
@@ -14,7 +14,7 @@
   </div>
 
   <!-- DROPDOWN MENU FOR FILTERING OPTIONS -->
-   <button class="menubutton" id="select-default">Show All (default)</button>
+   <button class="menubutton active" id="select-default">Show All (default)</button>
    <button class="menubutton" id="select-five_plus">Stars with 5+ planets</button>
    <button class="menubutton" id="select-habitable">Stars with habitable planets</button>
 
@@ -32,7 +32,13 @@
 </div>
 
 <script>
-  function outputUpdate(dist) {
-    document.querySelector('#dist').value = dist;
-  }
+  $(function() {
+    function outputUpdate(dist) {
+      document.querySelector('#dist').value = dist;
+    }
+    $('.menubutton').on('click', function(){
+      $('.menubutton').removeClass('active');
+      $(this).addClass('active');
+    });
+  });
 </script>

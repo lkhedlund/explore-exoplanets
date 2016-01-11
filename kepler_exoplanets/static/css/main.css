@@ -54,10 +54,12 @@ button:hover {
 }
 
 .menubutton {
-  color: white;
-  margin-top: 10px;
   width: 250px;
+}
 
+.menubutton.active {
+  color: #F0C400;
+  border-color: #F0C400;
 }
 
 #space_container {
@@ -71,9 +73,10 @@ button:hover {
 .sidebar {
   position: fixed;
   text-align: center;
-  margin-top: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
   padding: 10px;
-  width: 27%;
+  width: 300px;
   right: 10px;
   color: #faebd7;
   z-index: 3;
@@ -140,10 +143,6 @@ table.center {
 
 #amount {
   background-color: black;
-}
-
-tbody > tr:hover {
-  color: yellow;
 }
 
 #select-choice {

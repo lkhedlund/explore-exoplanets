@@ -48,6 +48,7 @@ button {
   text-align: center;
   color: #faebd7;
   margin-top: 10px;
+  width: 200px;
 }
 
 .button:hover,
@@ -78,7 +79,7 @@ button:hover {
   text-align: center;
   margin-top: auto;
   margin-bottom: auto;
-  padding:30px;
+  padding:20px;
   width: 25%;
   right: 30px;
   color: #faebd7;

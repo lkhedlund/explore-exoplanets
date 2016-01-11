@@ -55,6 +55,7 @@
           renderer = new THREE.WebGLRenderer({alpha: true});
           renderer.setClearColor(0xffffff, 0);
           renderer.setSize(width, height);
+          winResize = new THREEx.WindowResize(renderer, camera);
           container.appendChild(renderer.domElement);
 
           // Create and add the star to the stellar system
@@ -106,7 +107,6 @@
           planets.forEach(rotatePlanet);
 
           $('#zoom-slider' ).slider({ value: camera.position.z });
-          winResize = new THREEx.WindowResize(renderer, camera);
           renderer.render(scene, camera);
         }
 

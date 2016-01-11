@@ -2,12 +2,6 @@
   <h2 class='starname'></h2>
   <div >
     Star name: {{ star.star_designation }}<br>
-  <!--   <div class= "centerlist">
-    <ul>Coordinates in sky:
-      <li>Right ascension {{ star.right_ascension }}&#176;</li>
-      <li>Declination {{ star.declination }}&#176;</li> 
-    </ul>
-    </div> -->
     Number of planets: {{ planets|length }} <br>
 
     <!-- STATS TABLE -->
@@ -42,10 +36,11 @@
     </table>
   </div>
 
-  <!-- BUTTON TO RETURN TO SYSTEM -->
+<!-- BUTTON TO RETURN TO SYSTEM -->
   <a href="{% url 'stellar_system' star.pk %}">
     <div class='button'>Return To System</div>
   </a>
+  
 <!-- BUTTON TO RETURN TO STARMAP -->
   <a href="{% url 'starmap' %}">
     <div class='button'>Return To Starmap</div>

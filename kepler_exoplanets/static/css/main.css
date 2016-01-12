@@ -160,6 +160,11 @@ select option {
   margin-right:auto;
 }
 
+/*remove slider focus */
+.ui-slider-handle {
+    outline: none;
+}
+
 #infoBox {
   text-align: center;
   font-style: italic;

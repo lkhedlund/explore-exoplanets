@@ -212,15 +212,23 @@ select option {
 /* FORMATTING FOR THE UFO PAGE */
 
 .error {
+  background: transparent;
+  width: 700px ;
+  margin-left: auto ;
+  margin-right: auto ;
+  color: #faebd7;
+  font-size: 25px;
+  text-align: center;
   -webkit-transition: 2s ease-in-out;
   transition: all 2s ease-in-out;
+  z-index: 2;
+
 }
 
 .error-text {
-  position: absolute;
-  top: 75%;
-  left: 50%;
-  font-size: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent;
   -webkit-transform: translate(50%, 50%);
   transform: translate(50%, 50%);
 }
@@ -233,8 +241,6 @@ select option {
   height: 384px;
   width: 195px;
   margin: auto;
-  top: 50%;
-  left: 50%;
   -webkit-transform: translate(50%, 50%);
   transform: translate(50%, 50%);
 }

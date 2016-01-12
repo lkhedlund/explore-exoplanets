@@ -1,5 +1,106 @@
 {% extends "main/base.html" %}
-
 {% block content %}
-  <h1>INDEX</h1>
+<div id="space_container">
+<div id='title'>Welcome to Astronomia Nova</div>
+
+</div>
+
+
+  <script>
+
+
+    $(function() {
+      var camera, scene, renderer, container, intersects, winResize, plane;
+      // Set up canvas dimensions
+      var windowwidth = window.innerWidth;
+      var width = windowwidth * 0.66667;
+      var height = window.innerHeight;
+
+      var  n = -0.5/1000;
+      var t = 0.43;
+      // Set up tools for hover and click events
+      var raycaster = new THREE.Raycaster();
+      var mouse = new THREE.Vector2(), INTERSECTED;
+
+      // Create the starmap
+      start();
+
+      function start(){
+        //Scene creation
+        scene = new THREE.Scene();
+        container = document.getElementById( 'space_container' );
+        // PerspectiveCamera creation and Set up
+        camera = new THREE.PerspectiveCamera(75, width/height, 50, 1000);
+        camera.position.set(0, 0, 500);
+        scene.add(camera);
+
+        var geometry = new THREE.PlaneGeometry( 150, 150, 32 );
+        var material = new THREE.MeshBasicMaterial( {color: 0x62999A, side: THREE.DoubleSide} );
+        plane = new THREE.Mesh( geometry, material );
+        plane.position.set(225, 500, 0);
+        scene.add( plane );
+
+        // Create the WebGL renderer and append it to the DOM bia the body element
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(width, height);
+        // renderer.setClearColor( 0x000000, 0 );
+        container.appendChild(renderer.domElement);
+        renderer.render(scene,camera);
+
+        animate();
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        raycast();
+        if (plane.position.y > -100) {
+          plane.position.y -= t;
+          console.log(plane.position.y)
+          if ((Math.round(plane.position.y*100)/100) == -99.85) {
+            $('#title').css('opacity', '1');
+          }
+        }
+        else {n = 0;} 
+
+        skybox.rotateX(n);
+        //resizes canvas when window is
+        winResize = new THREEx.WindowResize(renderer, camera);
+        renderer.render(scene,camera);
+      }
+
+      function raycast() {
+        raycaster.setFromCamera( mouse, camera );
+        selection = raycaster.intersectObjects( scene.children );
+        if ( selection.length > 0 ) {
+          $('canvas').css('cursor', 'pointer');
+        }
+        else {
+          $('canvas').css('cursor', 'auto');
+        }
+      }
+
+      // EVENT LISTENERS
+      // Planets turn blue on mouseover (It will make them brighter)
+      $('canvas').on( 'mousemove', false, function () {
+        event.preventDefault();
+        var offset = {
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
+        }
+        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
+      });
+
+      // Make the planets clickable
+      $('canvas').on('click', false, function () {
+        event.preventDefault();
+        selection = raycaster.intersectObjects(scene.children, true);
+        if (selection.length > 0) {
+          clickedPlanet = selection[0].object;
+          // console.log(clickedPlanet);
+          window.location = stars[clickedPlanet.id];
+        }
+      });
+    });
+  </script>
 {% endblock %}

@@ -63,7 +63,6 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      skybox.rotateY(-0.5/1000);
       renderer.render( scene, skybox_camera );
     }
     window.skybox_camera = skybox_camera;

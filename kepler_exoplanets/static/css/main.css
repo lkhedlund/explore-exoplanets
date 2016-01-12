@@ -6,6 +6,18 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
+#title {
+  opacity: 0;
+  transition: opacity 5s;
+  position: absolute;
+  font-size: 5vw;
+  width: 600px;
+  color: #faebd7;
+  margin-left: 320px;
+  margin-top: 75px;
+  text-align: center;
+}
+
 body {
   margin: 0;
   z-index: 1;

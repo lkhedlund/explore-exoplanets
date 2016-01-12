@@ -192,9 +192,10 @@
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
 	border: 1px solid #666666;
-	background: #555555 50% 50% repeat-x;
+	background: #faebd7 50% 50% repeat-x;
 	font-weight: bold;
 	color: #eeeeee;
+	border-radius: 50%;
 }
 .ui-state-default a,
 .ui-state-default a:link,
@@ -209,7 +210,7 @@
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
 	border: 1px solid #59b4d4;
-	background: #0078a3 50% 50% repeat-x;
+	background: #faebd7 50% 50% repeat-x;
 	font-weight: bold;
 	color: #ffffff;
 }
@@ -228,7 +229,7 @@
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
 	border: 1px solid #ffaf0f;
-	background: #f58400 50% 50% repeat-x;
+	background: #faebd7 50% 50% repeat-x;
 	font-weight: bold;
 	color: #ffffff;
 }

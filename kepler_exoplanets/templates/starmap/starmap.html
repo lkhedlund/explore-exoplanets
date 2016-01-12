@@ -102,7 +102,7 @@
         raycast();
 
         // Slider
-        $("#dist").text("Distance from Earth is " + Math.round(3000 - camera.position.z) + " light years");
+        $("#dist").text("Distance from Earth is " + Math.round(camera.position.z) + " light years");
         $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
 
         //resizes canvas when window is
@@ -128,7 +128,7 @@
         star = new THREE.Mesh(geometry, material);
         scene.add(star);
         star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
-        stars[star.id - 1] = path;
+        stars[star.id + 1] = path;
         // Star glow (using sprites)
         var spriteMaterial = new THREE.SpriteMaterial({
           map: Textures.glow,
@@ -138,6 +138,8 @@
         sprite.scale.set(8, 8, 8);
         star.add(sprite);
       }
+
+
 
       // EVENT LISTENERS
       // Planets turn blue on mouseover (It will make them brighter)
@@ -157,6 +159,7 @@
         selection = raycaster.intersectObjects(scene.children, true);
         if (selection.length > 0) {
           clickedPlanet = selection[0].object;
+          // console.log(clickedPlanet);
           window.location = stars[clickedPlanet.id];
         }
       });

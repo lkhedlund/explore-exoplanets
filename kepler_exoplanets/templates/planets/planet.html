@@ -3,10 +3,11 @@
 {% include 'sidebar/sidebar_planet.html' %}
 {% include 'partials/_gasfragment.html' %}
 {% include 'partials/_gasvertex.html' %}
-  <div id="space_container"></div>
+  <div id='space_container'></div>
   <script src='/static/js/planets/_gasplanet.js'></script>
   <script src='/static/js/planets/_solidplanet.js'></script>
-  <script type="text/javascript">
+  <script type='text/javascript'>
+    //function determines which planet to render
     $(function() {
       var radius = {{planet.planet_radius}};
       {% if planet.planet_radius <= 2 and planet.surface_temp >= 273 and planet.surface_temp <= 373 %}

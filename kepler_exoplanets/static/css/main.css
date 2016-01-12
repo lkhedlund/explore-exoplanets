@@ -39,6 +39,11 @@ header h1.logo:hover {
   text-decoration: none;
 }
 
+h2 {
+  font-size: 2vw;
+  margin-top: 10px;
+}
+
 div.jumbo {
   padding: 20px;
   background-color: #eeeeee;
@@ -54,7 +59,6 @@ button {
   min-width: 300px;
   height: 38px;
   padding: 0 30px;
-  color: #555;
   font-size: 11px;
   font-weight: 600;
   line-height: 38px;
@@ -123,7 +127,7 @@ select option {
 }
 
 .sidebar {
-  position: fixed;
+  position: absolute;
   text-align: center;
   margin-top: auto;
   margin-bottom: auto;

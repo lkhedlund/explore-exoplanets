@@ -1,0 +1,44 @@
+<div class='sidebar'>
+  <h2>Welcome To Astronomia&nbspNova!</h2>
+  <div>
+    <p id='infoBox'>Kepler is a NASA satellite whose mission is to discover exoplanets - planets which orbit stars other than our own. Here at Astronomia Nova, we took that data and turned it into a visual reality. The discoveries made bring us one step closer to discovering life out in the universe. Come explore with us...</p>
+  </div>
+  <div>
+    Stars observed with exoplanets: {{ stars|length }}<br>
+    Planets discovered by Kepler: {{ planets|length }}<br>
+    {% if habitable %}
+      Planets in the habitable zone: {{ habitable|length }}
+    {% else %}
+      Planets in the habitable zone: 0
+    {% endif %}<br>
+  </div>
+
+  <!-- DROPDOWN MENU FOR FILTERING OPTIONS -->
+   <button class="active" id="select-default">Show All (default)</button>
+   <button id="select-five_plus">Stars with 5+ planets</button>
+   <button id="select-habitable">Stars with habitable planets</button>
+
+  <!-- SLIDER FOR MOVEMENT -->
+
+  <div class="sliderlabel">
+    <label for='star-slider' id='dist'></label>
+  <div id='star-slider'></div>
+<!--     <input oninput='outputUpdate(value)'></div>
+    <output for='star-slider' id='dist'>500</output> -->
+  </div>
+  <button id='camera-reset'>
+    Reset Distance
+  </button>
+</div>
+
+<script>
+  $(function() {
+    function outputUpdate(dist) {
+      document.querySelector('#dist').value = dist;
+    }
+    $('button').on('click', function(){
+      $('button').removeClass('active');
+      $(this).addClass('active');
+    });
+  });
+</script>

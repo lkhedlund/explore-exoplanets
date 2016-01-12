@@ -1,0 +1,58 @@
+<div class='sidebar'>
+  <h2>{{ planet.kepler_name }}</h2>
+  <div>
+
+    {% if planet.planet_radius <= 2 and planet.surface_temp >= 273 and planet.surface_temp <= 373 %}
+      This planet is in the habitable zone
+    {% else %}
+      This planet is not in the habitable zone
+    {% endif %}<br>
+    {{ planet.transits_observed }} transits have been observed<br>
+  </div>
+
+  <!-- STATS TABLE TO COMPARE EXOPLANET WITH EARTH -->
+    <table class='center'>
+      <thead>
+        <tr>
+          <th colspan='3' style='text-align:center'>Comparison with Earth</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>{{ planet.kepler_name }}</th>
+          <th>Earth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Surface Temp</td>
+          <td>{{ celsius }}&deg; C</td>
+          <td>14&deg; C</td>
+        </tr>
+        <tr>
+          <td>Radius</td>
+          <td>{{ planet.planet_radius }} Earth Radii</td>
+          <td>1 Earth Radius</td>
+        </tr>
+        <tr>
+          <td>Distance to Star</td>
+          <td>{{ planet.semimajor_axis }} AU</td>
+          <td>1 AU to Sun</td>
+        </tr>
+        <tr>
+          <td>Length of Year</td>
+          <td>{{ orbital_period }} days</td>
+          <td>365 days</td>
+        </tr>
+      </tbody>
+    </table>
+
+  <!-- BUTTON TO RETURN TO SYSTEM -->
+  <a href="{% url 'stellar_system' star_id %}">
+    <button>Return To System</button>
+  </a>
+
+  <!-- BUTTON TO RETURN TO STARMAP -->
+  <a href="{% url 'starmap' %}">
+    <button>Return To Starmap</button>
+  </a>
+</div>

@@ -1,110 +1,341 @@
 {% extends "main/base.html" %}
-
 {% block content %}
-    <script>
-      var control, camera, scene, renderer, intersects;
-      var stars = [];
+{% include 'sidebar/sidebar_stellarsystem.html' %}
+{% include "partials/_starfragment.html" %}
+{% include "partials/_starvertex.html" %}
+{% include 'partials/_gasfragment.html' %}
+{% include 'partials/_gasvertex.html' %}
 
-      var width = window.innerWidth;
-      var height = window.innerHeight;
+  <div id='space_container'></div>
+    <script type='text/javascript'>
 
-      start();
-      // animate();
+      $(function() {
+        var controls, camera, scene, renderer, container, winResize;
 
-      function start(){
-        //Scene creation
-        scene = new THREE.Scene();
-
-        // PerspectiveCamera creation and Set up. Parameters
-        // 1. FOV – We’re using 45 degrees for our field of view.
-        // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
-        // 3. Near – This is the distance at which the camera will start rendering scene objects.
-        // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
-        camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 3000);
-        camera.position.set(0, 30, 75);
-        scene.add(camera);
-
-        // Create the WebGL renderer and append it to the DOM bia the body element
-        renderer = new THREE.WebGLRenderer();
-        renderer.setSize(width, height);
-        document.body.appendChild(renderer.domElement);
-        renderer.render(scene,camera);
-
-        // Add 300 spheres to the scene. Random size, random positioning
-        var geometry = new THREE.SphereGeometry(14, 15, 15);
-        var material = new THREE.MeshBasicMaterial({color: 0xffff00, wireframe:true});
-        var star = new THREE.Mesh(geometry, material);
-        scene.add(star);
-
-        geometry = new THREE.SphereGeometry(3.08, 15, 15);
-        material = new THREE.MeshBasicMaterial({color: 0xe4e8ff, wireframe:true});
-        var planet1 = new THREE.Mesh(geometry, material);
-        scene.add(planet1);
-        planet1.position.set(18, 0, 0);
-
-        geometry = new THREE.SphereGeometry(3.06, 15, 15);
-        material = new THREE.MeshBasicMaterial({color: 0xfa8072, wireframe:true});
-        var planet2 = new THREE.Mesh(geometry, material);
-        scene.add(planet2);
-        planet2.position.set(30, 0, 0);
-
-        geometry = new THREE.SphereGeometry(3.41, 15, 15);
-        material = new THREE.MeshBasicMaterial({color: 0xaabfff, wireframe:true});
-        var planet3 = new THREE.Mesh(geometry, material);
-        scene.add(planet3);
-        planet3.position.set(50, 0, 0);
-
+        var u = 0.05;
         var t = 0;
-        var x1 = planet1.position.x;
-        var x2 = planet2.position.x;
-        var x3 = planet3.position.x;
-        var z = planet1.position.z;
-        function render() {
-          requestAnimationFrame(render);
-          t += 0.01;
-          star.rotation.y += 0.005;
-          planet1.rotation.y += 0.03;
-          planet2.rotation.y += 0.04;
-          planet3.rotation.y += 0.05;
+        var s = 1;
+        var cam = {{ planets.last.semimajor_axis }} * 650;
+        // Orbits circles
+        var circleSegments = 64;        
+        var circles = [];
+        var planets = [],
+            initialY = [],
+            speed = [],
+            paths = [];
+        // Set up canvas dimensions
+        var windowwidth = window.innerWidth;
+        var width = windowwidth * 0.66667;
+        var height = window.innerHeight;
 
+        // Set up tools for hover and click events
+        var raycaster = new THREE.Raycaster();
+        var mouse = new THREE.Vector2(), INTERSECTED;
 
-          planet1.position.x = x1 * Math.cos(t) + z * Math.sin(t);
-          planet1.position.z = z * Math.cos(t) - x1 * Math.sin(t);
+        start();
 
+        function start(){
+          //Scene creation
+          scene = new THREE.Scene();
+          container = document.getElementById( 'space_container' );
 
-          planet2.position.x = x2 * Math.cos(t * 2) + z * Math.sin(t * 2);
-          planet2.position.z = z * Math.cos(t * 2) - x2 * Math.sin(t * 2);
+          //resizes canvas when window is
+          winResize = new THREEx.WindowResize(renderer, camera);
 
-          planet3.position.x = x3 * Math.cos(t * 1.5) + z * Math.sin(t * 1.5);
-          planet3.position.z = z * Math.cos(t * 1.5) - x3 * Math.sin(t * 1.5);
+          // PerspectiveCamera creation and Set up
+          camera = new THREE.PerspectiveCamera(75, width/height, 1, 1000);
+          camera.position.set(0, - cam, cam);
+          scene.add(camera);
 
-          control = new THREE.TrackballControls(camera);
-          control.addEventListener("change", render);
+          // Set up camera controls (using Orbit)
+          controls = new THREE.OrbitControls( camera );
+          controls.minDistance = 100;
+          controls.maxDistance = 500;
 
+          // Create the WebGL renderer and append it to the DOM bia the body element
+          renderer = new THREE.WebGLRenderer({alpha: true});
+          renderer.setClearColor(0xffffff, 0);
+          renderer.setSize(width, height);
+          winResize = new THREEx.WindowResize(renderer, camera);
+          container.appendChild(renderer.domElement);
+
+          // Create and add the star to the stellar system
+          addStar({{ star.stellar_radius }});
+
+          // Create and add planets to the stellar system
+          {% for planet in planets %}
+            var url = '{% url 'planet' planet.pk %}';
+            // Planet sizes have a minimun of 2 and a maximum of 5
+            {% if planet.planet_radius < 2 %}
+              planetRadius = 2
+            {% elif planet.planet_radius > 6 %}
+              planetRadius = 6
+            {% else %}
+              planetRadius = {{ planet.planet_radius }}
+            {% endif %}
+
+            selectPlanet(planetRadius, {{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
+            initialY.push({{ planet.semimajor_axis }} * 2.5);
+            {% if planet.orbital_period == null %}
+              orbperiod = 15
+            {% else %}
+              orbperiod = {{ planet.orbital_period }}
+            {% endif %}
+            speed.push(1 / orbperiod);
+          {% endfor %}
+          launch = Date.now();
+          animate();
+        }
+
+        function animate(){
+          requestAnimationFrame(animate);
+          controls.update();
+          raycast();
+
+          starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
+          t += (0.5 * s);
+          star.rotation.z += (u / 10);
+          planets.forEach(rotatePlanet);
+
+          $('#zoom-slider' ).slider({ value: camera.position.z });
           renderer.render(scene, camera);
         }
 
-        // material = new THREE.MeshBasicMaterial({ color: 0xe4e8ff, wireframe:true });
-        // var radius = 15;
-        // var segments = 32;
-        // var circleGeometry = new THREE.CircleGeometry( radius, segments );
-        // var circle = new THREE.Mesh( circleGeometry, material );
-        // scene.add(circle);
+        function raycast() {
+          raycaster.setFromCamera( mouse, camera );
+          selection = raycaster.intersectObjects( scene.children );
+          if ( selection.length > 0 ) {
+            clickedPlanet = selection[0].object;
+            $('canvas').css('cursor', 'pointer');
+              if (clickedPlanet.id % 2 == 0) {
+                clickedPlanet.material.setValues({linewidth: 2});
+              }
+          }
+          else {
+            $('canvas').css('cursor', 'auto');
+            circles.map(function(circle){circle.material.setValues({linewidth: 1})});
+          }
+        }
 
-        // material = new THREE.MeshBasicMaterial({ color: 0xfa8072, wireframe:true });
-        // var radius = 30;
-        // var segments = 32;
-        // var circleGeometry = new THREE.CircleGeometry( radius, segments );
-        // var circle = new THREE.Mesh( circleGeometry, material );
-        // scene.add(circle);
+        // add the star
+        function addStar(size) {
+          if (size > 2.5) {
+            size = 2.5
+          }
+          var geometry = new THREE.IcosahedronGeometry( size * 10, 5 );
+          starmaterial = new THREE.ShaderMaterial({
+            uniforms: {
+              tExplosion: {
+                type: 't',
+                value: Textures.sunexplocolor
+              },
+              time: { // float initialized to 0
+                type: 'f',
+                value: 0.0
+              }
+            },
+          vertexShader: document.getElementById( 'star-vertexShader' ).textContent,
+          fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
+          });
+          star = new THREE.Mesh( geometry, starmaterial );
+          pointLight = new THREE.PointLight( 0xffffff, 2 );
+          scene.add( pointLight );
+          pointLight.add( star );
+          scene.add( star );
+        }
 
-        render();
-      }
+        // select which type of planet to add
+        function selectPlanet(size, realsize, temp, distance, url) {
+          distance = distance * 2;
+          if  (temp > 273 && temp < 373 && realsize < 2) {
+            addHabitable(size, distance, url);
+           }
+          else if (realsize > 4) {
+            addRed(size, distance, url);
+          }
+          else if (realsize > 2) {
+            addBlue(size, distance, url);
+          }
+          else {
+            addRocky(size, distance, url);
+          }
+        };
+        // add Red Gas Planet
+        function addRed(size, distance, path) {
+          redMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+              tExplosion: {
+                type: 't',
+                value: Textures.redexplocolor
+              },
+              time: {
+                type: 'f',
+                value: 0.0
+              }
+            },
+          vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
+          fragmentShader: document.getElementById( 'gas-fragmentShader' ).textContent
+          });
+          geometry = new THREE.IcosahedronGeometry( size, 5 );
+          planet = new THREE.Mesh( geometry, redMaterial );
+          scene.add(planet);
+          paths[planet.id] = path;
+          planets.push(planet);
+          planet.position.set(0, distance * 100, 0);
+          addCircle(distance * 250);
+        }
 
-      function animate() {
-        requestAnimationFrame(animate);
-        control.update();
-      }
+        // add Blue Gas Planet
+        function addBlue(size, distance, path) {
+          blueMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+              tExplosion: {
+                type: 't',
+                value: Textures.blueexplocolor
+              },
+              time: {
+                type: 'f',
+                value: 0.0
+              }
+            },
+          vertexShader: document.getElementById( 'gas-vertexShader' ).textContent,
+          fragmentShader: document.getElementById( 'gas-fragmentShader' ).textContent
+          });
+          geometry = new THREE.IcosahedronGeometry( size, 5 );
+          planet = new THREE.Mesh( geometry, blueMaterial );
+          scene.add(planet);
+          paths[planet.id] = path;
+          planets.push(planet);
+          planet.position.set(0, distance * 100, 0);
+          addCircle(distance * 250)
+        }
 
+        // add rocky planet
+        function addRocky(size, distance, path) {
+          geometry = new THREE.SphereGeometry(size, 15, 15);
+          rockyMaterial = new THREE.MeshPhongMaterial({ map: Textures.rockytexture, bumpMap: Textures.rockybump, bumpScale: 1  });
+          planet = new THREE.Mesh(geometry, rockyMaterial);
+          scene.add(planet);
+          paths[planet.id] = path;
+          planets.push(planet);
+          planet.position.set(0, distance * 100, 0);
+          addCircle(distance * 250)
+        }
+
+        // add habitable planet
+        function addHabitable(size, distance, path) {
+          geometry = new THREE.SphereGeometry(size, 15, 15);
+          habitableMaterial = new THREE.MeshPhongMaterial({ map: Textures.habitabletexture, bumpMap: Textures.habitablebump, bumpScale: 1  });
+          planet = new THREE.Mesh(geometry, habitableMaterial);
+          scene.add(planet);
+          paths[planet.id] = path;
+          planets.push(planet);
+          planet.position.set(0, distance * 100, 0);
+          addCircle(distance * 250)
+        }
+
+        // add a orbit circle to the planet
+        function addCircle(distance) {
+          geometry = new THREE.CircleGeometry( distance, circleSegments );
+          geometry.vertices.shift();       
+          circle = new THREE.Line(geometry, new THREE.LineBasicMaterial( { color: 0xF0C400 } ));
+          circles.push(circle);
+          scene.add(circle);
+        }
+
+        // planets rotation
+        function rotatePlanet(planet, index) {
+          planet.rotation.z += u;
+          planet.position.y = initialY[index] * 200 * Math.cos(t * speed[index]) + 0 * Math.sin(t * speed[index]);
+          planet.position.x = 0 * Math.cos(t * speed[index]) - initialY[index] * 200 * Math.sin(t * speed[index]);
+        }
+
+        // Make the planets clickable (for now, it alerts the coordinates)
+        $('canvas').on( 'click', false, function () {
+          if (selection.length > 0) {
+            clickedPlanet = selection[0].object;
+            if (clickedPlanet.id == 6) {
+              window.location = '{% url 'star' star.pk %}';
+            }
+            else if (clickedPlanet.id % 2 == 1)
+            {
+              window.location = paths[clickedPlanet.id];
+            }
+            else {
+              window.location = paths[clickedPlanet.id - 1];
+            }
+          }
+        });
+
+        // Deactivate orbit controls when interacting with the panel
+
+        // Show/hide orbit circles
+        $('.sidebar').on('mouseenter', function() {
+          controls.enabled = false;
+          skybox_controls.enabled = false;
+                    console.log(cam);
+        });
+
+        $('.sidebar').on('mouseleave', function() {
+          controls.enabled = true;
+          skybox_controls.enabled = true;
+        });
+
+        // Toggle gridlines
+        $('#flip-orbit').on('change', function(){
+          if ($('#flip-orbit').val() == 'off') {
+            circles.map(function(circle){circle.visible = false});
+          } else {
+            circles.map(function(circle){circle.visible = true});
+          };
+        });
+
+        // Toggle viewing angle
+        $('#flip-view').on('change', function(){
+          if ($('#flip-view').val() == '3d') {
+            camera.position.set(0, - cam, cam);
+          } 
+          else if ($('#flip-view').val() == 'transit') {
+            camera.position.set(0, cam, 0);
+          } 
+          else {
+            camera.position.set(0, 0, cam);
+          };
+        });
+
+        // Speed slider
+        $( '#slider-1' ).slider({
+          animate: true,
+          max: 1000,
+          min: 0.00023148,
+          value: 100,
+          slide: function(mousemove, speed) {
+            s = speed.value / 100;
+            if (speed.value == 0.00023148) {
+              $('#orbit').text("Speed of Orbits in real time");
+              u = 0;
+            }
+            else if (Math.round(5 * s) == 0){ 
+              $('#orbit').text("Speed of Orbits is < 1 day/sec");
+              u = 0.05;
+            }
+            else {
+              $('#orbit').text("Speed of Orbits is " + Math.round(5 * s) + " day(s)/sec");
+              u = 0.02;
+          }
+          }
+        });
+
+
+      $('canvas').on( 'mousemove', false, function () {
+        var offset = {
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
+        }
+        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
+      });
+
+    });
     </script>
-{% endblock %}
+  {% endblock %}

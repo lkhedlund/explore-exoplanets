@@ -1,0 +1,56 @@
+<div class='sidebar'>
+  <h2 class='starname'></h2>
+  <div >
+    Star name: {{ star.star_designation }}<br>
+    Number of planets: {{ planets|length }} <br>
+
+    <!-- STATS TABLE -->
+    <table class="center">
+      <thead>
+        <tr>
+          <th style="text-align:center"colspan='3'>Comparison with our Sun</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th class='starname'></th>
+          <th>Sun</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Surface Temp</td>
+          <td>{{ star.stellar_temp }}K</td>
+          <td>5778K</td>
+        </tr>
+        <tr>
+          <td>Radius</td>
+          <td>{{ star.stellar_radius }} Solar Radii</td>
+          <td>1 Solar Radius</td>
+        </tr>
+        <tr>
+          <td>Mass</td>
+          <td>{{ star.stellar_mass }} Solar Masses</td>
+          <td>1 Solar Mass</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+<!-- BUTTON TO RETURN TO SYSTEM -->
+  <a href="{% url 'stellar_system' star.pk %}">
+    <button>Return To System</button>
+  </a>
+  
+<!-- BUTTON TO RETURN TO STARMAP -->
+  <a href="{% url 'starmap' %}">
+    <button>Return To Starmap</button>
+  </a>
+</div>
+
+<script>
+  $(function() {
+    var name = "{{ name }}";
+    name = name.slice(0, -2);
+    $('.starname').text(name);
+  });
+</script>

@@ -1,10 +1,21 @@
-body {
-  margin: 0;
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url(/static/fonts/QAUlVt1jXOgQavlW5wEfxQLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
-canvas {
-  width: 100%;
-  height: 100%;
+body {
+  margin: 0;
+  z-index: 1;
+  min-width: 800px;
+  min-height: 600px;
+  overflow: hidden;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", Helvetica, Arial, sans-serif;
+  color: #222;
 }
 
 header {
@@ -28,16 +39,289 @@ header h1.logo:hover {
   text-decoration: none;
 }
 
+h2 {
+  font-size: 2vw;
+  margin-top: 10px;
+}
+
 div.jumbo {
   padding: 20px;
   background-color: #eeeeee;
   -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
 }
 
-#music_player {
+button {
+  text-align: center;
+  color: #faebd7;
+  margin-top: 10px;
+  min-width: 300px;
+  height: 38px;
+  padding: 0 30px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+button:hover {
+  color: #F0C400;
+  border-color: #F0C400;
+  outline: 0;
+}
+
+button.active {
+  color: #F0C400;
+  border-color: #F0C400;
+}
+
+table.center {
+  margin-left:auto;
+  margin-right:auto;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #E1E1E1;
+}
+th:first-child,
+td:first-child {
+  padding-left: 0;
+}
+th:last-child,
+td:last-child {
+  padding-right: 0;
+}
+
+select {
+  height: 38px;
+  padding: 6px 10px;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+select option {
+  background: rgb(0,0,0);
+}
+
+
+#space_container {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+
+.sidebar {
+  position: absolute;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding:20px;
+  width: 25%;
+  right: 30px;
+  color: #faebd7;
+  z-index: 3;
+  font-size: 1em;
+  font-size: 1.1vw;
+  background: transparent;
+}
+
+.stats {
+  text-align: center;
+}
+
+.centerlist{
+    width:78%;
+    margin:0 auto;
+    text-align:left;
+}
+
+#dist {
+  float: center;
+  font-size: 1em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 500;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/*remove slider focus */
+.ui-slider-handle {
+    outline: none;
+}
+
+#infoBox {
+  text-align: center;
+  font-style: italic;
+  border: 1px solid #faebd7;
+  padding: 10px;
+}
+
+.sliderlabel {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#star-slider{
+  margin-bottom: 20px;
+}
+
+.toggleStyle {
+  margin-top: 10px;
+  display: inline-block;
+  width: 85px;
+  padding: 0 10px;
+  color: #faebd7;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+#amount {
+  background-color: black;
+}
+
+#select-choice {
+  z-index: 100;
+}
+
+/* FORMATTING FOR THE UFO PAGE */
+
+.error {
+  -webkit-transition: 2s ease-in-out;
+  transition: all 2s ease-in-out;
+}
+
+.error-text {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  font-size: 25px;
+  -webkit-transform: translate(50%, 50%);
+  transform: translate(50%, 50%);
+}
+
+.ufo {
+  position: absolute;
+  background-image: url('../images/ufo.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  height: 384px;
+  width: 195px;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(50%, 50%);
+  transform: translate(50%, 50%);
+}
+
+.ufo.light {
+  background-image: url('../images/ufoLight.png');
+  opacity: 0;
+  -webkit-animation: 2s ease-in-out infinite normal running;
+  animation: 2s ease-in-out infinite normal running;
+  -webkit-animation-name: beam;
+  animation-name: beam;
+}
+
+@keyframes beam {
+  30% { opacity: 0; }
+  40% { opacity: 1; }
+  80% { opacity: 1; }
+  90% { opacity: 0; }
+}
+
+.faces {
+  background-repeat: no-repeat;
+  position: absolute;
+  opacity: 0;
+  height: 60px;
+  width: 60px;
+  -webkit-animation: 8s ease-in-out infinite normal run;
+  animation: 8s ease-in-out infinite normal;
+  -webkit-animation-name: abducted;
+  animation-name: abducted;
+}
+
+.faces.jenn {
+  background-image: url('../images/jenn.png');
+}
+
+.faces.lars {
+  background-image: url('../images/lars.png');
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+}
+
+.faces.anita {
+  background-image: url('../images/anita.png');
+  -webkit-animation-delay: 4s;
+  animation-delay: 4s;
+}
+
+.faces.fabien {
+  background-image: url('../images/fabien.png');
+  -webkit-animation-delay: 6s;
+  animation-delay: 6s;
+}
+
+@keyframes abducted {
+  0% {
+    opacity: 0;
+    right: -130px;
+    bottom: 15px;
+  }
+  5% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0.5;
+    right: 70px;
+    bottom: 15px;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  23% {
+    right: 70px;
+    bottom: 200px;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/*Loading*/
+
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('../images/spinner.gif') 50% 50% no-repeat rgb(0,0,0);
 }

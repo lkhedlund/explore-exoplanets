@@ -1,0 +1,53 @@
+<div class='sidebar'>
+  <h2 class='starname'></h2>
+  <div>
+    <p id='infoBox'>After travelling for {{ years }} millennia, you have arrived at a stellar system. Take your time and learn more about it. To find out more, click on the planets and star.
+    </p>
+  </div>
+
+  <div>
+    There are {{ planets|length }} planets in this star system<br>
+    Rocky planets: {{totalrocky}}<br>
+    Habitable planets: {{ habitable|length }}<br>
+    Gas planets: {{ gas|length }}<br>
+  </div>
+
+  <!-- SLIDER FOR ORBIT SPEED -->
+
+  <div class="sliderlabel">
+    <label id='orbit' for='slider-1'>Speed of Orbits is 5 day(s)/sec</label>
+    <div id='slider-1'></div>
+  </div>
+
+  <!-- TOGGLE SWITCH FOR 2D/3D -->
+  <div>
+    <select class='toggleStyle' name='flip-1' id='flip-view' data-role='slider'>
+      <option value='3d'>3D</option>
+      <option value='2d'>2D</option>
+      <option value='transit'>Transit</option>
+    </select>
+    <label for='flip-1' style='display: inline;'>Viewing Angle</label>
+  </div>
+
+  <!-- TOGGLE SWITCH FOR GRIDLINES -->
+  <div>
+    <select class='toggleStyle' name='flip-1' id='flip-orbit' data-role='flipswitch'>
+      <option value='on'>On</option>
+      <option value='off'>Off</option>
+    </select>
+    <label for='flip-1' style='display: inline;'>Orbit Gridlines</label>
+  </div>
+
+  <!-- BUTTON TO RETURN TO STARMAP -->
+  <a href="{% url 'starmap' %}">
+    <button>Return To Starmap</button>
+  </a>
+</div>
+
+<script>
+  $(function() {
+    var name = "{{ name }}";
+    name = name.slice(0, -2);
+    $('.starname').text(name);
+  });
+</script>

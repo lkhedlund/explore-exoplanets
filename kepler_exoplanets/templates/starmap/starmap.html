@@ -1,15 +1,177 @@
 {% extends "main/base.html" %}
-    <!-- <style>
-    NOTE: I moved these into main.css
-      body { margin: 0; }
-      canvas { width: 100%; height: 100% }
-    </style> -->
-    <!-- <audio autoplay loop><source src="music/theme.mp3" type="audio/mpeg"/></audio> -->
-  {% block content %}
-  {% include 'sidebar/sidebar_starmap.html' %}
+{% block content %}
+{% include 'sidebar/sidebar_starmap.html' %}
+  <div id="space_container"></div>
     <script>
-      var control, camera, scene, renderer, intersects;
-      var stars = [];
+
+    $(function() {
+      var controls, camera, scene, renderer, container, intersects, winResize;
+      // Set up canvas dimensions
+      var windowwidth = window.innerWidth;
+      var width = windowwidth * 0.66667;
+      var height = window.innerHeight;
+
+      var infobox = document.getElementById('infoBox').innerHTML;
+
+      var stars = {};
+      // Set up tools for hover and click events
+      var raycaster = new THREE.Raycaster();
+      var mouse = new THREE.Vector2(), INTERSECTED;
+
+      // Create the starmap
+      start();
+
+      function start(){
+        //Scene creation
+        scene = new THREE.Scene();
+        container = document.getElementById( 'space_container' );
+        // PerspectiveCamera creation and Set up
+        camera = new THREE.PerspectiveCamera(75, width/height, 50, 1000);
+        camera.position.set(0, 0, 2600);
+        scene.add(camera);
+
+        // Mouse controls - Zoom only for skybox and starmap
+        controls = new THREE.OrbitControls( camera );
+        controls.minDistance = 200;
+        controls.maxDistance = 2600;
+        controls.enableRotate = false;
+        controls.enablePan = false;
+
+        skybox_camera.position.set(0, 0, 4000);
+        skybox_controls.enableRotate = false;
+        skybox_controls.enablePan = false;
+
+        // // controls.addEventListener("change", render);
+        // controls.target.set(0, 0, 2600);
+
+        var light = new THREE.PointLight(0xffffff);
+        light.position.set(0,0,2375);
+        scene.add(light);
+
+        // Create the WebGL renderer and append it to the DOM bia the body element
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(width, height);
+        // renderer.setClearColor( 0x000000, 0 );
+        container.appendChild(renderer.domElement);
+        renderer.render(scene,camera);
+
+        var geometry, material, star;
+
+        $('#select-default').on('click', function() {
+          clearScene();
+          {% for star in stars %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
+          {% endfor %}
+        });
+
+        $('#select-habitable').on('click', function() {
+          clearScene();
+          {% for star in habitable %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
+          {% endfor %}
+        });
+
+        $('#select-five_plus').on('click', function() {
+          clearScene();
+          {% for star in five_plus %}
+            var url = "{% url 'stellar_system' star.pk %}";
+            createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
+          {% endfor %}
+        });
+
+        {% for star in stars %}
+          var url = "{% url 'stellar_system' star.pk %}";
+          createStar({{star.stellar_temp}}, {{star.right_ascension}}, {{star.declination}}, {{star.light_years_dist}}, url);
+        {% endfor %}
+        animate();
+      }
+
+      function clearScene() {
+        for( var i = scene.children.length - 1; i >= 0; i--) {
+          obj = scene.children[i];
+          scene.remove(obj);
+        }
+        stars = [];
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        raycast();
+
+        // Slider
+        $("#dist").text("Distance from Earth is " + Math.round(3000 - camera.position.z) + " light years");
+        $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
+
+        //resizes canvas when window is
+        winResize = new THREEx.WindowResize(renderer, camera);
+        renderer.render(scene,camera);
+      }
+
+      function raycast() {
+        raycaster.setFromCamera( mouse, camera );
+        selection = raycaster.intersectObjects( scene.children );
+        if ( selection.length > 0 ) {
+          $('canvas').css('cursor', 'pointer');
+        }
+        else {
+          $('canvas').css('cursor', 'auto');
+        }
+      }
+
+      function createStar (temp, ra, declination, ly, path) {
+        color = star_color(temp);
+        geometry = new THREE.SphereGeometry(1, 15, 15);
+        material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
+        star = new THREE.Mesh(geometry, material);
+        scene.add(star);
+        star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
+        stars[star.id - 1] = path;
+        // Star glow (using sprites)
+        var spriteMaterial = new THREE.SpriteMaterial({
+          map: Textures.glow,
+          color: color, transparent: false, blending: THREE.AdditiveBlending
+        });
+        sprite = new THREE.Sprite( spriteMaterial );
+        sprite.scale.set(8, 8, 8);
+        star.add(sprite);
+      }
+
+      // EVENT LISTENERS
+      // Planets turn blue on mouseover (It will make them brighter)
+      $('canvas').on( 'mousemove', false, function () {
+        event.preventDefault();
+        var offset = {
+          x: document.getElementsByTagName("canvas")[0].offsetLeft,
+          y: document.getElementsByTagName("canvas")[0].offsetTop,
+        }
+        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
+      });
+
+      // Make the planets clickable
+      $('canvas').on('click', false, function () {
+        event.preventDefault();
+        selection = raycaster.intersectObjects(scene.children, true);
+        if (selection.length > 0) {
+          clickedPlanet = selection[0].object;
+          window.location = stars[clickedPlanet.id];
+        }
+      });
+
+      // Deactivate trackball controlls when interacting with the panel
+      $('#sidebar').on('mouseenter', function() {
+        controls.enabled = false;
+        skybox_controls.enabled = false;
+      });
+      $('#sidebar').on('mouseleave', function() {
+        controls.enabled = true;
+        skybox_controls.enabled = true;
+      });
+
+      // Stars are colored based on their temperature
       function star_color(temp) {
         if (temp > 28000) {
           return 0xaabfff
@@ -18,165 +180,36 @@
         } else if (temp > 7500) {
           return 0xffffff
         } else if (temp > 6000) {
-          return 0xffff99;
+          return 0xffffe0;
         } else if (temp > 4900) {
           return 0xffff66
         } else if (temp > 3500) {
-          return 0xffbe7f
+          return 0xffa44c
         } else if (temp > 2000) {
-          return 0xfa8072;
+          return 0xf73d28;
         } else {
           return 0xffffff
         }
       }
 
-      var width = window.innerWidth;
-      var height = window.innerHeight;
+      // Button on sidebar to reset camera
+      $('#camera-reset').on('click', function() {
+        camera.position.set(0, 0, controls.maxDistance);
+        document.querySelector('#star-slider').value = 0;
+        document.querySelector('#dist').value = 0;
+      });
 
-      start();
-      animate();
-      render();
-
-      function grabPlanets() {
-
-        var offset = {
-          x: document.getElementsByTagName("canvas")[0].offsetLeft,
-          y: document.getElementsByTagName("canvas")[0].offsetTop,
+      // Slider on sidebar to move forwards/backwards
+      $( "#star-slider" ).slider({
+        animate: true,
+        max: 2800,
+        min: 400,
+        value: 500,
+        slide: function( mousemove, dist) {
+          camera.position.set(0, 0, 3000 - dist.value);
         }
-        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
-        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
-        raycaster.setFromCamera(mouse, camera);
-        intersects = raycaster.intersectObjects(stars, true);
-      };
+      });
 
-      // // Planets turn blue on mouseover (It will make them brighter)
-      // var raycaster = new THREE.Raycaster();
-      // var mouse = new THREE.Vector2(), INTERSECTED;
-      // document.addEventListener('mousemove', onDocumentMouseMove, false);
-      // function onDocumentMouseMove() {
-      //   event.preventDefault();
-      //   grabPlanets();
-
-      //   if (intersects.length > 0) {
-      //     stars.forEach(function(element){element.material.color.setHex(star_color())});
-      //     intersects[0].object.material.color.setHex(0x0000ff);
-      //     render();
-      //   }
-      //   else {
-      //     stars.forEach(function(element){element.material.color.setHex(star_color())});
-      //     render();
-      //   }
-      // }
-
-      // Make the planets clickable (for now, it alerts the coordinates)
-      document.addEventListener('click', onDocumentMouseClick, false);
-      function onDocumentMouseClick() {
-        event.preventDefault();
-        grabPlanets();
-
-        if (intersects.length > 0) {
-          clickedPlanet = intersects[0].object;
-          x = clickedPlanet.position.x;
-          y = clickedPlanet.position.y;
-          z = clickedPlanet.position.z;
-          alert('Star coordinates:' + '\nx: ' + x.toFixed(2) + '\ny: ' + y.toFixed(2) + '\nz: ' + z.toFixed(2));
-        }
-      }
-
-      // Create an event listener that resizes the renderer with the browser window. /!\ Performance not great /!\
-        window.addEventListener('resize', function() {
-          width = window.innerWidth,
-          height = window.innerHeight;
-          renderer.setSize(width, height);
-          camera.aspect = width / height;
-          camera.updateProjectionMatrix();
-        });
-
-      // WIP - Keyboard control of the camera in the star map
-      document.addEventListener('keydown', onDocumentKeyDown,false);
-      function onDocumentKeyDown(event){
-        var keyCode = event.which;
-        var positionDelta = 70;
-        var rotationDelta = 0.1;
-        //A
-        if ((keyCode == 65) || (keyCode == 37))
-        { camera.position.x -= positionDelta; }
-        //D
-        else if ((keyCode == 68) || (keyCode == 39))
-        { camera.position.x += positionDelta; }
-        //W
-        else if ((keyCode == 87) || (keyCode == 38))
-        { camera.position.z += positionDelta; }
-        //S
-        else if ((keyCode == 83) || (keyCode == 40))
-        { camera.position.z -= positionDelta; }
-        //Q
-        else if ( keyCode == 81 )
-        { camera.position.y += positionDelta; }
-        //E
-        else if ( keyCode == 69 )
-        { camera.position.y -= positionDelta; }
-        //T
-        else if ( keyCode == 84 )
-        { camera.rotation.x += rotationDelta; }
-        //G
-        else if ( keyCode == 71 )
-        { camera.rotation.x -= rotationDelta; }
-        //F
-        else if ( keyCode == 70 )
-        { camera.rotation.y += rotationDelta; }
-        //H
-        else if ( keyCode == 72 )
-        { camera.rotation.y -= rotationDelta; }
-      }
-
-
-      function start(){
-        //Scene creation
-        scene = new THREE.Scene();
-
-        // PerspectiveCamera creation and Set up. Parameters
-        // 1. FOV – We’re using 45 degrees for our field of view.
-        // 2. Aspect – We’re simply dividing the browser width and height to get an aspect ratio.
-        // 3. Near – This is the distance at which the camera will start rendering scene objects.
-        // 4. Far – Anything beyond this distance will not be rendered. Perhaps more commonly known as the draw distance.
-        camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 10000);
-        camera.position.set(0, 0, 500);
-        scene.add(camera);
-
-        // Mouse controls - MOVE mouse & press LEFT: rotate, MIDDLE: zoom, RIGHT: pan
-        control = new THREE.TrackballControls(camera);
-        control.addEventListener("change", render);
-        control.target.set(0, 0, 2600);
-
-        // Create the WebGL renderer and append it to the DOM bia the body element
-        renderer = new THREE.WebGLRenderer();
-        renderer.setSize(width, height);
-        document.body.appendChild(renderer.domElement);
-        renderer.render(scene,camera);
-
-        // Add 300 spheres to the scene. Random size, random positioning
-        // for (var i = 0; i < 300; i++) {
-        var temp;
-        {% for star in stars %}
-          var geometry = new THREE.SphereGeometry(1, 15, 15);
-          var material = new THREE.MeshBasicMaterial({color: star_color({{star.stellar_temp}}), wireframe:false});
-          var planet = new THREE.Mesh(geometry, material);
-          scene.add(planet);
-          stars.push(planet);
-          planet.position.set(({{ star.right_ascension }} - 290) * 5 * ({{ star.light_years_dist }} / 1000), ({{ star.declination}} - 45) * 5 * ({{ star.light_years_dist }} / 1000),{{ star.light_years_dist }} - 500);
-        {% endfor %}
-        // }
-
-      }
-
-      function animate() {
-        requestAnimationFrame(animate);
-        control.update();
-      }
-
-      function render() {
-        renderer.render(scene,camera);
-      }
+    });
     </script>
   {% endblock %}

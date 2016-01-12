@@ -2,12 +2,12 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# TODO: Remove before deploy.
-SECRET_KEY = '^yowmoi=1g!7yo3f8pnxq@cbewut*d#43*64m^se$t(_9r(p8)'
+with open('/home/astronomianova/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['astronomianova.pythonanywhere.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -69,6 +69,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # TEMPLATE_DIRS = (
 #     BASE_DIR + '/kepler_exoplanets/templates/',

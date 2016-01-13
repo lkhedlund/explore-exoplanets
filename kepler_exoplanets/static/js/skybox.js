@@ -37,8 +37,8 @@ var skybox = function(type){
       scene.add( skybox_camera );
 
       // helps keep track of skybox side when testing
-      // var axes = new THREE.AxisHelper(100);
-      // scene.add(axes);
+      var axes = new THREE.AxisHelper(100);
+      scene.add(axes);
 
       // camera movement
       skybox_controls = new THREE.OrbitControls( skybox_camera );

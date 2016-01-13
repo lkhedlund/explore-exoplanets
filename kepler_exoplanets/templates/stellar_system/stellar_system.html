@@ -107,7 +107,7 @@
           if ( selection.length > 0 ) {
             clickedPlanet = selection[0].object;
             $('canvas').css('cursor', 'pointer');
-              if (clickedPlanet.id % 2 == 1) {
+              if (clickedPlanet.id % 2 == 0) {
                 clickedPlanet.material.setValues({linewidth: 2});
               }
           }
@@ -254,10 +254,11 @@
         $('canvas').on( 'click', false, function () {
           if (selection.length > 0) {
             clickedPlanet = selection[0].object;
+            console.log(clickedPlanet.id);
             if (clickedPlanet.id == 7) {
               window.location = '{% url 'star' star.pk %}';
             }
-            else if (clickedPlanet.id % 2 == 0)
+            else if (clickedPlanet.id % 2 == 1)
             {
               window.location = paths[clickedPlanet.id];
             }

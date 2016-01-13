@@ -230,8 +230,8 @@ select option {
   margin-right: auto;
   text-align: center;
   left: 50%;
-  -webkit-transform: translate(-50%, 50%);
-  transform: translate(-50%, 50%);
+  -webkit-transform: translate(-50%, 10%);
+  transform: translate(-50%, 10%);
 }
 
 .error h1{
@@ -247,12 +247,12 @@ select option {
   background-image: url('../images/ufo.png');
   background-repeat: no-repeat;
   background-size: 100%;
-  height: 384px;
-  width: 195px;
+  height: 380px;
+  width: 190px;
   margin: auto;
   left: 50%;
-  -webkit-transform: translate(-50%, 50%);
-  transform: translate(-50%, 50%);
+  -webkit-transform: translate(-50%, 5%);
+  transform: translate(-50%, 5%);
 }
 
 .ufo.light {

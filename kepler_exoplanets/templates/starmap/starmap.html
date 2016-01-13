@@ -5,6 +5,7 @@
     <script>
 
     $(function() {
+      skybox('starmap');
       var controls, camera, scene, renderer, container, intersects, winResize;
       // Set up canvas dimensions
       var windowwidth = window.innerWidth;
@@ -35,11 +36,6 @@
         controls.minDistance = 200;
         controls.maxDistance = 2600;
         controls.enableRotate = false;
-        controls.enablePan = false;
-
-        skybox_camera.position.set(0, 0, 4000);
-        skybox_controls.enableRotate = false;
-        skybox_controls.enablePan = false;
 
         // // controls.addEventListener("change", render);
         // controls.target.set(0, 0, 2600);

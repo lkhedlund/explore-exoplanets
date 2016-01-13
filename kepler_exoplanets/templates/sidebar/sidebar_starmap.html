@@ -1,7 +1,7 @@
 <div class='sidebar'>
   <h2>Welcome To Astronomia&nbspNova!</h2>
   <div>
-    <p id='infoBox'>Use your mouse or the slider to navigate through space, and click on any star to discover what's there. </p>
+    <p id='infoBox'>You are now in Kepler's field of view. Use your mouse or the slider to navigate through space, and click on any star to discover what's there. </p>
   </div>
   <div>
     Stars observed with exoplanets: {{ stars|length }}<br>
@@ -19,13 +19,11 @@
    <button id="select-habitable">Stars with habitable planets</button>
 
   <!-- SLIDER FOR MOVEMENT -->
-
   <div class="sliderlabel">
     <label for='star-slider' id='dist'></label>
-  <div id='star-slider'></div>
-<!--     <input oninput='outputUpdate(value)'></div>
-    <output for='star-slider' id='dist'>500</output> -->
+    <div id='star-slider'></div>
   </div>
+
   <button id='camera-reset'>
     Reset Distance
   </button>

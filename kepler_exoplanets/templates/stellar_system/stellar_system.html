@@ -5,7 +5,7 @@
 {% include "partials/_starvertex.html" %}
 {% include 'partials/_gasfragment.html' %}
 {% include 'partials/_gasvertex.html' %}
-
+  <script src="/static/js/skybox.js"></script>
   <div id='space_container'></div>
     <script type='text/javascript'>
 
@@ -147,7 +147,7 @@
         // select which type of planet to add
         function selectPlanet(size, realsize, temp, distance, url) {
           distance = distance * 2;
-          if  (temp > 273 && temp < 373 && realsize < 2) {
+          if  (temp >= 273 && temp <= 373 && realsize <= 2) {
             addHabitable(size, distance, url);
            }
           else if (realsize > 4) {
@@ -254,6 +254,7 @@
         $('canvas').on( 'click', false, function () {
           if (selection.length > 0) {
             clickedPlanet = selection[0].object;
+            console.log(clickedPlanet.id);
             if (clickedPlanet.id == 6) {
               window.location = '{% url 'star' star.pk %}';
             }
@@ -273,7 +274,6 @@
         $('.sidebar').on('mouseenter', function() {
           controls.enabled = false;
           skybox_controls.enabled = false;
-                    console.log(cam);
         });
 
         $('.sidebar').on('mouseleave', function() {
@@ -306,7 +306,7 @@
         // Speed slider
         $( '#slider-1' ).slider({
           animate: true,
-          max: 1000,
+          max: 400,
           min: 0.00023148,
           value: 100,
           slide: function(mousemove, speed) {

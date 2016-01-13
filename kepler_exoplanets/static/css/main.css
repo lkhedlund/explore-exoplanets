@@ -183,7 +183,7 @@ select option {
 .toggleStyle {
   margin-top: 10px;
   display: inline-block;
-  width: 85px;
+  width: 90px;
   padding: 0 10px;
   color: #faebd7;
   text-align: center;
@@ -209,6 +209,80 @@ select option {
   z-index: 100;
 }
 
+/* index formatting*/
+.trees{
+  position: absolute;
+  background-repeat: no-repeat;
+  background-image: url('../images/transparenttrees.png');
+  background-size: cover;
+  margin: auto;
+  z-index: 5;
+  height: 100%;
+  width: 100%;
+  animation:2s ease-in;
+}
+
+.welcome-text {
+  position: absolute;
+  background: transparent;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 4vw;
+  color: #feffe5;
+  margin-top: 10%;
+  text-align: center;
+  animation-name: welcome-fade;
+  animation-duration: 10s;
+  animation-timing-function: ease;
+}
+
+.info-div {
+  position: absolute;
+  background: transparent;
+  width: 60%;
+  margin-top: 20%;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-left: 10%;
+  margin-right: 10%;
+  font-size: 2vw;
+  color: #feffe5;
+  z-index: 6;
+  text-align: center;
+}
+
+.info-text {
+  animation-name: info-fade;
+  animation-duration: 15s;
+  animation-timing-function: ease;
+}
+
+.click-text{
+  font-style: italic;
+  animation-name: click-fade;
+  animation-duration: 20s;
+  animation-timing-function: ease;
+}
+
+@keyframes welcome-fade {
+  0%   { opacity: 0; }
+  30% { opacity: 0;}
+  100% { opacity: 1; }
+}
+
+@keyframes info-fade {
+  0%   { opacity: 0; }
+  45% { opacity: 0;}
+  100% { opacity: 1; }
+}
+
+@keyframes click-fade {
+  0%   { opacity: 0; }
+  65% { opacity: 0;}
+  100% { opacity: 1; }
+}
+
 /* FORMATTING FOR THE UFO PAGE */
 
 .error {
@@ -219,8 +293,6 @@ select option {
   margin-right: auto ;
   color: #faebd7;
   text-align: center;
-  -webkit-transition: 2s ease-in-out;
-  transition: all 2s ease-in-out;
   z-index: 3;
 }
 

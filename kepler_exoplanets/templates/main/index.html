@@ -1,5 +1,20 @@
 {% extends "main/base.html" %}
-
 {% block content %}
-  <h1>INDEX</h1>
+  <script src="/static/js/index_skybox.js"></script>
+  <div class="trees"> 
+    <p class="welcome-text">Welcome to Astronomia Nova</p>
+  </div>
+  <div class="info-div">
+    <p class="info-text">Kepler is a NASA satellite whose mission is to discover exoplanets - planets which orbit stars other than our own. Here&nbspat <em>Astronomia Nova</em>, we took that data and turned it into a visual reality. Come explore with us...</p>
+    <p class="click-text">Click anywhere to begin</p>
+  </div>
+
+  <script>
+    $(function() {
+      $('body').css('cursor', 'pointer');
+      $(document).on('click', function(){
+        window.location = "{% url 'starmap' %}";
+      });
+    });  
+  </script>
 {% endblock %}

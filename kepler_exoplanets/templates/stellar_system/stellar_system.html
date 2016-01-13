@@ -148,7 +148,7 @@
         // select which type of planet to add
         function selectPlanet(size, realsize, temp, distance, url) {
           distance = distance * 2;
-          if  (temp > 273 && temp < 373 && realsize < 2) {
+          if  (temp >= 273 && temp <= 373 && realsize <= 2) {
             addHabitable(size, distance, url);
            }
           else if (realsize > 4) {

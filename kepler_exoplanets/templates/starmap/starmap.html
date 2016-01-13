@@ -1,11 +1,11 @@
 {% extends "main/base.html" %}
 {% block content %}
 {% include 'sidebar/sidebar_starmap.html' %}
+  <script src="/static/js/skybox.js"></script>
   <div id="space_container"></div>
     <script>
 
     $(function() {
-      skybox('starmap');
       var controls, camera, scene, renderer, container, intersects, winResize;
       // Set up canvas dimensions
       var windowwidth = window.innerWidth;
@@ -36,10 +36,11 @@
         controls.minDistance = 200;
         controls.maxDistance = 2600;
         controls.enableRotate = false;
+        window.skybox_controls.enableRotate = false;
+        window.skybox_camera.position.set(0, 0, 4000);
 
         // // controls.addEventListener("change", render);
         // controls.target.set(0, 0, 2600);
-
         var light = new THREE.PointLight(0xffffff);
         light.position.set(0,0,2375);
         scene.add(light);

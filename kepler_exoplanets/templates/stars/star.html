@@ -3,11 +3,11 @@
 {% include 'sidebar/sidebar_star.html' %}
 {% include 'partials/_starfragment.html' %}
 {% include 'partials/_starvertex.html' %}
+<script src="/static/js/skybox.js"></script>
 <div id="space_container"></div>
   <script type="text/javascript">
 
     $(function() {
-      skybox();
       var container, winResize;
       var camera, scene, renderer, controls;
       var fov = 25;

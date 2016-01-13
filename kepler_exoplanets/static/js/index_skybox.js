@@ -2,12 +2,12 @@ var skybox_camera, scene, renderer,skybox, skybox_controls;
 var fov = 25;
 var texloader = new THREE.TextureLoader();
 
-var sky_bk = Textures.skybox_classic_bk
-var sky_dn = Textures.skybox_classic_dn
-var sky_ft = Textures.skybox_classic_ft
-var sky_lf = Textures.skybox_classic_lf
-var sky_rt = Textures.skybox_classic_rt
-var sky_up = Textures.skybox_classic_up
+var sky_bk = Textures.skybox_index_bk
+var sky_dn = Textures.skybox_index_dn
+var sky_ft = Textures.skybox_index_ft
+var sky_lf = Textures.skybox_index_lf
+var sky_rt = Textures.skybox_index_rt
+var sky_up = Textures.skybox_index_up
 
 $(function() {
 
@@ -33,15 +33,16 @@ $(function() {
     skybox_controls.minDistance = 3000;
     skybox_controls.maxDistance = 4000;
     skybox_controls.enableRotate = false;
+    skybox_controls.enableZoom = false;
 
     //box sides
     var materialArray = [];
-    materialArray.push(new THREE.MeshBasicMaterial( { map: sky_bk }));
-    materialArray.push(new THREE.MeshBasicMaterial( { map: sky_ft }));
-    materialArray.push(new THREE.MeshBasicMaterial( { map: sky_up }));
-    materialArray.push(new THREE.MeshBasicMaterial( { map: sky_dn }));
-    materialArray.push(new THREE.MeshBasicMaterial( { map: sky_rt }));
-    materialArray.push(new THREE.MeshBasicMaterial( { map: sky_lf }));
+      materialArray.push(new THREE.MeshBasicMaterial( { map: sky_bk }));
+      materialArray.push(new THREE.MeshBasicMaterial( { map: sky_ft }));
+      materialArray.push(new THREE.MeshBasicMaterial( { map: sky_up }));
+      materialArray.push(new THREE.MeshBasicMaterial( { map: sky_dn }));
+      materialArray.push(new THREE.MeshBasicMaterial( { map: sky_rt }));
+      materialArray.push(new THREE.MeshBasicMaterial( { map: sky_lf }));
 
     for (var i = 0; i < 6; i++){
        materialArray[i].side = THREE.BackSide;
@@ -64,7 +65,7 @@ $(function() {
 
     function animate() {
       requestAnimationFrame(animate);
-      skybox.rotateY(-0.5/1000);
+      skybox.rotateX(-0.5/1000); 
       renderer.render( scene, skybox_camera );
     }
     window.skybox_camera = skybox_camera;
@@ -72,3 +73,4 @@ $(function() {
     window.skybox_controls = skybox_controls;
   }
 });
+

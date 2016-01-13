@@ -5,12 +5,11 @@
 {% include "partials/_starvertex.html" %}
 {% include 'partials/_gasfragment.html' %}
 {% include 'partials/_gasvertex.html' %}
-
+  <script src="/static/js/skybox.js"></script>
   <div id='space_container'></div>
     <script type='text/javascript'>
 
       $(function() {
-        skybox();
         var controls, camera, scene, renderer, container, winResize;
 
         var u = 0.05;
@@ -254,10 +253,8 @@
         // Make the planets clickable (for now, it alerts the coordinates)
         $('canvas').on( 'click', false, function () {
           if (selection.length > 0) {
-            console.log(paths);
             clickedPlanet = selection[0].object;
-            console.log(clickedPlanet.id);
-            if (clickedPlanet.id == 3) {
+            if (clickedPlanet.id == 7) {
               window.location = '{% url 'star' star.pk %}';
             }
             else if (clickedPlanet.id % 2 == 0)

@@ -15,12 +15,12 @@ var Textures = (function() {
     skybox_classic_lf: texloader.load( '/static/images/skybox/bluenebulaLF.png' ),
     skybox_classic_rt: texloader.load( '/static/images/skybox/bluenebulaRT.png' ),    
     skybox_classic_up: texloader.load( '/static/images/skybox/bluenebulaUP.png' ),
-    skybox_index_bk: texloader.load( '/static/images/skybox/skyindexBK.png' ),
-    skybox_index_dn: texloader.load( '/static/images/skybox/skyindexDN.png' ),    
-    skybox_index_ft: texloader.load( '/static/images/skybox/skyindexFT.png' ),
-    skybox_index_lf: texloader.load( '/static/images/skybox/skyindexLF.png' ),
-    skybox_index_rt: texloader.load( '/static/images/skybox/skyindexRT.png' ),    
-    skybox_index_up: texloader.load( '/static/images/skybox/skyindexUP.png' ),
+    skybox_index_bk: texloader.load( '/static/images/skybox/indexskyBK.png' ),
+    skybox_index_dn: texloader.load( '/static/images/skybox/indexskyDN.png' ),    
+    skybox_index_ft: texloader.load( '/static/images/skybox/indexskyFT.png' ),
+    skybox_index_lf: texloader.load( '/static/images/skybox/indexskyLF.png' ),
+    skybox_index_rt: texloader.load( '/static/images/skybox/indexskyRT.png' ),    
+    skybox_index_up: texloader.load( '/static/images/skybox/indexskyUP.png' ),
   }
   return api;
 })();

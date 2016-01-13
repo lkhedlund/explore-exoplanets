@@ -209,6 +209,19 @@ select option {
   z-index: 100;
 }
 
+/* index */
+.trees{
+  position: absolute;
+  background-repeat: no-repeat;
+  background-image: url('../images/transparenttrees.png');
+  background-size: cover;
+  margin: auto;
+  z-index: 5;
+  height: 100%;
+  width: 100%;
+
+}
+
 /* FORMATTING FOR THE UFO PAGE */
 
 .error {

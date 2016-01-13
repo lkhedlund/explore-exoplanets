@@ -1,3 +1,47 @@
+body {
+  color: #222;
+  font-family: 'Raleway', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  min-width: 800px;
+  min-height: 600px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #faebd7;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  height: 38px;
+  letter-spacing: .1rem;
+  line-height: 38px;
+  margin-top: 10px;
+  min-width: 300px;
+  padding: 0 30px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+button:hover {
+  border-color: #F0C400;
+  color: #F0C400;
+  outline: 0;
+}
+
+button.active {
+  border-color: #F0C400;
+  color: #F0C400;
+}
+
 @font-face {
   font-family: 'Raleway';
   font-style: normal;
@@ -6,32 +50,20 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
-body {
-  margin: 0;
-  z-index: 1;
-  min-width: 800px;
-  min-height: 600px;
-  overflow: hidden;
-  line-height: 1.6;
-  font-weight: 400;
-  font-family: "Raleway", Helvetica, Arial, sans-serif;
-  color: #222;
-}
-
 header {
   background-color: #2B2B2B;
   height: 35px;
-  width: 100%;
-  opacity: .9;
   margin-bottom: 10px;
+  opacity: .9;
+  width: 100%;
 }
 
 header h1.logo {
-  margin: 0;
-  font-size: 1.7em;
   color: #fff;
-  text-transform: uppercase;
   float: left;
+  font-size: 1.7em;
+  margin: 0;
+  text-transform: uppercase;
 }
 
 header h1.logo:hover {
@@ -44,44 +76,17 @@ h2 {
   margin-top: 10px;
 }
 
-div.jumbo {
-  padding: 20px;
-  background-color: #eeeeee;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
-
-button {
-  text-align: center;
-  color: #faebd7;
-  margin-top: 10px;
-  min-width: 300px;
-  height: 38px;
-  padding: 0 30px;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 38px;
-  letter-spacing: .1rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  background-color: transparent;
+select {
+  border: 1px solid #D1D1D1;
   border-radius: 4px;
-  border: 1px solid #bbb;
-  cursor: pointer;
+  box-shadow: none;
   box-sizing: border-box;
+  height: 38px;
+  padding: 6px 10px;
 }
 
-button:hover {
-  color: #F0C400;
-  border-color: #F0C400;
-  outline: 0;
-}
-
-button.active {
-  color: #F0C400;
-  border-color: #F0C400;
+select option {
+  background: rgb(0,0,0);
 }
 
 table.center {
@@ -91,217 +96,209 @@ table.center {
 
 th,
 td {
+  border-bottom: 1px solid #E1E1E1;
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #E1E1E1;
 }
+
 th:first-child,
 td:first-child {
   padding-left: 0;
 }
+
 th:last-child,
 td:last-child {
   padding-right: 0;
-}
-
-select {
-  height: 38px;
-  padding: 6px 10px;
-  border: 1px solid #D1D1D1;
-  border-radius: 4px;
-  box-shadow: none;
-  box-sizing: border-box;
-}
-
-select option {
-  background: rgb(0,0,0);
-}
-
-
-#space_container {
-  position: fixed;
-  left: 0px;
-  height: 100%;
-  width: 100%;
-  z-index: 2;
-}
-
-.sidebar {
-  position: absolute;
-  text-align: center;
-  margin-top: auto;
-  margin-bottom: auto;
-  padding:20px;
-  width: 25%;
-  right: 30px;
-  color: #faebd7;
-  z-index: 3;
-  font-size: 1em;
-  font-size: 1.1vw;
-  background: transparent;
-}
-
-.stats {
-  text-align: center;
-}
-
-.centerlist{
-    width:78%;
-    margin:0 auto;
-    text-align:left;
-}
-
-#dist {
-  float: center;
-  font-size: 1em; /* currently ems cause chrome bug misinterpreting rems on body element */
-  line-height: 1.6;
-  font-weight: 500;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-/*remove slider focus */
-.ui-slider-handle {
-    outline: none;
-}
-
-#infoBox {
-  text-align: center;
-  font-style: italic;
-  border: 1px solid #faebd7;
-  padding: 10px;
-}
-
-.sliderlabel {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-#star-slider{
-  margin-bottom: 20px;
-}
-
-.toggleStyle {
-  margin-top: 10px;
-  display: inline-block;
-  width: 90px;
-  padding: 0 10px;
-  color: #faebd7;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 38px;
-  letter-spacing: .1rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  background-color: transparent;
-  border-radius: 4px;
-  border: 1px solid #bbb;
-  cursor: pointer;
-  box-sizing: border-box;
 }
 
 #amount {
   background-color: black;
 }
 
+.centerlist{
+  margin:0 auto;
+  text-align:left;
+  width:78%;
+}
+
+#dist {
+  float: center;
+  font-size: 1em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  font-weight: 500;
+  line-height: 1.6;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#infoBox {
+  border: 1px solid #faebd7;
+  font-style: italic;
+  padding: 10px;
+  text-align: center;
+}
+
 #select-choice {
   z-index: 100;
 }
 
-/* index formatting*/
-.trees{
+.sidebar {
+  background: transparent;
+  color: #faebd7;
+  font-size: 1em;
+  font-size: 1.1vw;
+  margin-bottom: auto;
+  margin-top: auto;
+  padding:20px;
   position: absolute;
-  background-repeat: no-repeat;
-  background-image: url('../images/transparenttrees.png');
-  background-size: cover;
-  margin: auto;
-  z-index: 5;
+  right: 30px;
+  text-align: center;
+  width: 25%;
+  z-index: 3;
+}
+
+.sliderlabel {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#space_container {
   height: 100%;
+  left: 0px;
+  position: fixed;
   width: 100%;
-  animation:2s ease-in;
+  z-index: 2;
 }
 
-.welcome-text {
-  position: absolute;
-  background: transparent;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 4vw;
-  color: #feffe5;
-  margin-top: 10%;
-  text-align: center;
-  animation-name: welcome-fade;
-  animation-duration: 10s;
-  animation-timing-function: ease;
+#star-slider{
+  margin-bottom: 20px;
 }
 
-.info-div {
-  position: absolute;
-  background: transparent;
-  width: 60%;
-  margin-top: 20%;
-  padding-left: 10%;
-  padding-right: 10%;
-  margin-left: 10%;
-  margin-right: 10%;
-  font-size: 2vw;
-  color: #feffe5;
-  z-index: 6;
+.stats {
   text-align: center;
 }
 
-.info-text {
-  animation-name: info-fade;
-  animation-duration: 15s;
-  animation-timing-function: ease;
+.toggleStyle {
+  background-color: transparent;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #faebd7;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1rem;
+  line-height: 38px;
+  margin-top: 10px;
+  padding: 0 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: 90px;
 }
 
-.click-text{
-  font-style: italic;
-  animation-name: click-fade;
+/*remove slider focus */
+.ui-slider-handle {
+  outline: none;
+}
+
+/* Index (Intro Page)
+   ========================================================================== */
+
+#click-text{
   animation-duration: 20s;
+  animation-name: click-fade;
   animation-timing-function: ease;
+  font-style: italic;
 }
 
-@keyframes welcome-fade {
+@keyframes click-fade {
   0%   { opacity: 0; }
-  30% { opacity: 0;}
+  65%  { opacity: 0; }
   100% { opacity: 1; }
 }
 
 @keyframes info-fade {
   0%   { opacity: 0; }
-  45% { opacity: 0;}
+  45%  { opacity: 0; }
   100% { opacity: 1; }
 }
 
-@keyframes click-fade {
+@keyframes welcome-fade {
   0%   { opacity: 0; }
-  65% { opacity: 0;}
+  30%  { opacity: 0; }
   100% { opacity: 1; }
 }
 
-/* FORMATTING FOR THE UFO PAGE */
+.info-div {
+  background: transparent;
+  color: #feffe5;
+  font-size: 2vw;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 20%;
+  padding-left: 10%;
+  padding-right: 10%;
+  position: absolute;
+  text-align: center;
+  width: 60%;
+  z-index: 6;
+}
+
+#info-text {
+  animation-name: info-fade;
+  animation-duration: 15s;
+  animation-timing-function: ease;
+}
+
+#trees{
+  animation:2s ease-in;
+  background-image: url('../images/transparenttrees.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  margin: auto;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
+}
+
+#welcome-text {
+  animation-duration: 10s;
+  animation-name: welcome-fade;
+  animation-timing-function: ease;
+  background: transparent;
+  color: #feffe5;
+  font-size: 4vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+/* Error Page (UFO)
+   ========================================================================== */
 
 .error {
-  position: absolute;
   background: transparent;
-  width: 100%;
+  color: #faebd7;
+  position: absolute;
   margin-left: auto ;
   margin-right: auto ;
-  color: #faebd7;
   text-align: center;
+  width: 100%;
   z-index: 3;
 }
 
 .error-text {
-  position: relative;
+  left: 50%;
   margin-left: auto;
   margin-right: auto;
+  position: relative;
   text-align: center;
-  left: 50%;
   -webkit-transform: translate(-50%, 10%);
   transform: translate(-50%, 10%);
 }
@@ -314,27 +311,86 @@ select option {
   font-size: 25px;
 }
 
-.ufo {
+.faces {
+  -webkit-animation: 8s ease-in-out infinite normal run;
+  animation: 8s ease-in-out infinite normal;
+  -webkit-animation-name: abducted;
+  animation-name: abducted;
+  background-repeat: no-repeat;
+  height: 60px;
+  opacity: 0;
   position: absolute;
+  width: 60px;
+}
+
+.faces.jenn {
+  background-image: url('../images/jenn.png');
+}
+
+.faces.lars {
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+  background-image: url('../images/lars.png');
+}
+
+.faces.anita {
+  -webkit-animation-delay: 4s;
+  animation-delay: 4s;
+  background-image: url('../images/anita.png');
+}
+
+.faces.fabien {
+  -webkit-animation-delay: 6s;
+  animation-delay: 6s;
+  background-image: url('../images/fabien.png');
+}
+
+@keyframes abducted {
+  0% {
+    bottom: 15px;
+    opacity: 0;
+    right: -130px;
+  }
+  5% {
+    opacity: 1;
+  }
+  12% {
+    bottom: 15px;
+    opacity: 0.5;
+    right: 70px;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  23% {
+    bottom: 200px;
+    opacity: 0;
+    right: 70px;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.ufo {
   background-image: url('../images/ufo.png');
   background-repeat: no-repeat;
   background-size: 100%;
   height: 380px;
-  width: 190px;
-  margin: auto;
   left: 50%;
+  margin: auto;
+  position: absolute;
   -webkit-transform: translate(-50%, 5%);
   transform: translate(-50%, 5%);
+  width: 190px;
 }
 
 .ufo.light {
-  position: absolute;
-  background-image: url('../images/ufoLight.png');
-  opacity: 0;
   -webkit-animation: 2s ease-in-out infinite normal running;
   animation: 2s ease-in-out infinite normal running;
   -webkit-animation-name: beam;
   animation-name: beam;
+  background-image: url('../images/ufoLight.png');
+  opacity: 0;
+  position: absolute;
 }
 
 @keyframes beam {
@@ -344,73 +400,15 @@ select option {
   90% { opacity: 0; }
 }
 
-.faces {
-  background-repeat: no-repeat;
-  position: absolute;
-  opacity: 0;
-  height: 60px;
-  width: 60px;
-  -webkit-animation: 8s ease-in-out infinite normal run;
-  animation: 8s ease-in-out infinite normal;
-  -webkit-animation-name: abducted;
-  animation-name: abducted;
-}
-
-.faces.jenn {
-  background-image: url('../images/jenn.png');
-}
-
-.faces.lars {
-  background-image: url('../images/lars.png');
-  -webkit-animation-delay: 2s;
-  animation-delay: 2s;
-}
-
-.faces.anita {
-  background-image: url('../images/anita.png');
-  -webkit-animation-delay: 4s;
-  animation-delay: 4s;
-}
-
-.faces.fabien {
-  background-image: url('../images/fabien.png');
-  -webkit-animation-delay: 6s;
-  animation-delay: 6s;
-}
-
-@keyframes abducted {
-  0% {
-    opacity: 0;
-    right: -130px;
-    bottom: 15px;
-  }
-  5% {
-    opacity: 1;
-  }
-  12% {
-    opacity: 0.5;
-    right: 70px;
-    bottom: 15px;
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  23% {
-    right: 70px;
-    bottom: 200px;
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-    opacity: 0;
-  }
-}
-
-/*Loading*/
+/* Loading Spinner
+   ========================================================================== */
 
 .loader {
-  position: fixed;
+  background: url('../images/spinner.gif') 50% 50% no-repeat rgb(0,0,0);
+  height: 100%;
   left: 0px;
+  position: fixed;
   top: 0px;
   width: 100%;
-  height: 100%;
   z-index: 9999;
-  background: url('../images/spinner.gif') 50% 50% no-repeat rgb(0,0,0);
 }

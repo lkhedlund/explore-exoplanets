@@ -212,17 +212,34 @@ select option {
 /* FORMATTING FOR THE UFO PAGE */
 
 .error {
+  position: absolute;
+  background: transparent;
+  width: 100%;
+  margin-left: auto ;
+  margin-right: auto ;
+  color: #faebd7;
+  text-align: center;
   -webkit-transition: 2s ease-in-out;
   transition: all 2s ease-in-out;
+  z-index: 3;
 }
 
 .error-text {
-  position: absolute;
-  top: 75%;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
   left: 50%;
+  -webkit-transform: translate(-50%, 10%);
+  transform: translate(-50%, 10%);
+}
+
+.error h1{
+  font-size: 50px;
+}
+
+.error h5{
   font-size: 25px;
-  -webkit-transform: translate(50%, 50%);
-  transform: translate(50%, 50%);
 }
 
 .ufo {
@@ -230,16 +247,16 @@ select option {
   background-image: url('../images/ufo.png');
   background-repeat: no-repeat;
   background-size: 100%;
-  height: 384px;
-  width: 195px;
+  height: 380px;
+  width: 190px;
   margin: auto;
-  top: 50%;
   left: 50%;
-  -webkit-transform: translate(50%, 50%);
-  transform: translate(50%, 50%);
+  -webkit-transform: translate(-50%, 5%);
+  transform: translate(-50%, 5%);
 }
 
 .ufo.light {
+  position: absolute;
   background-image: url('../images/ufoLight.png');
   opacity: 0;
   -webkit-animation: 2s ease-in-out infinite normal running;

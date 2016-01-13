@@ -48,6 +48,10 @@ var skybox = function(type){
         skybox_camera.position.set(0, 0, 4000);
         skybox_controls.enableRotate = false;
       }
+      else if (type == 'index') {
+        skybox_controls.enableRotate = false;
+        skybox_controls.enableZoom = false;
+      }
 
       //box sides
       var materialArray = [];

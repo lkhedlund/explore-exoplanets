@@ -32,7 +32,6 @@ $(function() {
     skybox_controls = new THREE.OrbitControls( skybox_camera );
     skybox_controls.minDistance = 3000;
     skybox_controls.maxDistance = 4000;
-    skybox_controls.enableRotate = false;
 
     //box sides
     var materialArray = [];

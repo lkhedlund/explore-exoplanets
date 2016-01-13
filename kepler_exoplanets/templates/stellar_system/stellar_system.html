@@ -253,8 +253,7 @@
         // Make the planets clickable (for now, it alerts the coordinates)
         $('canvas').on( 'click', false, function () {
           if (selection.length > 0) {
-            clickedPlanet = selection[0].object;
-            console.log(clickedPlanet.id);
+            clickedPlanet = selection[0].object;  
             if (clickedPlanet.id == 6) {
               window.location = '{% url 'star' star.pk %}';
             }

@@ -102,8 +102,8 @@
         raycast();
 
         // Slider
-        $("#dist").text("Distance from Earth is " + Math.round(camera.position.z) + " light years");
-        $( "#star-slider" ).slider({ value: Math.round(3000 - camera.position.z) });
+        $("#dist").text("Distance from Earth is " + Math.round(camera.position.z + 500) + " light years");
+        $( "#star-slider" ).slider({ value: Math.round(camera.position.z + 500) });
 
         //resizes canvas when window is
         winResize = new THREEx.WindowResize(renderer, camera);
@@ -205,11 +205,10 @@
       // Slider on sidebar to move forwards/backwards
       $( "#star-slider" ).slider({
         animate: true,
-        max: 2800,
-        min: 400,
-        value: 500,
+        max: 3100,
+        min: 700,
         slide: function( mousemove, dist) {
-          camera.position.set(0, 0, 3000 - dist.value);
+          camera.position.set(0, 0, dist.value - 500);
         }
       });
 

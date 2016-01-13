@@ -14,7 +14,7 @@
 
         var u = 0.05;
         var t = 0;
-        var s = 1;
+        var s = 0.4;
         var cam = {{ planets.last.semimajor_axis }} * 650;
         // Orbits circles
         var circleSegments = 64;        
@@ -96,8 +96,6 @@
           t += (0.5 * s);
           star.rotation.z += (u / 10);
           planets.forEach(rotatePlanet);
-
-          $('#zoom-slider' ).slider({ value: camera.position.z });
           renderer.render(scene, camera);
         }
 
@@ -305,9 +303,9 @@
         // Speed slider
         $( '#slider-1' ).slider({
           animate: true,
-          max: 400,
+          max: 200,
           min: 0.00023148,
-          value: 100,
+          value: 60,
           slide: function(mousemove, speed) {
             s = speed.value / 100;
             if (speed.value == 0.00023148) {

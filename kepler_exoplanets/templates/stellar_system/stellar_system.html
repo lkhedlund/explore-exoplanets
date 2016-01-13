@@ -108,7 +108,7 @@
           if ( selection.length > 0 ) {
             clickedPlanet = selection[0].object;
             $('canvas').css('cursor', 'pointer');
-              if (clickedPlanet.id % 2 == 0) {
+              if (clickedPlanet.id % 2 == 1) {
                 clickedPlanet.material.setValues({linewidth: 2});
               }
           }
@@ -254,11 +254,13 @@
         // Make the planets clickable (for now, it alerts the coordinates)
         $('canvas').on( 'click', false, function () {
           if (selection.length > 0) {
+            console.log(paths);
             clickedPlanet = selection[0].object;
-            if (clickedPlanet.id == 6) {
+            console.log(clickedPlanet.id);
+            if (clickedPlanet.id == 3) {
               window.location = '{% url 'star' star.pk %}';
             }
-            else if (clickedPlanet.id % 2 == 1)
+            else if (clickedPlanet.id % 2 == 0)
             {
               window.location = paths[clickedPlanet.id];
             }
@@ -274,7 +276,6 @@
         $('.sidebar').on('mouseenter', function() {
           controls.enabled = false;
           skybox_controls.enabled = false;
-                    console.log(cam);
         });
 
         $('.sidebar').on('mouseleave', function() {

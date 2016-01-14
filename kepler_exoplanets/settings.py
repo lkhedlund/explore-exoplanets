@@ -17,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'kepler_exoplanets',
-    'django_cron',
+    # 'django_cron',
 ]
 
 MIDDLEWARE_CLASSES = [

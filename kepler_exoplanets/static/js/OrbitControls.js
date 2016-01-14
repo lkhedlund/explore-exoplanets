@@ -342,7 +342,7 @@
 		// backwards compatibility.
 		// Set to false to disable zooming
 		this.enableZoom = true;
-		this.zoomSpeed = 1.0;
+		this.zoomSpeed = 0.33;
 
 		// Set to false to disable rotating
 		this.enableRotate = true;

@@ -140,7 +140,7 @@
 
       // EVENT LISTENERS
       // Planets turn blue on mouseover (It will make them brighter)
-      $('canvas').on( 'mousemove', false, function () {
+      $('canvas').on( 'mousemove', false, function (event) {
         event.preventDefault();
         var offset = {
           x: document.getElementsByTagName("canvas")[0].offsetLeft,
@@ -151,7 +151,7 @@
       });
 
       // Make the planets clickable
-      $('canvas').on('click', false, function () {
+      $('canvas').on('click', false, function (event) {
         event.preventDefault();
         selection = raycaster.intersectObjects(scene.children, true);
         if (selection.length > 0) {

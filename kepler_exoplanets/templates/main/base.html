@@ -11,6 +11,16 @@
   </head>
   <body>
     <div class="loader"></div>
+    <button id="info">icon</button>
+    <div class="overlay">
+<h1>About</h1>
+<p>Astronomia Nova is a three dimensional visualization of the Kepler satellite data, as provided by the NASA archives. It represents stars, planets, and stellar systems using pieces of data from the archive, with some knowledge gaps filled in with our own estimations.</p>
+<p>Astronomia Nova was created by Anita Hung, Fabien Albi, Jennifer Tigner, and Lars Hedlund as a final project for Lighthouse Labs. We are very happy to have done so much in such a short period of time, and hope that someone will be willing to take the project in new and exciting directions.</p>
+<h3>Disclaimer</h3>
+<p>The three dimensional visualization is not always scientifically accurate (especially in cases of planet textures), and is meant to be more of a fun exploration of the data rather than a thoroughly researched contribution. If you are an expert in the field, however, and feel like you can provide your expertise to the project, please do!</p>
+<p>To contribute, please visit the <a href="https://github.com/lkhedlund/explore-exoplanets">Github Respository</a>.</p>
+</div>
+
 <!--   <audio autoplay="autoplay" loop="loop">
    <source src="{% static 'music/background.mp3' %}" />
   </audio> -->
@@ -23,7 +33,16 @@
       {% endblock %}
     <script type="text/javascript">
       $(function() {
+        // $('.overlay').show();
+        // Add a loader to ease-in the page transition
         $(".loader").delay(400).fadeOut("slow");
+        // Show and hide the info overlay
+        // $("#info").on('click', function() {
+        //   $('.overlay').show();
+        // });
+        // $('.overlay').on('click', function() {
+        //   $('.overlay').hide("slow");
+        // });
       });
     </script>
   </body>

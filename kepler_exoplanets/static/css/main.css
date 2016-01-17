@@ -412,3 +412,25 @@ td:last-child {
   width: 100%;
   z-index: 9999;
 }
+
+/* Info Page Overlay */
+.overlay {
+  position: absolute;
+  z-index: 1000;
+  background: rgba(0,0,0,.8);
+  color: white;
+  padding: 20px;
+  max-width: 60%;
+  min-height: 90%;
+  top: 5%;
+  left: 5%;
+  -webkit-transition: 1s;
+  border-radius: 5px;
+}
+
+
+#info {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+}

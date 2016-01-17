@@ -6,27 +6,25 @@
     <script>
 
     $(function() {
-      var controls, camera, scene, renderer, container, intersects, winResize;
-      // Set up canvas dimensions
-      var windowwidth = window.innerWidth;
-      var width = windowwidth * 0.66667;
-      var height = window.innerHeight;
+      var controls, camera, scene, renderer;
 
-      var infobox = document.getElementById('infoBox').innerHTML;
-
+      // Create empty object that will store star url paths
       var stars = {};
+
       // Set up tools for hover and click events
       var raycaster = new THREE.Raycaster();
       var mouse = new THREE.Vector2(), INTERSECTED;
 
       // Create the starmap
-      start();
+      init();
 
-      function start(){
+      function init(){
         //Scene creation
         scene = new THREE.Scene();
-        container = document.getElementById( 'space_container' );
+        var container = document.getElementById( 'space_container' );
         // PerspectiveCamera creation and Set up
+        var width = window.innerWidth * 0.66667;
+        var height = window.innerHeight;
         camera = new THREE.PerspectiveCamera(75, width/height, 50, 1000);
         camera.position.set(0, 0, 2600);
         scene.add(camera);
@@ -36,8 +34,8 @@
         controls.minDistance = 200;
         controls.maxDistance = 2600;
         controls.enableRotate = false;
-        window.skybox_controls.enableRotate = false;
-        window.skybox_camera.position.set(0, 0, 4000);
+        skybox_controls.enableRotate = false;
+        skybox_camera.position.set(0, 0, 4000);
 
         // // controls.addEventListener("change", render);
         // controls.target.set(0, 0, 2600);
@@ -52,8 +50,7 @@
         container.appendChild(renderer.domElement);
         renderer.render(scene,camera);
 
-        var geometry, material, star;
-
+        // Show all stars
         $('#select-default').on('click', function() {
           clearScene();
           {% for star in stars %}
@@ -62,6 +59,7 @@
           {% endfor %}
         });
 
+        // Show only stars with habitable planets
         $('#select-habitable').on('click', function() {
           clearScene();
           {% for star in habitable %}
@@ -70,6 +68,7 @@
           {% endfor %}
         });
 
+        // Show only stars with 5+ planets
         $('#select-five_plus').on('click', function() {
           clearScene();
           {% for star in five_plus %}
@@ -90,7 +89,8 @@
           obj = scene.children[i];
           scene.remove(obj);
         }
-        stars = [];
+        // Remove stars url paths
+        stars = {};
       }
 
       function animate() {
@@ -102,8 +102,8 @@
         $("#dist").text("Distance from Earth is " + Math.round(camera.position.z + 500) + " light years");
         $( "#star-slider" ).slider({ value: Math.round(camera.position.z + 500) });
 
-        //resizes canvas when window is
-        winResize = new THREEx.WindowResize(renderer, camera);
+        // Resizes canvas when window is
+        var winResize = new THREEx.WindowResize(renderer, camera);
         renderer.render(scene,camera);
       }
 
@@ -119,24 +119,23 @@
       }
 
       function createStar (temp, ra, declination, ly, path) {
-        color = star_color(temp);
-        geometry = new THREE.SphereGeometry(1, 15, 15);
-        material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
-        star = new THREE.Mesh(geometry, material);
+        var color = star_color(temp);
+        var geometry = new THREE.SphereGeometry(1, 15, 15);
+        var material = new THREE.MeshBasicMaterial({color: color, wireframe:false});
+        var star = new THREE.Mesh(geometry, material);
         scene.add(star);
         star.position.set((ra - 290) * 5 * (ly / 1000), (declination - 45) * 5 * (ly / 1000),ly - 500);
-        stars[star.id + 1] = path;
+        stars[star.id] = path;
+
         // Star glow (using sprites)
         var spriteMaterial = new THREE.SpriteMaterial({
           map: Textures.glow,
           color: color, transparent: false, blending: THREE.AdditiveBlending
         });
-        sprite = new THREE.Sprite( spriteMaterial );
+        var sprite = new THREE.Sprite( spriteMaterial );
         sprite.scale.set(8, 8, 8);
         star.add(sprite);
       }
-
-
 
       // EVENT LISTENERS
       // Planets turn blue on mouseover (It will make them brighter)
@@ -153,10 +152,9 @@
       // Make the planets clickable
       $('canvas').on('click', false, function (event) {
         event.preventDefault();
-        selection = raycaster.intersectObjects(scene.children, true);
+        selection = raycaster.intersectObjects( scene.children );
         if (selection.length > 0) {
           clickedPlanet = selection[0].object;
-          // console.log(clickedPlanet);
           window.location = stars[clickedPlanet.id];
         }
       });

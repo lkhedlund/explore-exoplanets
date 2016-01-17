@@ -66,9 +66,5 @@ $(function() {
       skybox.rotateY(-0.5/1000);
       renderer.render( scene, skybox_camera );
     }
-    
-    window.skybox_camera = skybox_camera;
-    window.skybox = skybox;
-    window.skybox_controls = skybox_controls;
   }
 });

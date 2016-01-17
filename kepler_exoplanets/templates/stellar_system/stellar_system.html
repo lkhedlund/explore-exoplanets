@@ -10,39 +10,40 @@
     <script type='text/javascript'>
 
       $(function() {
-        var controls, camera, scene, renderer, container, winResize;
+        var controls, camera, scene, renderer;
 
-        var u = 0.05;
-        var t = 0;
-        var s = 0.4;
-        var cam = {{ planets.last.semimajor_axis }} * 650;
-        // Orbits circles
-        var circleSegments = 64;
-        var circles = [];
-        var planets = [],
+        // Variables for planet orbital rotations
+        var time = 0;
+        var rotationSpeed = 0.05;
+        var orbitSpeed = 0.6;
+
+        var launch = Date.now();
+
+        // Arrays to store orbit circle & planet objects and data
+        var circles = [],
+            planets = [],
             initialY = [],
             speed = [],
             paths = [];
-        // Set up canvas dimensions
-        var windowwidth = window.innerWidth;
-        var width = windowwidth * 0.66667;
-        var height = window.innerHeight;
+
+        // Adjust the camera position to fit stellar system size
+        var cam = {{ planets.last.semimajor_axis }} * 650;
 
         // Set up tools for hover and click events
         var raycaster = new THREE.Raycaster();
         var mouse = new THREE.Vector2(), INTERSECTED;
 
-        start();
+        init();
 
-        function start(){
+        function init(){
+
           //Scene creation
           scene = new THREE.Scene();
-          container = document.getElementById( 'space_container' );
-
-          //resizes canvas when window is
-          winResize = new THREEx.WindowResize(renderer, camera);
+          var container = document.getElementById( 'space_container' );
 
           // PerspectiveCamera creation and Set up
+          var width = window.innerWidth * 0.66667;
+          var height = window.innerHeight;
           camera = new THREE.PerspectiveCamera(75, width/height, 1, 1000);
           camera.position.set(0, - cam, cam);
           scene.add(camera);
@@ -54,9 +55,7 @@
 
           // Create the WebGL renderer and append it to the DOM bia the body element
           renderer = new THREE.WebGLRenderer({alpha: true});
-          renderer.setClearColor(0xffffff, 0);
           renderer.setSize(width, height);
-          winResize = new THREEx.WindowResize(renderer, camera);
           container.appendChild(renderer.domElement);
 
           // Create and add the star to the stellar system
@@ -65,7 +64,9 @@
           // Create and add planets to the stellar system
           {% for planet in planets %}
             var url = '{% url 'planet' planet.pk %}';
+
             // Planet sizes have a minimun of 2 and a maximum of 5
+            var planetRadius = 0
             {% if planet.planet_radius < 2 %}
               planetRadius = 2
             {% elif planet.planet_radius > 6 %}
@@ -75,15 +76,19 @@
             {% endif %}
 
             selectPlanet(planetRadius, {{ planet.planet_radius }}, {{ planet.surface_temp }}, {{ planet.semimajor_axis }}, url);
+
             initialY.push({{ planet.semimajor_axis }} * 2.5);
+
+            // Add an average orbital period to planets which do not have one in the Kepler db
             {% if planet.orbital_period == null %}
               orbperiod = 15
             {% else %}
               orbperiod = {{ planet.orbital_period }}
             {% endif %}
+            console.log(orbperiod);
             speed.push(1 / orbperiod);
           {% endfor %}
-          launch = Date.now();
+
           animate();
         }
 
@@ -92,10 +97,13 @@
           controls.update();
           raycast();
 
+          time += (0.5 * orbitSpeed);
+
           starmaterial.uniforms[ 'time' ].value = .00025 * ( Date.now() - launch );
-          t += (0.5 * s);
-          star.rotation.z += (u / 10);
+          star.rotation.z += (rotationSpeed / 10);
           planets.forEach(rotatePlanet);
+
+          var winResize = new THREEx.WindowResize(renderer, camera);
           renderer.render(scene, camera);
         }
 
@@ -117,9 +125,12 @@
 
         // add the star
         function addStar(size) {
+
+          // Limit the sun size
           if (size > 2.5) {
             size = 2.5
           }
+
           var geometry = new THREE.IcosahedronGeometry( size * 10, 5 );
           starmaterial = new THREE.ShaderMaterial({
             uniforms: {
@@ -136,7 +147,7 @@
           fragmentShader: document.getElementById( 'star-fragmentShader' ).textContent
           });
           star = new THREE.Mesh( geometry, starmaterial );
-          pointLight = new THREE.PointLight( 0xffffff, 2 );
+          var pointLight = new THREE.PointLight( 0xffffff, 2 );
           scene.add( pointLight );
           pointLight.add( star );
           scene.add( star );
@@ -234,7 +245,7 @@
 
         // add a orbit circle to the planet
         function addCircle(distance) {
-          geometry = new THREE.CircleGeometry( distance, circleSegments );
+          geometry = new THREE.CircleGeometry( distance, 64 );
           geometry.vertices.shift();
           circle = new THREE.Line(geometry, new THREE.LineBasicMaterial( { color: 0xF0C400 } ));
           circles.push(circle);
@@ -243,9 +254,9 @@
 
         // planets rotation
         function rotatePlanet(planet, index) {
-          planet.rotation.z += u;
-          planet.position.y = initialY[index] * 200 * Math.cos(t * speed[index]) + 0 * Math.sin(t * speed[index]);
-          planet.position.x = 0 * Math.cos(t * speed[index]) - initialY[index] * 200 * Math.sin(t * speed[index]);
+          planet.rotation.z += rotationSpeed;
+          planet.position.y = initialY[index] * 200 * Math.cos(time * speed[index]) + 0 * Math.sin(time * speed[index]);
+          planet.position.x = 0 * Math.cos(time * speed[index]) - initialY[index] * 200 * Math.sin(time * speed[index]);
         }
 
         // Make the planets clickable (for now, it alerts the coordinates)
@@ -266,8 +277,6 @@
         });
 
         // Deactivate orbit controls when interacting with the panel
-
-        // Show/hide orbit circles
         $('.sidebar').on('mouseenter', function() {
           controls.enabled = false;
           skybox_controls.enabled = false;
@@ -307,31 +316,30 @@
           min: 0.00023148,
           value: 60,
           slide: function(mousemove, speed) {
-            s = speed.value / 100;
+            orbitSpeed = speed.value / 100;
             if (speed.value == 0.00023148) {
-              $('#orbit').text("Speed of Orbits in real time");
-              u = 0;
+              $('#orbit').text("Speed of Orbits in ~ real time");
+              rotationSpeed = 0;
             }
-            else if (Math.round(5 * s) == 0){
+            else if (Math.round(5 * orbitSpeed) == 0){
               $('#orbit').text("Speed of Orbits is < 1 day/sec");
-              u = 0.05;
+              rotationSpeed = 0.05;
             }
             else {
-              $('#orbit').text("Speed of Orbits is " + Math.round(5 * s) + " day(s)/sec");
-              u = 0.02;
+              $('#orbit').text("Speed of Orbits is ~ " + Math.round(5 * orbitSpeed) + " day(s)/sec");
+              rotationSpeed = 0.02;
           }
           }
         });
 
-
-      $('canvas').on( 'mousemove', false, function (event) {
-        var offset = {
-          x: document.getElementsByTagName("canvas")[0].offsetLeft,
-          y: document.getElementsByTagName("canvas")[0].offsetTop,
-        }
-        mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
-        mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
-      });
+        $('canvas').on( 'mousemove', false, function (event) {
+          var offset = {
+            x: document.getElementsByTagName("canvas")[0].offsetLeft,
+            y: document.getElementsByTagName("canvas")[0].offsetTop,
+          }
+          mouse.x = ((event.clientX - offset.x) / renderer.domElement.width) * 2 - 1;
+          mouse.y = 1 - ((event.clientY - offset.y) / renderer.domElement.height) * 2;
+        });
 
     });
     </script>

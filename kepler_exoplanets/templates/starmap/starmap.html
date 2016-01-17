@@ -19,6 +19,7 @@
       init();
 
       function init(){
+
         //Scene creation
         scene = new THREE.Scene();
         var container = document.getElementById( 'space_container' );
@@ -46,9 +47,7 @@
         // Create the WebGL renderer and append it to the DOM bia the body element
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(width, height);
-        // renderer.setClearColor( 0x000000, 0 );
         container.appendChild(renderer.domElement);
-        renderer.render(scene,camera);
 
         // Show all stars
         $('#select-default').on('click', function() {
